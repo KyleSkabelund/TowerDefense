@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang = "en-US">
+<head>
+	<meta charset = "UTF-8">
+	<title>Tower Defense</title>
+	
+	<link rel = "stylesheet" type = "text/css" href = "styles/game.css">
+</head>
+<body onload = "MyGame.game.initialize();">
+	<div id = "game">
+		<div id = "game-play" class = "screen">
+			<div id = "game-info">
+				<span id = "score">Score:</span>
+				<span id = "time">Time:</span>
+				<span id = "lives">Lives:</span>
+			</div>
+			<div id ="countdown" style = position:abosolute></div>
+			<canvas id = "canvas-main" width = "500px" height = "600px"></canvas>
+		</div>
+		<div id = "about" class = "screen">
+			<p>Developed by</p>
+			<p>Kyle Skabelund and Colton Hirst</p>
+			<p>For CS5410</p>
+			<ul class = "menu">
+				<li><button id = "id-about-back">Back</button></li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		let MyGame = {
+			screens : {},
+		};
+	</script>
+	
+</body>
+</html>
