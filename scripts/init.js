@@ -3,8 +3,8 @@ MyGame.init = (function(graphics) {
 
     function Grid() {
         let ret = {
-			rows: 8,
-            cols: 15,
+			rows: 10,
+            cols: 20,
             fillstyle: 'black',
             grid: null
 		}
@@ -14,25 +14,44 @@ MyGame.init = (function(graphics) {
 			for(var ii = 0; ii < ret.rows; ++ii) {
                 ret.grid.push([]);
                 for(var jj = 0; jj < ret.cols; ++jj) {
-                    ret.grid[ii].push(GridCell(ii, jj, "banana"));
+                    ret.grid[ii].push(GridCell(ii, jj));
                 }
             }
 		}
 
+        ret.allocateMapNumbers = function(map) {
+            var ii = 0;
+            var jj = 0;
+
+            for(var i = 0; i < map.length;) {
+                if(jj < ret.cols) {
+                    ret.grid[ii][jj].tileNumber = map[i];
+                    ++jj;
+                    ++i;
+                }
+                else {
+                    jj = 0;
+                    ++ii;
+                }
+            }
+
+            console.log(ret.grid);
+        }
+
 		return ret;
     }
 
-    function GridCell(x, y, texturePath) {
+    function GridCell(x, y) {
         let ret = {
             x: x,
             y: y,
-            texturePath: texturePath
+            tileNumber: -1 //number associated with what tile will be rendered in this cell
         }
 
         return ret;
     }
 
     return {
-        Grid : Grid
+        Grid : Grid,
 	};
 }(MyGame.graphics));

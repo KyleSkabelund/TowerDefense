@@ -9,13 +9,28 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 		lastTimeStamp,
 		grid = init.Grid();
 	
+	//Data/PNG/Retina/
+	//will draw any tile number from Retina folder
+	var currentTileMap = [ 
+				157, 157, 157, 159, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 158, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 158, 158, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 158, 158, 157, 157, 157, 157, 157,
+				158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158, 158,
+			];
 
 	function initialize() {
 		console.log('game initializing...');
 
 		grid.fillGrid();
-		console.log(grid);
+		grid.allocateMapNumbers(currentTileMap);
 
+		graphics.loadTileImages(currentTileMap);
 
 		window.addEventListener('resize', graphics.resizeCanvas, false);
 		window.addEventListener('orientationchange', function() {
@@ -45,6 +60,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 	function render() {
 		graphics.clear();
 		graphics.drawTopBar();
+		graphics.drawTiles(grid);
 		graphics.drawGrid(grid);
 	}
 	

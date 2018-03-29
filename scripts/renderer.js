@@ -6,6 +6,9 @@
 MyGame.graphics = (function() {
 	'use strict';
 	
+	var loadedImages = [];
+	var tilesLoaded = false;
+
 	var canvas = document.getElementById('canvas-main'),
 		context = canvas.getContext('2d'),
         startTime = new Date(),
@@ -69,6 +72,60 @@ MyGame.graphics = (function() {
 		context.stroke();
 	}
 
+	function getLoadNumbers(map) {
+		var ret = [];
+
+		for(var i in map) {
+			if(!ret.includes(map[i]))
+			{
+				ret.push(map[i]);
+			}
+		}
+
+		return ret;
+	}
+
+	function loadTileImages(tileMap) {
+		let loadNumbers = getLoadNumbers(tileMap);
+		let loadedCount = 0;
+
+		for(var ii = 0; ii < loadNumbers.length; ++ii) {
+			var image = new Image();
+
+			image.src = 'Data/PNG/Retina/towerDefense_tile' + loadNumbers[ii] + '.png';
+
+			loadedImages[loadNumbers[ii]] = image;
+
+			image.onload = function() {
+				++loadedCount;
+				
+				if(loadedCount == loadNumbers.length) tilesLoaded = true;
+			};
+		}
+	};
+
+	function drawTiles(grid) {
+		let w = canvas.width / grid.cols;
+		let h = (canvas.height - topBarHeight) / grid.rows;
+
+		for(var ii = 0; ii < grid.rows; ++ii) {
+			for(var jj = 0; jj < grid.cols; ++jj) {
+				if(tilesLoaded) {
+					var tmp = grid.grid[ii][jj].tileNumber;
+					console.log(tmp);
+					context.drawImage(loadedImages[tmp],
+					 					jj*w,
+					  					ii*h+topBarHeight,
+					   					w,
+										h);
+				}
+				else {
+					console.log('157 loading');
+				}
+			}
+		}
+	}
+
     
 	
 	
@@ -78,6 +135,8 @@ MyGame.graphics = (function() {
 		clear : clear,
         drawTopBar : drawTopBar,
         resizeCanvas : resizeCanvas,
-		drawGrid : drawGrid
+		drawGrid : drawGrid,
+		loadTileImages : loadTileImages,
+		drawTiles : drawTiles
 	};
 }());
