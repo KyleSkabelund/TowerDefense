@@ -1,4 +1,4 @@
-MyGame.screens['game-play'] = (function(game, graphics, input) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 	'use strict';
 	
 	var mouseCapture = false,
@@ -6,11 +6,16 @@ MyGame.screens['game-play'] = (function(game, graphics, input) {
 		myKeyboard = input.Keyboard(),
 		myTexture = null,
 		cancelNextRequest = false,
-		lastTimeStamp;
+		lastTimeStamp,
+		grid = init.Grid();
 	
 
 	function initialize() {
 		console.log('game initializing...');
+
+		grid.fillGrid();
+		console.log(grid);
+
 
 		window.addEventListener('resize', graphics.resizeCanvas, false);
 		window.addEventListener('orientationchange', function() {
@@ -31,7 +36,6 @@ MyGame.screens['game-play'] = (function(game, graphics, input) {
 			cancelNextRequest = true;
 			game.showScreen('main-menu');
 		});
-
 	}
 	
 	function update(elapsedTime) {
@@ -41,6 +45,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input) {
 	function render() {
 		graphics.clear();
 		graphics.drawTopBar();
+		graphics.drawGrid(grid);
 	}
 	
 	//------------------------------------------------------------------
@@ -72,4 +77,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input) {
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init));
