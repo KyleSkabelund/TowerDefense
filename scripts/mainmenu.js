@@ -2,7 +2,10 @@ MyGame.screens['main-menu'] = (function(game) {
 	'use strict';
 	
 	function initialize() {
-		//
+		var colors = new Array();
+		var index = 0x111;
+		
+
 		// Setup each of menu events for the screens
 		document.getElementById('id-new-game').addEventListener(
 			'click',
