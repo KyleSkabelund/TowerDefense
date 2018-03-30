@@ -34,8 +34,6 @@ MyGame.init = (function(graphics) {
                     ++ii;
                 }
             }
-
-            console.log(ret.grid);
         }
 
 		return ret;

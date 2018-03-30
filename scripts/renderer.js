@@ -2,7 +2,6 @@
 //
 //
 // ------------------------------------------------------------------
-
 MyGame.graphics = (function() {
 	'use strict';
 	
@@ -92,8 +91,12 @@ MyGame.graphics = (function() {
 
 		for(var ii = 0; ii < loadNumbers.length; ++ii) {
 			var image = new Image();
-
-			image.src = 'Data/PNG/Retina/towerDefense_tile' + loadNumbers[ii] + '.png';
+			if(loadNumbers[ii] < 100){
+				image.src = 'Data/PNG/Retina/towerDefense_tile0' + loadNumbers[ii] + '.png';
+			}
+			else{
+				image.src = 'Data/PNG/Retina/towerDefense_tile' + loadNumbers[ii] + '.png';
+			}
 
 			loadedImages[loadNumbers[ii]] = image;
 
@@ -108,7 +111,6 @@ MyGame.graphics = (function() {
 	function drawTiles(grid) {
 		let w = canvas.width / grid.cols;
 		let h = (canvas.height - topBarHeight) / grid.rows;
-
 		for(var ii = 0; ii < grid.rows; ++ii) {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {

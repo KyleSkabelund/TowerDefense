@@ -1,12 +1,7 @@
-MyGame.screens['main-menu'] = (function(game) {
+MyGame.screens['main-menu'] = (function(game,init,graphics) {
 	'use strict';
 	
 	function initialize() {
-		var colors = new Array();
-		var index = 0x111;
-		
-
-		// Setup each of menu events for the screens
 		document.getElementById('id-new-game').addEventListener(
 			'click',
 			function() {game.showScreen('game-play'); });
@@ -28,4 +23,4 @@ MyGame.screens['main-menu'] = (function(game) {
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game));
+}(MyGame.game,MyGame.init,MyGame.graphics));
