@@ -14,7 +14,7 @@ h1{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;}	
+	100%{color: orange;animation-direction: reverse;}	
 }
 /* Internet Explorer */
 @-ms-keyframes rainbow{
@@ -22,7 +22,7 @@ h1{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;}	
+	100%{color: orange;animation-direction: reverse;}	
 }
 
 /* Standar Syntax */
@@ -31,9 +31,11 @@ h1{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;}	
+	100%{color: orange;
+		animation-direction: reverse;}	
 }
 @-webkit-keyframes rainbowBorder{
+	50%{}
 	20%{border-color: tomato;}
 	40%{border-color: yellow;}
 	60%{border-color: greenyellow;}
@@ -73,6 +75,7 @@ body {
 	overflow: hidden; /* Disable scrollbars */
 	display: block; /* No floating content on sides */
 	color: white;
+	background-color: black;
 }
 #main-menu-items{
 	font-size: 30px;
