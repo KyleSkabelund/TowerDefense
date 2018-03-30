@@ -1,3 +1,4 @@
+var showGrid = false;
 MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 	'use strict';
 	
@@ -51,17 +52,33 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 			cancelNextRequest = true;
 			game.showScreen('main-menu');
 		});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function() {
+			showGrid = showGrid == true ? false : true;
+		},false);
+		myKeyboard.registerCommand(localStorage['upgrade-tower-config'],function(){
+			//upgrade the tower
+		})
+		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
+			//sell the tower
+		})
+		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
+			//start the level
+		})
 	}
 	
 	function update(elapsedTime) {
-        myKeyboard.update();
+		myKeyboard.update();
+		myMouse.update(elapsedTime);
 	}
 	
 	function render() {
 		graphics.clear();
 		graphics.drawTopBar();
 		graphics.drawTiles(grid);
-		graphics.drawGrid(grid);
+		if(showGrid == true)
+		{
+			graphics.drawGrid(grid);
+		}
 	}
 	
 	//------------------------------------------------------------------

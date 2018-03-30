@@ -31,8 +31,6 @@ MyGame.input = (function() {
 		that.update = function(elapsedTime) {
 			let event;
 			let handler;
-
-			//
 			// Process the mouse events for each of the different kinds of handlers
 			for (event = 0; event < that.mouseDown.length; event++) {
 				for (handler = 0; handler < that.handlersDown.length; handler++) {
@@ -81,15 +79,20 @@ MyGame.input = (function() {
 	function Keyboard() {
 		let that = {
 				keys : {},
+				keyRepeat :{},
 				handlers : []
 			};
 		
 		function keyPress(e) {
 			that.keys[e.keyCode] = e.timeStamp;
+			if (that.keyRepeat.hasOwnProperty(e.keyCode) === false) {
+				that.keyRepeat[e.keyCode] = false;
+			}
 		}
 		
 		function keyRelease(e) {
 			delete that.keys[e.keyCode];
+			delete that.keyRepeat[e.keyCode];
 		}
 		
 		// ------------------------------------------------------------------
@@ -97,8 +100,8 @@ MyGame.input = (function() {
 		// Allows the client code to register a keyboard handler
 		//
 		// ------------------------------------------------------------------
-		that.registerCommand = function(key, handler) {
-			that.handlers.push({ key : key, handler : handler });
+		that.registerCommand = function(key, handler, repeat) {
+			that.handlers.push({ key : key, handler : handler,  repeat : repeat });
 		};
 		
 		// ------------------------------------------------------------------
@@ -108,10 +111,15 @@ MyGame.input = (function() {
 		// ------------------------------------------------------------------
 		that.update = function(elapsedTime) {
 			let key = 0;
-
 			for (key = 0; key < that.handlers.length; key++) {
-				if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
-					that.handlers[key].handler(elapsedTime);
+				if(that.keyRepeat[that.handlers[key].key] == false){
+					if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
+						that.handlers[key].handler(elapsedTime);
+						that.keyRepeat[that.handlers[key].key] = true;
+					}
+					else{
+						that.keyRepeat[that.handlers[key].key] = false;
+					}
 				}
 			}
 		};

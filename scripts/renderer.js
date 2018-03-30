@@ -69,6 +69,7 @@ MyGame.graphics = (function() {
 				context.lineTo(topLeft.x, topLeft.y);
 			}
 		}
+		context.lineWidth = .5;
 		context.stroke();
 	}
 
@@ -112,7 +113,6 @@ MyGame.graphics = (function() {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {
 					var tmp = grid.grid[ii][jj].tileNumber;
-					console.log(tmp);
 					context.drawImage(loadedImages[tmp],
 					 					jj*w,
 					  					ii*h+topBarHeight,
@@ -125,11 +125,6 @@ MyGame.graphics = (function() {
 			}
 		}
 	}
-
-    
-	
-	
-	
 
 	return {
 		clear : clear,

@@ -3,9 +3,11 @@ body {
 	height: 100%;
 	margin: 0px;
 	border: 0;
+	font-family: "Arial Black", Gadget, sans-serif;
 	overflow: hidden; /* Disable scrollbars */
 	display: block; /* No floating content on sides */
 	background-color: black;
+	color: white;
 }
 
 #canvas-main {
@@ -17,7 +19,12 @@ body {
     margin: auto;
 	background: gray; /* so black/white rendering is always visible */
 }
-
+#content-settings{
+	margin-right: 15%;
+}
+.settings-button{
+	bottom:0;
+}
 #game .screen {
 	position: absolute;
 	width: 100%;
@@ -25,16 +32,66 @@ body {
 	display: none;
 	z-index: 10;
 }
+#config{
+	width: 35%;
+	height: 37%;
+    margin: auto;
+    text-align: right;
+    border: 1px solid silver;
+}
+#config ul{
+	list-style-type:none;
+	
+}
+#id-settings-back{
+	float:left;
+	margin-left: 1%;
+    margin-bottom: 1%;
+}
+#id-settings-save{
+	float: right;
+	margin-right: 1%;
+    margin-bottom: 1%;
+}
+#id-settings-back{
+	left: 0;
+}
+#id-settings-save{
+	right: 0;
+}
+.settings-button{
+	width: 50px;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 2px;
+	color: white;
+	background-color: black;
+}
+#settings{
+	text-align: center;
+	font-size: 20px;
+}
+.config-button{
+	width: 50px;
+    height: 50px;
+	font-size: 30px;
+	border: 1px solid black;
+	background-color: springgreen;
+}
+.config-button-clicked{
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	border: 1px solid white;
+	background-color: springgreen;
+}
 
 #game .screen.active {
 	display: block;
 }
 
-#main-menu {
-	text-align: center;
-}
-
-#about {
+#main-menu,#about,#settings {
 	text-align: center;
 }
 

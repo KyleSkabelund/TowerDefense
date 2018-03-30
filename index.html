@@ -11,18 +11,15 @@
 		<div id = "main-menu" class = "screen">
 			<ul class = "menu">
 				<li><button id = "id-new-game" class = "main-menu-button">New&nbsp;Game</button></li>
+				<li><button id = "id-settings" class = "main-menu-button">Settings</button></li>
 				<li><button id = "id-about" class = "main-menu-button">About</button></li>
 			</ul>
 		</div>
 		<div id = "game-play" class = "screen">
-			<!--<div id = "game-info">
-				<span id = "score">Score:</span>
-				<span id = "time">Time:</span>
-				<span id = "lives">Lives:</span>
-			</div>-->
 			<div id ="countdown" style = position:abosolute></div>
 			<canvas id = "canvas-main" width = "1000px" height = "1000px"></canvas>
 		</div>
+		
 		<div id = "about" class = "screen">
 			<p>Developed by</p>
 			<p>Kyle Skabelund and Colton Hirst</p>
@@ -30,6 +27,22 @@
 			<ul class = "menu">
 				<li><button id = "id-about-back" class = "main-menu-button">Back</button></li>
 			</ul>
+		</div>
+		<div id = "settings" class = "screen">
+			<div id ="config">
+				<div id = "content-settings">
+					<label for ="upgrade-tower-config"> Upgrade Tower </label>
+					<button id = "upgrade-tower-config" class='config-button'>u</button> <br/>
+					<label for ="sell-tower-config"> Sell Selected Tower </label>
+					<button id = "sell-tower-config" class='config-button'>e</button> <br/>
+					<label for ="start-level-config"> Start Next Level  </label>
+					<button id = "start-level-config" class='config-button'>s</button> <br/>
+				</div>
+				<ul>
+					<li><button id = "id-settings-back" class = "settings-button">Back</button></li>
+					<li><button id = "id-settings-save" class = "settings-button">Save</button></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
@@ -46,6 +59,7 @@
 	<script src = "scripts/mainmenu.js"></script>
 	<script src = "scripts/gameplay.js"></script>
 	<script src = "scripts/about.js"></script>
+	<script src = "scripts/settings.js"></script>
 	
 </body>
 </html>
