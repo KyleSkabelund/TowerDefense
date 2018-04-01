@@ -8,6 +8,11 @@ h1{
 	animation: rainbow 1s infinite;
 
 }
+button{
+	cursor: pointer;
+}
+
+
 /* Chrome, Safari, Opera */
 @-webkit-keyframes rainbow{
 	20%{color: tomato;}
@@ -59,13 +64,6 @@ h1{
 	80%{border-color: aqua;}
 	100%{border-color: orange;}	
 }
-
-
-
-
-
-
-
 body {
 	width: 100%;
 	height: 100%;
@@ -76,6 +74,11 @@ body {
 	display: block; /* No floating content on sides */
 	color: white;
 	background-image: url("../Data/MainBackground.png");
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+}
+html{
+	min-height: 100%;
 }
 #main-menu-items{
 	font-size: 30px;
@@ -102,7 +105,7 @@ body {
 	box-shadow: 0px 70px 30px black
 }
 .menu li {
-	padding-bottom: 50px;
+	padding-bottom: 30px;
 }
 
 #canvas-main {
@@ -114,8 +117,8 @@ body {
     margin: auto;
 	background: gray; /* so black/white rendering is always visible */
 }
-#content-settings{
-	margin-right: 15%;
+.content-settings{
+	margin-right: 35%;
 }
 .settings-button{
 	bottom:0;
@@ -131,14 +134,15 @@ body {
 	animation: rainbowBorder 1s infinite;
 	margin-top: 4% !important;
 	width: 35%;
-	height: 50%;
+	height: 80%;
     margin: auto;
 	text-align: right;
 	background-color: #bb8044;
 	border : 3px solid;
 	border-radius: 10px;
+	text-shadow: 0px 10px 2px rgb(0,0,0,.2);
 }
-#config ul{
+ul{
 	list-style-type:none;
 	
 }
@@ -171,7 +175,7 @@ body {
 }
 #settings{
 	text-align: center;
-	font-size: 20px;
+	font-size: 15px;
 }
 .config-button{
 	margin-top: 10px;
@@ -182,6 +186,7 @@ body {
 	border: 1px solid;
 	border-radius: 50px;
 	background-color: #2ecc71;
+	box-shadow: 0px 20px 20px black
 }
 .config-button-clicked{
 	margin-top: 10px;
@@ -189,11 +194,16 @@ body {
 	width: 50px;
 	height: 50px;
 	font-size: 30px;
-	border: 1px solid white;
+	border: 1px solid black;
 	border-radius: 50px;
 	background-color: #2ecc71;
+	box-shadow: 0px 40px 20px black
+	
 }
-
+.config-button-clicked:disabled{
+	color:white;
+	border-color: white;
+}
 #game .screen.active {
 	display: block;
 }
@@ -212,7 +222,7 @@ body {
 }
 
 #about p {
-	color: rgba(255, 255, 255, .7);
+	color: rgba(255, 255, 255, 1);
 }
 
 ul {

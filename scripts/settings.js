@@ -5,22 +5,33 @@ MyGame.screens['settings'] = (function(game) {
     var interval;
     var defaultUpgradeKey = 'u';
     var defaultSellKey = 's';
-    var defaultStartKey = 't';
+    var defaultStartKey = 'g';
 
 	'use strict';
 	function initialize() {
 		document.getElementById('id-settings-back').addEventListener(
 			'click',
             function() { game.showScreen('main-menu'); });
+        document.getElementById('id-settings-save').addEventListener(
+            'click',
+            function() { game.showScreen('main-menu'); });
+
+            gridPlacement = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(gridPlacement)});
+            showTowerCoverage = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(showTowerCoverage)});
+            showCreepPath = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(showCreepPath)});
+
             upGradeButton = document.getElementById('upgrade-tower-config');
             sellButton = document.getElementById('sell-tower-config');
             startButton = document.getElementById('start-level-config');
+
             saveLocalStorageDefaults();
             setupOptions();
+
             upGradeButton.addEventListener('click', function() {changeShortcutClick(upGradeButton)});
             sellButton.addEventListener('click', function() {changeShortcutClick(sellButton)});
             startButton.addEventListener('click', function() {changeShortcutClick(startButton)});
-        document.addEventListener("keydown", getKey);
+
+            document.addEventListener("keydown", getKey);
 	}
 	
 	function run() {
@@ -35,6 +46,16 @@ MyGame.screens['settings'] = (function(game) {
             resetButtons();
         }
     }
+    function turnOnOff(gameSettingsSelectedButton)
+    {
+        if(gameSettingsSelectedButton.className == "config-button"){
+            gameSettingsSelectedButton.innerHTML = "on";
+        } 
+            
+        else if(gameSettingsSelectedButton.className == "config-button") {
+            gameSettingsSelectedButton.innerHTML = "off";
+        }
+    }
     function changeShortcutClick(selectedButton){
 
         if(configSelectedButton.disabled == true)
@@ -45,7 +66,7 @@ MyGame.screens['settings'] = (function(game) {
         if(keyChange === undefined ) keyChange = configSelectedButton.innerHTML;
         configSelectedButton.innerHTML = keyChange;
         interval = setInterval(function(){
-            configSelectedButton.innerHTML = configSelectedButton.innerHTML == "__" ? keyChange : "__";
+            configSelectedButton.innerHTML = configSelectedButton.innerHTML == "_" ? keyChange : "_";
         },500)
         
         configSelectedButton.disabled = true;
