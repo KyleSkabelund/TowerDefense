@@ -5,7 +5,7 @@ MyGame.init = (function(graphics, tower) {
         let ret = {
 			rows: 10,
             cols: 20,
-            fillstyle: 'black',
+            fillstyle: 'red',
             grid: null
 		}
 

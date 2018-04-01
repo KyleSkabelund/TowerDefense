@@ -4,13 +4,21 @@
 }
 h1{
 	font-family: "BubbleFont", Gadget, sans-serif;
-	color: tomato;
 	animation: rainbow 1s infinite;
-
+	animation-direction:alternate;
+	color: tomato;
 }
-button{
-	cursor: pointer;
+h2{
+	text-align: left;
+	font-size: 35px;
+	margin-top:2px;
+	margin-left:5px;
+	margin-bottom: 2px;
+	text-shadow: 0px 0px 3px black;
+	color:yellow;
 }
+button{cursor: pointer;}
+button:focus {outline:0;}
 
 
 /* Chrome, Safari, Opera */
@@ -19,7 +27,7 @@ button{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;animation-direction: reverse;}	
+	100%{color: orange;}
 }
 /* Internet Explorer */
 @-ms-keyframes rainbow{
@@ -27,7 +35,7 @@ button{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;animation-direction: reverse;}	
+	100%{color: orange;}
 }
 
 /* Standar Syntax */
@@ -36,11 +44,9 @@ button{
 	40%{color: yellow;}
 	60%{color: greenyellow;}
 	80%{color: aqua;}
-	100%{color: orange;
-		animation-direction: reverse;}	
+	100%{color: orange;}	
 }
 @-webkit-keyframes rainbowBorder{
-	50%{}
 	20%{border-color: tomato;}
 	40%{border-color: yellow;}
 	60%{border-color: greenyellow;}
@@ -90,8 +96,7 @@ html{
 	text-shadow: 0px 30px 10px black;
 }
 .menu li button{
-	animation: rainbowBorder 1s infinite;
-	border: 3px solid tomato;
+	border: 3px solid yellow;
 	border-radius: 100px;
 	color:white;
 	height: 80px;
@@ -118,11 +123,12 @@ html{
 	background: gray; /* so black/white rendering is always visible */
 }
 .content-settings{
-	margin-right: 35%;
+	border-top: 3px solid white;
+	border-bottom: 3px solid white;
+	text-align: right;
+	padding-bottom: 10px;
 }
-.settings-button{
-	bottom:0;
-}
+
 #game .screen {
 	position: absolute;
 	width: 100%;
@@ -132,11 +138,10 @@ html{
 }
 #config{
 	animation: rainbowBorder 1s infinite;
-	margin-top: 4% !important;
+	margin-top: 3% !important;
 	width: 35%;
-	height: 80%;
+	height: 86%;
     margin: auto;
-	text-align: right;
 	background-color: #bb8044;
 	border : 3px solid;
 	border-radius: 10px;
@@ -168,41 +173,43 @@ ul{
 	padding-left: 5px;
 	padding-right: 5px;
 	border-radius: 2px;
-	color: white;
-	background-color: #2ecc71;
+	color: black;
+	background-color: yellow;
 	border-color: black;
 	border-radius: 10px;
+	margin-top:5px;
 }
 #settings{
 	text-align: center;
 	font-size: 15px;
 }
 .config-button{
+	margin-right: 5%;
 	margin-top: 10px;
 	margin-bottom:10px;
-	width: 50px;
-    height: 50px;
-	font-size: 30px;
+	width: 35px;
+    height: 35px;
 	border: 1px solid;
 	border-radius: 50px;
-	background-color: #2ecc71;
+	background-color: yellow;
 	box-shadow: 0px 20px 20px black
 }
-.config-button-clicked{
+
+.config-button-clicked,.config-button:hover{
+	margin-right: 5%;
+	background-color: #3afc8b;
 	margin-top: 10px;
 	margin-bottom:10px;
-	width: 50px;
-	height: 50px;
-	font-size: 30px;
-	border: 1px solid black;
+	width: 35px;
+	height: 35px;
+	border: 1px solid;
 	border-radius: 50px;
-	background-color: #2ecc71;
+	background-color: rgb(255, 255, 254);
 	box-shadow: 0px 40px 20px black
 	
 }
 .config-button-clicked:disabled{
-	color:white;
-	border-color: white;
+	color: black
 }
 #game .screen.active {
 	display: block;

@@ -49,7 +49,7 @@ MyGame.graphics = (function() {
 	}
 
 	function drawGrid(grid) {
-		context.fillStyle = grid.fillStyle;
+		context.strokeStyle = '#8d6033';
 		context.beginPath();
 
 		let w = canvas.width / grid.cols;
@@ -68,7 +68,7 @@ MyGame.graphics = (function() {
 				context.lineTo(topLeft.x, topLeft.y);
 			}
 		}
-		context.lineWidth = .5;
+		context.lineWidth = 1;
 		context.stroke();
 	}
 
@@ -81,8 +81,8 @@ MyGame.graphics = (function() {
 				ret.push(map[i]);
 			}
 		}
-
-		//load towers *_*
+		//             * *
+		//load towers \___/
 		ret.push(291);
 		ret.push(292);
 		ret.push(249);

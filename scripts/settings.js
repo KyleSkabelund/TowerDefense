@@ -16,10 +16,14 @@ MyGame.screens['settings'] = (function(game) {
             'click',
             function() { game.showScreen('main-menu'); });
 
-            gridPlacement = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(gridPlacement)});
-            showTowerCoverage = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(showTowerCoverage)});
-            showCreepPath = document.getElementById('grid-placement').addEventListener('click',function(){turnOnOff(showCreepPath)});
+            gridPlacement = document.getElementById('grid-placement')
+            showTowerCoverage = document.getElementById('show-tower-coverage')
+            showCreepPath = document.getElementById('show-creep-path')
 
+            gridPlacement.addEventListener('click',function(){turnOnOff(gridPlacement)});
+            showTowerCoverage.addEventListener('click',function(){turnOnOff(showTowerCoverage)});
+            showCreepPath.addEventListener('click',function(){turnOnOff(showCreepPath)});
+            
             upGradeButton = document.getElementById('upgrade-tower-config');
             sellButton = document.getElementById('sell-tower-config');
             startButton = document.getElementById('start-level-config');
@@ -48,13 +52,12 @@ MyGame.screens['settings'] = (function(game) {
     }
     function turnOnOff(gameSettingsSelectedButton)
     {
-        if(gameSettingsSelectedButton.className == "config-button"){
-            gameSettingsSelectedButton.innerHTML = "on";
-        } 
-            
-        else if(gameSettingsSelectedButton.className == "config-button") {
-            gameSettingsSelectedButton.innerHTML = "off";
+        if(configSelectedButton.disabled == true)
+        {
+            resetButtons();
         }
+        gameSettingsSelectedButton.innerHTML = gameSettingsSelectedButton.innerHTML == "on" ? "off" : "on";
+        localStorage.setItem(gameSettingsSelectedButton.id,gameSettingsSelectedButton.innerHTML);
     }
     function changeShortcutClick(selectedButton){
 
@@ -73,12 +76,18 @@ MyGame.screens['settings'] = (function(game) {
         configSelectedButton.className = "config-button-clicked";
     }
     function saveLocalStorageDefaults(){
+        if(localStorage[gridPlacement.id] == undefined) localStorage.setItem(gridPlacement.id,"off")
+        if(localStorage[showTowerCoverage.id] == undefined) localStorage.setItem(showTowerCoverage.id, "off")
+        if(localStorage[showCreepPath.id] == undefined) localStorage.setItem(showCreepPath.id, "off")
+
         if(localStorage[upGradeButton.id] == undefined) localStorage.setItem(upGradeButton.id,defaultUpgradeKey.charCodeAt(0))
         if(localStorage[sellButton.id] == undefined) localStorage.setItem(sellButton.id, defaultSellKey.charCodeAt(0))
         if(localStorage[startButton.id] == undefined) localStorage.setItem(startButton.id, defaultStartKey.charCodeAt(0))
     }
     function setupOptions(){
-        
+        gridPlacement.innerHTML = localStorage[gridPlacement.id];
+        showTowerCoverage.innerHTML = localStorage[showTowerCoverage.id];
+        showCreepPath.innerHTML = localStorage[showCreepPath.id];
 
         upGradeButton.innerHTML =  String.fromCharCode(localStorage[upGradeButton.id]).toLocaleLowerCase();
         sellButton.innerHTML =  String.fromCharCode(localStorage[sellButton.id]).toLocaleLowerCase();

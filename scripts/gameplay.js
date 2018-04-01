@@ -25,10 +25,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 				94, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 92,
 				95, 70, 70, 70, 70, 70, 70, 70, 157, 157, 157, 157, 70, 70, 70, 70, 70, 70, 70, 96,
 			];
-
+			
 	function initialize() {
 		console.log('game initializing...');
-
+				
 		grid.fillGrid();
 		grid.allocateMapNumbers(currentTileMap);
 
@@ -53,18 +53,15 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 			cancelNextRequest = true;
 			game.showScreen('main-menu');
 		});
-		myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function() {
-			showGrid = showGrid == true ? false : true;
-		},false);
 		myKeyboard.registerCommand(localStorage['upgrade-tower-config'],function(){
 			//upgrade the tower
-		})
+		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
 			//sell the tower
-		})
+		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			//start the level
-		})
+		});
 
 
 		myMouse.registerCommand('mousedown', function(e) {
@@ -73,6 +70,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 	}
 	
 	function update(elapsedTime) {
+		showGrid = localStorage["grid-placement"] == "on" ? true : false;
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
 	}
