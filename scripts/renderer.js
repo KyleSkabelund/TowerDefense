@@ -82,6 +82,16 @@ MyGame.graphics = (function() {
 			}
 		}
 
+		//load towers *_*
+		ret.push(291);
+		ret.push(292);
+		ret.push(249);
+		ret.push(250);
+		ret.push(206);
+		ret.push(205);
+		ret.push(204);
+		ret.push(203);
+
 		return ret;
 	}
 
@@ -114,18 +124,44 @@ MyGame.graphics = (function() {
 		for(var ii = 0; ii < grid.rows; ++ii) {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {
-					var tmp = grid.grid[ii][jj].tileNumber;
-					context.drawImage(loadedImages[tmp],
+					var tile = grid.grid[ii][jj].tileNumber;
+					context.drawImage(loadedImages[tile],
 					 					jj*w,
 					  					ii*h+topBarHeight,
 					   					w,
 										h);
-				}
-				else {
-					console.log('157 loading');
+
+					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
+					if(towerTopNum != -1) { //if no tower on square
+						context.drawImage(loadedImages[towerTopNum], 
+						 					jj*w,
+						  					ii*h+topBarHeight,
+						   					w,
+											h);
+					}
 				}
 			}
 		}
+	}
+
+	function drawTower(x, y, grid) {
+		if(tilesLoaded) {
+			var tower = grid.grid[x][y].tower;
+			if(tower == null) return; //if no tower on square
+			var dim = getCellDimensions();
+			context.drawImage(loadedImages[tower.textureTopNumber], y*dim.width, x*dim.height+topBarHeight, dim.w, dim.h);
+		}
+	}
+
+	function getCellDimensions(grid) {
+		let w = canvas.width / grid.cols;
+        let h = (canvas.height - topBarHeight) / grid.rows;
+
+		return { width: w, height: h };
+	}
+
+	function getTopBarHeight() {
+		return topBarHeight;
 	}
 
 	return {
@@ -134,6 +170,8 @@ MyGame.graphics = (function() {
         resizeCanvas : resizeCanvas,
 		drawGrid : drawGrid,
 		loadTileImages : loadTileImages,
-		drawTiles : drawTiles
+		drawTiles : drawTiles,
+		getCellDimensions : getCellDimensions,
+		getTopBarHeight : getTopBarHeight
 	};
 }());

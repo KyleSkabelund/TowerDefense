@@ -1,6 +1,6 @@
 var showGrid = false;
 
-MyGame.screens['game-play'] = (function(game, graphics, input, init) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -8,7 +8,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 		myTexture = null,
 		cancelNextRequest = false,
 		lastTimeStamp,
-		grid = init.Grid();
+		grid = init.Grid(),
+		selectedSquare = {x: 0, y: 0};
 	
 	//Data/PNG/Retina/
 	//will draw any tile number from Retina folder
@@ -64,6 +65,11 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			//start the level
 		})
+
+
+		myMouse.registerCommand('mousedown', function(e) {
+			grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+		});
 	}
 	
 	function update(elapsedTime) {
@@ -110,4 +116,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init) {
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower));

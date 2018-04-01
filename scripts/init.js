@@ -1,4 +1,4 @@
-MyGame.init = (function(graphics) {
+MyGame.init = (function(graphics, tower) {
     'use strict';
 
     function Grid() {
@@ -36,6 +36,19 @@ MyGame.init = (function(graphics) {
             }
         }
 
+        ret.placeTower = function(mouseX, mouseY, cellDimensions, topBarHeight) {
+            //dont place if top bar is clicked
+            if(mouseY <= topBarHeight) return;
+
+            mouseY -= topBarHeight; //compensate for the top bar
+
+            //get the array index of where the mouse was clicked
+            let gridY = Math.floor(mouseX / cellDimensions.width);
+            let gridX = Math.floor(mouseY / cellDimensions.height);
+
+            ret.grid[gridX][gridY].tower.addTower();
+        }
+
 		return ret;
     }
 
@@ -43,7 +56,8 @@ MyGame.init = (function(graphics) {
         let ret = {
             x: x,
             y: y,
-            tileNumber: -1 //number associated with what tile will be rendered in this cell
+            tileNumber: -1, //number associated with what tile will be rendered in this cell,
+            tower: tower.Tower()     //will hold tower object
         }
 
         return ret;
@@ -52,4 +66,4 @@ MyGame.init = (function(graphics) {
     return {
         Grid : Grid,
 	};
-}(MyGame.graphics));
+}(MyGame.graphics, MyGame.tower));
