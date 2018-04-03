@@ -28,6 +28,7 @@ function handleRequest(request, response) {
 					response.end(data);
 				}
 			});
+			console.log("sent.");
 		} else {
 			console.log('Failed to find/send: ' + lookup);
 			response.writeHead(404);

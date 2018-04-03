@@ -7,7 +7,9 @@ MyGame.init = (function(graphics, tower) {
             cols: 20,
             fillstyle: 'red',
             grid: null
-		}
+        }
+        var oldx = 0,
+            oldy= 0 ;
 
 		ret.fillGrid = function() {
             ret.grid = [];
@@ -38,26 +40,27 @@ MyGame.init = (function(graphics, tower) {
 
         ret.placeTower = function(mouseX, mouseY, cellDimensions, topBarHeight) {
             //dont place if top bar is clicked
-            if(mouseY <= topBarHeight) return;
 
-            mouseY -= topBarHeight; //compensate for the top bar
+                if(mouseY <= topBarHeight) return;
 
-            //get the array index of where the mouse was clicked
-            let gridY = Math.floor(mouseX / cellDimensions.width);
-            let gridX = Math.floor(mouseY / cellDimensions.height);
+                mouseY -= topBarHeight; //compensate for the top bar
 
-            ret.grid[gridX][gridY].tower.addTower();
+                //get the array index of where the mouse was clicked
+                let gridY = Math.floor(mouseX / cellDimensions.width);
+                let gridX = Math.floor(mouseY / cellDimensions.height);
+
+                ret.grid[gridX][gridY].tower.addTower();
         }
 
 		return ret;
     }
 
-    function GridCell(x, y) {
+    function GridCell(x, y,selected) {
         let ret = {
             x: x,
             y: y,
             tileNumber: -1, //number associated with what tile will be rendered in this cell,
-            tower: tower.Tower()     //will hold tower object
+            tower: tower.Tower(), //will hold tower object  
         }
 
         return ret;

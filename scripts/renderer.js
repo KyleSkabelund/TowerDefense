@@ -32,13 +32,13 @@ MyGame.graphics = (function() {
     
 
     function drawTopBar() {
-		context.fillStyle = 'white';
+		context.fillStyle = 'black';
         let standardFont = '16px';
         let fontFill = 'rgba(0, 0, 0, 0.7)';
 
 		context.fillRect(0, 0, canvas.width, topBarHeight);
         
-        drawText(standardFont, 10, 16, 'Canvas Width: ' + canvas.width + ' Canvas Height: ' + canvas.height, fontFill);
+        //drawText(standardFont, 10, 16, 'Canvas Width: ' + canvas.width + ' Canvas Height: ' + canvas.height, fontFill);
     }
 
     //drawText('16px', 10, 10, 'message', 'black')
@@ -118,28 +118,60 @@ MyGame.graphics = (function() {
 		}
 	};
 
-	function drawTiles(grid) {
-		let w = canvas.width / grid.cols;
-		let h = (canvas.height - topBarHeight) / grid.rows;
+	function drawTiles(grid,selected,towerIsSelected) {
+		var dim = getCellDimensions(grid);
+		
+		let w = dim.width;
+		let h = dim.height;
 		for(var ii = 0; ii < grid.rows; ++ii) {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {
 					var tile = grid.grid[ii][jj].tileNumber;
+					
 					context.drawImage(loadedImages[tile],
-					 					jj*w,
-					  					ii*h+topBarHeight,
-					   					w,
-										h);
-
-					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
-					if(towerTopNum != -1) { //if no tower on square
+						jj*w,
+						ii*h+topBarHeight,
+						w,
+						h);
+					
+						var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
+						if(towerTopNum != -1) { //if no tower on square
 						context.drawImage(loadedImages[towerTopNum], 
-						 					jj*w,
-						  					ii*h+topBarHeight,
-						   					w,
-											h);
+							jj*w,
+							ii*h+topBarHeight,
+							w,
+							h);
+						}
+						
 					}
+					
+			}
+		}
+	}
+	function drawSelected(grid,selected,towerNumber)
+	{
+		var dime  = getCellDimensions(grid)
+		var w = dime.width;
+		var h = dime.height;
+		if(selected.x >= 0 && selected.y >= 0){
+
+			if(tilesLoaded) {
+				var towerTopNum = grid.grid[selected.y][selected.x].tower.textureTopNumber;
+				if(towerTopNum != -1){
+					context.fillStyle ="rgb(255,0,0,.5)";
 				}
+				else{
+					context.fillStyle ="rgb(255,255,0,.5)";
+				}
+				context.beginPath();
+				//the third paramater is the radius of the circle, will be used for each turrets raidus.
+				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),50,0,2*Math.PI);
+				context.fill();
+				context.drawImage(loadedImages[towerNumber], 
+					selected.x*w,
+					selected.y*h+topBarHeight,
+					w,
+					h);
 			}
 		}
 	}
@@ -148,7 +180,7 @@ MyGame.graphics = (function() {
 		if(tilesLoaded) {
 			var tower = grid.grid[x][y].tower;
 			if(tower == null) return; //if no tower on square
-			var dim = getCellDimensions();
+			var dim = getCellDimensions(grid);
 			context.drawImage(loadedImages[tower.textureTopNumber], y*dim.width, x*dim.height+topBarHeight, dim.w, dim.h);
 		}
 	}
@@ -171,6 +203,7 @@ MyGame.graphics = (function() {
 		drawGrid : drawGrid,
 		loadTileImages : loadTileImages,
 		drawTiles : drawTiles,
+		drawSelected : drawSelected,
 		getCellDimensions : getCellDimensions,
 		getTopBarHeight : getTopBarHeight
 	};

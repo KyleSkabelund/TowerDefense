@@ -235,3 +235,15 @@ ul{
 ul {
 	padding: 0px;
 }
+
+#topBar{
+	position: absolute;
+	z-index: 1;
+}
+#new-Tower{
+	width: 25px;
+    height: 25px;
+    border: 1px solid yellow;
+    background-image: url(../Data/PNG/Retina/towerDefense_tile291.png);
+    background-size: 100%;
+}

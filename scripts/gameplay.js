@@ -1,5 +1,4 @@
 var showGrid = false;
-
 MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 	
 	var mouseCapture = false,
@@ -9,7 +8,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 		cancelNextRequest = false,
 		lastTimeStamp,
 		grid = init.Grid(),
-		selectedSquare = {x: 0, y: 0};
+		selectedSquare = {x: -100, y: -100};
+		towerIsSelected = false;
+		selectedTowerNumber = 0;
+		
 	
 	//Data/PNG/Retina/
 	//will draw any tile number from Retina folder
@@ -28,7 +30,6 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 			
 	function initialize() {
 		console.log('game initializing...');
-				
 		grid.fillGrid();
 		grid.allocateMapNumbers(currentTileMap);
 
@@ -63,10 +64,32 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 			//start the level
 		});
 
-
+		document.getElementById('new-Tower').addEventListener('click',function(e){
+			towerIsSelected = true;
+			selectedTowerNumber = 291;
+		})
 		myMouse.registerCommand('mousedown', function(e) {
-			grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+			if(towerIsSelected){
+				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+				selectedSquare.x = -1;
+				selectedSquare.y = -1;
+				towerIsSelected = false;
+			}
 		});
+		document.addEventListener('mousemove', function(e){
+			if(towerIsSelected){
+				var dimensions = graphics.getCellDimensions(grid)
+				var X,Y;
+				X = Math.floor(e.clientX / dimensions.width);
+				Y = Math.floor((e.clientY - graphics.getTopBarHeight() )/ dimensions.height );
+
+				selectedSquare.x = X;
+				selectedSquare.y = Y;
+
+			}
+
+		}
+		, false);
 	}
 	
 	function update(elapsedTime) {
@@ -78,11 +101,15 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 	function render() {
 		graphics.clear();
 		graphics.drawTopBar();
-		graphics.drawTiles(grid);
+		graphics.drawTiles(grid,selectedSquare,towerIsSelected);
+		if(towerIsSelected == true){
+			graphics.drawSelected(grid,selectedSquare,selectedTowerNumber);
+		}
 		if(showGrid == true)
 		{
 			graphics.drawGrid(grid);
 		}
+		
 	}
 	
 	//------------------------------------------------------------------

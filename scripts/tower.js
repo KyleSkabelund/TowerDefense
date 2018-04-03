@@ -3,7 +3,7 @@ MyGame.tower = (function() {
 
     function Tower() {
         let ret = {
-            textureTopNumber: -1 //no tower
+            textureTopNumber: -1, //no tower
 		};
 
         ret.addTower = function() {
