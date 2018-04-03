@@ -83,6 +83,7 @@ MyGame.graphics = (function() {
 		}
 		//             * *
 		//load towers \___/
+		ret.push(180);
 		ret.push(291);
 		ret.push(292);
 		ret.push(249);
@@ -106,6 +107,10 @@ MyGame.graphics = (function() {
 			}
 			else{
 				image.src = 'Data/PNG/Retina/towerDefense_tile' + loadNumbers[ii] + '.png';
+			}
+			
+			if(loadNumbers[ii] < 10){
+				image.src = 'Data/PNG/Retina/towerDefense_tile00' + loadNumbers[ii] + '.png';
 			}
 
 			loadedImages[loadNumbers[ii]] = image;
@@ -136,6 +141,11 @@ MyGame.graphics = (function() {
 					
 						var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
 						if(towerTopNum != -1) { //if no tower on square
+						context.drawImage(loadedImages[180], 
+							jj*w,
+							ii*h+topBarHeight,
+							w,
+							h);
 						context.drawImage(loadedImages[towerTopNum], 
 							jj*w,
 							ii*h+topBarHeight,
@@ -158,15 +168,20 @@ MyGame.graphics = (function() {
 			if(tilesLoaded) {
 				var towerTopNum = grid.grid[selected.y][selected.x].tower.textureTopNumber;
 				if(towerTopNum != -1){
-					context.fillStyle ="rgb(255,0,0,.5)";
+					context.fillStyle ="rgb(255,0,0,.8)";
 				}
 				else{
-					context.fillStyle ="rgb(255,255,0,.5)";
+					context.fillStyle ="rgb(255,255,0,.8)";
 				}
 				context.beginPath();
 				//the third paramater is the radius of the circle, will be used for each turrets raidus.
 				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),50,0,2*Math.PI);
 				context.fill();
+				context.drawImage(loadedImages[180], 
+					selected.x*w,
+					selected.y*h+topBarHeight,
+					w,
+					h);
 				context.drawImage(loadedImages[towerNumber], 
 					selected.x*w,
 					selected.y*h+topBarHeight,

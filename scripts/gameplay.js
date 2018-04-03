@@ -16,16 +16,16 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 	//Data/PNG/Retina/
 	//will draw any tile number from Retina folder
 	var currentTileMap = [ 
-				72, 116, 116, 116, 116, 116, 116, 116, 157, 157, 157, 157, 116, 116, 116, 116, 116, 116, 116, 73,
-				94, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 92,
-				94, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 92,
+				299, 01, 01, 01, 01, 01, 01, 01, 157, 157, 157, 157, 01, 01, 01, 01, 01, 01, 01, 02,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
 				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
 				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
 				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
 				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
-				94, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 92,
-				94, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 92,
-				95, 70, 70, 70, 70, 70, 70, 70, 157, 157, 157, 157, 70, 70, 70, 70, 70, 70, 70, 96,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				46, 47, 47, 47, 47, 47, 47, 47, 157, 157, 157, 157, 47, 47, 47, 47, 47, 47, 47, 48,
 			];
 			
 	function initialize() {
@@ -68,9 +68,13 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 			towerIsSelected = true;
 			selectedTowerNumber = 291;
 		})
+		document.getElementById('new-Tower-2').addEventListener('click',function(e){
+			towerIsSelected = true;
+			selectedTowerNumber = 292;
+		})
 		myMouse.registerCommand('mousedown', function(e) {
 			if(towerIsSelected){
-				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight(),selectedTowerNumber);
 				selectedSquare.x = -1;
 				selectedSquare.y = -1;
 				towerIsSelected = false;

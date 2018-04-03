@@ -6,8 +6,8 @@ MyGame.tower = (function() {
             textureTopNumber: -1, //no tower
 		};
 
-        ret.addTower = function() {
-            ret.textureTopNumber = 291;
+        ret.addTower = function(towerNumber) {
+            ret.textureTopNumber = towerNumber;
         }
 
         ret.removeTower = function() {
