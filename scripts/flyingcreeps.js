@@ -6,8 +6,8 @@ MyGame.flyingCreeps = (function(graphics) {
             creepList: [] //kyle on this list
         };
 
-        ret.addCreep = function(startRow, startCol, grid, dim, topBarHeight) {
-            ret.creepList.push(FlyingCreep(startRow, startCol, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, topBarHeight))
+        ret.addCreep = function(startRow, startCol, grid, dim) {
+            ret.creepList.push(FlyingCreep(startRow, startCol, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim) {
@@ -20,7 +20,7 @@ MyGame.flyingCreeps = (function(graphics) {
         return ret;
     }
 
-    function FlyingCreep(startRow, startCol, graphicsStartRow, graphicsStartCol, grid, dim, topBarHeight) {
+    function FlyingCreep(startRow, startCol, graphicsStartRow, graphicsStartCol, grid, dim) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,

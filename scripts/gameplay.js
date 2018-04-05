@@ -75,7 +75,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		})
 		myMouse.registerCommand('mousedown', function(e) {
 			if(towerIsSelected){
-				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), graphics.getTopBarHeight(),selectedTowerNumber);
+				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), selectedTowerNumber);
 				selectedSquare.x = -1;
 				selectedSquare.y = -1;
 				towerIsSelected = false;
@@ -86,7 +86,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				var dimensions = graphics.getCellDimensions(grid)
 				var X,Y;
 				X = Math.floor(e.clientX / dimensions.width);
-				Y = Math.floor((e.clientY - graphics.getTopBarHeight() )/ dimensions.height );
+				Y = Math.floor((e.clientY - topBarHeight )/ dimensions.height );
 
 				selectedSquare.x = X;
 				selectedSquare.y = Y;
@@ -99,9 +99,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		//
 		//flying creep movement
-		allFlyingCreeps.addCreep(5,5,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
-allFlyingCreeps.addCreep(5,6,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
-allFlyingCreeps.addCreep(5,7,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+		allFlyingCreeps.addCreep(5,5,grid,graphics.getCellDimensions(grid));
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
 			allFlyingCreeps.creepList[0].moveUp(grid);

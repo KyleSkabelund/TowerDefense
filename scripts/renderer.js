@@ -215,9 +215,6 @@ MyGame.graphics = (function() {
 		return { width: w, height: h };
 	}
 
-	function getTopBarHeight() {
-		return topBarHeight;
-	}
 
 	return {
 		clear : clear,
@@ -228,7 +225,6 @@ MyGame.graphics = (function() {
 		drawTiles : drawTiles,
 		drawSelected : drawSelected,
 		getCellDimensions : getCellDimensions,
-		getTopBarHeight : getTopBarHeight,
 		drawFlyingCreeps : drawFlyingCreeps
 	};
 }());

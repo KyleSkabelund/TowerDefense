@@ -38,7 +38,7 @@ MyGame.init = (function(graphics, tower) {
             }
         }
 
-        ret.placeTower = function(mouseX, mouseY, cellDimensions, topBarHeight,towerNumber) {
+        ret.placeTower = function(mouseX, mouseY, cellDimensions, towerNumber) {
             //dont place if top bar is clicked
 
                 if(mouseY <= topBarHeight) return;
