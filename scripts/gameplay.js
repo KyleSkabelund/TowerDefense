@@ -1,5 +1,5 @@
 var showGrid = false;
-MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -8,9 +8,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 		cancelNextRequest = false,
 		lastTimeStamp,
 		grid = init.Grid(),
-		selectedSquare = {x: -100, y: -100};
-		towerIsSelected = false;
-		selectedTowerNumber = 0;
+		selectedSquare = {x: -100, y: -100},
+		towerIsSelected = false,
+		selectedTowerNumber = 0,
+		allFlyingCreeps = flyingCreeps.FlyingCreeps();
 		
 	
 	//Data/PNG/Retina/
@@ -94,10 +95,36 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 
 		}
 		, false);
+
+
+		//
+		//flying creep movement
+		allFlyingCreeps.addCreep(5,5,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+allFlyingCreeps.addCreep(5,6,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+allFlyingCreeps.addCreep(5,7,grid,graphics.getCellDimensions(grid), graphics.getTopBarHeight());
+
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
+			allFlyingCreeps.creepList[0].moveUp(grid);
+		});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, function() {
+			allFlyingCreeps.creepList[0].moveDown(grid);
+		});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, function() {
+			allFlyingCreeps.creepList[0].moveLeft(grid);
+		});
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, function() {
+			allFlyingCreeps.creepList[0].moveRight(grid);
+		});
+
+		//
+		//
 	}
 	
 	function update(elapsedTime) {
 		showGrid = localStorage["grid-placement"] == "on" ? true : false;
+		cellWidth = graphics.getCellDimensions(grid).width;
+		cellHeight = graphics.getCellDimensions(grid).height;
+		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
 	}
@@ -113,6 +140,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 		{
 			graphics.drawGrid(grid);
 		}
+
+		graphics.drawFlyingCreeps(allFlyingCreeps, grid);
 		
 	}
 	
@@ -145,4 +174,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower) {
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps));

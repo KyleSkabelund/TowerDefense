@@ -2,6 +2,8 @@
 //
 //
 // ------------------------------------------------------------------
+const topBarHeight = 25;
+
 MyGame.graphics = (function() {
 	'use strict';
 	
@@ -10,8 +12,7 @@ MyGame.graphics = (function() {
 
 	var canvas = document.getElementById('canvas-main'),
 		context = canvas.getContext('2d'),
-        startTime = new Date(),
-		topBarHeight = 25;
+        startTime = new Date()
 
 	CanvasRenderingContext2D.prototype.clear = function() {
 		this.save();
@@ -93,6 +94,11 @@ MyGame.graphics = (function() {
 		ret.push(204);
 		ret.push(203);
 
+		// 						 * *
+		//load flying creep 	_____
+		ret.push(271);
+		ret.push(294);
+
 		return ret;
 	}
 
@@ -125,39 +131,29 @@ MyGame.graphics = (function() {
 
 	function drawTiles(grid,selected,towerIsSelected) {
 		var dim = getCellDimensions(grid);
-		
 		let w = dim.width;
 		let h = dim.height;
+
 		for(var ii = 0; ii < grid.rows; ++ii) {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {
-					var tile = grid.grid[ii][jj].tileNumber;
+					//draw tile
+					context.drawImage(loadedImages[grid.grid[ii][jj].tileNumber], jj*w, ii*h+topBarHeight, w, h);
 					
-					context.drawImage(loadedImages[tile],
-						jj*w,
-						ii*h+topBarHeight,
-						w,
-						h);
-					
-						var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
-						if(towerTopNum != -1) { //if no tower on square
-						context.drawImage(loadedImages[180], 
-							jj*w,
-							ii*h+topBarHeight,
-							w,
-							h);
-						context.drawImage(loadedImages[towerTopNum], 
-							jj*w,
-							ii*h+topBarHeight,
-							w,
-							h);
-						}
-						
-					}
-					
+
+					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
+					if(towerTopNum != -1) { //if there is a tower to draw
+						//draw a base graphic
+						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
+
+						//draw the tower top
+						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
+					}	
+				}
 			}
 		}
 	}
+
 	function drawSelected(grid,selected,towerNumber)
 	{
 		var dime  = getCellDimensions(grid)
@@ -191,12 +187,24 @@ MyGame.graphics = (function() {
 		}
 	}
 
-	function drawTower(x, y, grid) {
+	function drawFlyingCreeps(creeps, grid) {
+		let dim = getCellDimensions(grid);
+
 		if(tilesLoaded) {
-			var tower = grid.grid[x][y].tower;
-			if(tower == null) return; //if no tower on square
-			var dim = getCellDimensions(grid);
-			context.drawImage(loadedImages[tower.textureTopNumber], y*dim.width, x*dim.height+topBarHeight, dim.w, dim.h);
+			for(var ii = 0; ii < creeps.creepList.length; ++ii) {
+				context.save();
+
+				let centerX = creeps.creepList[ii].graphicsCol+(dim.width/2);
+				let centerY = creeps.creepList[ii].graphicsRow+25+(dim.height/2)
+
+				context.translate(centerX, centerY);
+				context.rotate(creeps.creepList[ii].rotation);
+				context.translate(-centerX, -centerY);
+
+				context.drawImage(loadedImages[creeps.creepList[ii].tileNumber], creeps.creepList[ii].graphicsCol, creeps.creepList[ii].graphicsRow+25, dim.width, dim.height);
+				
+				context.restore();
+			}
 		}
 	}
 
@@ -220,6 +228,7 @@ MyGame.graphics = (function() {
 		drawTiles : drawTiles,
 		drawSelected : drawSelected,
 		getCellDimensions : getCellDimensions,
-		getTopBarHeight : getTopBarHeight
+		getTopBarHeight : getTopBarHeight,
+		drawFlyingCreeps : drawFlyingCreeps
 	};
 }());
