@@ -1,5 +1,5 @@
 var showGrid = false;
-MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -11,7 +11,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		selectedSquare = {x: -100, y: -100},
 		towerIsSelected = false,
 		selectedTowerNumber = 0,
-		allFlyingCreeps = flyingCreeps.FlyingCreeps();
+		allFlyingCreeps = flyingCreeps.FlyingCreeps(),
+		allGroundCreeps = groundCreeps.GroundCreeps(),
+		pathfinder = astar.AStar(grid);
 		
 	
 	//Data/PNG/Retina/
@@ -31,9 +33,11 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			
 	function initialize() {
 		console.log('game initializing...');
+		//grid init
 		grid.fillGrid();
 		grid.allocateMapNumbers(currentTileMap);
 
+		//render init
 		graphics.loadTileImages(currentTileMap);
 
 		window.addEventListener('resize', graphics.resizeCanvas, false);
@@ -98,20 +102,21 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 
 		//
-		//flying creep movement
-		allFlyingCreeps.addCreep(5,5,grid,graphics.getCellDimensions(grid));
+		//ground creep movement
+		allFlyingCreeps.addCreep(6,1,grid,graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(3,0,grid,graphics.getCellDimensions(grid));
 
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
-			allFlyingCreeps.creepList[0].moveUp(grid);
+			allGroundCreeps.creepList[0].moveUp(grid);
 		});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, function() {
-			allFlyingCreeps.creepList[0].moveDown(grid);
+			allGroundCreeps.creepList[0].moveDown(grid);
 		});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_LEFT, function() {
-			allFlyingCreeps.creepList[0].moveLeft(grid);
+			allGroundCreeps.creepList[0].moveLeft(grid);
 		});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, function() {
-			allFlyingCreeps.creepList[0].moveRight(grid);
+			allGroundCreeps.creepList[0].moveRight(grid);
 		});
 
 		//
@@ -122,6 +127,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		showGrid = localStorage["grid-placement"] == "on" ? true : false;
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
+		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
@@ -139,8 +145,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			graphics.drawGrid(grid);
 		}
 
+		graphics.drawGroundCreeps(allGroundCreeps, grid);
 		graphics.drawFlyingCreeps(allFlyingCreeps, grid);
-		
 	}
 	
 	//------------------------------------------------------------------
@@ -172,4 +178,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar));

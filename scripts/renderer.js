@@ -99,6 +99,9 @@ MyGame.graphics = (function() {
 		ret.push(271);
 		ret.push(294);
 
+		//load ground creep
+		ret.push(245);
+
 		return ret;
 	}
 
@@ -208,6 +211,35 @@ MyGame.graphics = (function() {
 		}
 	}
 
+	function drawGroundCreeps(creeps, grid) {
+		let dim = getCellDimensions(grid);
+
+		if(tilesLoaded) {
+			for(var ii = 0; ii < creeps.creepList.length; ++ii) {
+				context.save();
+
+				let centerX = creeps.creepList[ii].graphicsCol+(dim.width/2);
+				let centerY = creeps.creepList[ii].graphicsRow+25+(dim.height/2)
+
+				context.translate(centerX, centerY);
+				context.rotate(creeps.creepList[ii].rotation);
+				context.translate(-centerX, -centerY);
+
+				context.drawImage(loadedImages[creeps.creepList[ii].tileNumber], creeps.creepList[ii].graphicsCol, creeps.creepList[ii].graphicsRow+topBarHeight, dim.width, dim.height);
+				
+				context.restore();
+
+				if(creeps.creepList[ii].stopped) {
+					var path = creeps.creepList[ii].pathToEnd;
+					for(var jj = 0; jj < path.length; ++jj) {
+						context.fillStyle = 'black';
+						context.fillRect(path[jj].col*dim.width, path[jj].row*dim.height+topBarHeight, dim.width / 4, dim.height / 4)
+					}
+				}
+			}
+		}
+	}
+
 	function getCellDimensions(grid) {
 		let w = canvas.width / grid.cols;
         let h = (canvas.height - topBarHeight) / grid.rows;
@@ -225,6 +257,7 @@ MyGame.graphics = (function() {
 		drawTiles : drawTiles,
 		drawSelected : drawSelected,
 		getCellDimensions : getCellDimensions,
-		drawFlyingCreeps : drawFlyingCreeps
+		drawFlyingCreeps : drawFlyingCreeps,
+		drawGroundCreeps : drawGroundCreeps
 	};
 }());

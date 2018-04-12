@@ -8,6 +8,7 @@ MyGame.init = (function(graphics, tower) {
             fillstyle: 'red',
             grid: null
         }
+        
         var oldx = 0,
             oldy= 0 ;
 
@@ -50,6 +51,11 @@ MyGame.init = (function(graphics, tower) {
                 let gridX = Math.floor(mouseY / cellDimensions.height);
 
                 ret.grid[gridX][gridY].tower.addTower(towerNumber);
+        }
+
+        ret.hasTower = function(row, col) {
+            if(ret.grid[row][col].tower.textureTopNumber == -1) return false;
+            return true;
         }
 
 		return ret;
