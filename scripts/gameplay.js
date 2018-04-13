@@ -13,7 +13,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		selectedTowerNumber = 0,
 		allFlyingCreeps = flyingCreeps.FlyingCreeps(),
 		allGroundCreeps = groundCreeps.GroundCreeps(),
-		pathfinder = astar.AStar(grid);
+		pathfinder = astar.AStar(grid),
+		refreshPaths = true;
 		
 	
 	//Data/PNG/Retina/
@@ -30,6 +31,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
 				46, 47, 47, 47, 47, 47, 47, 47, 157, 157, 157, 157, 47, 47, 47, 47, 47, 47, 47, 48,
 			];
+
+	var leftToRightEndings = [{row: 3, col: 19}, {row: 4, col: 19}, {row: 5, col: 19}, {row: 6, col: 19}];
 			
 	function initialize() {
 		console.log('game initializing...');
@@ -83,6 +86,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				selectedSquare.x = -1;
 				selectedSquare.y = -1;
 				towerIsSelected = false;
+				refreshPaths = true; //tower has been placed so do pathfinding in next creep update
 			}
 		});
 		document.addEventListener('mousemove', function(e){
@@ -103,12 +107,13 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		//
 		//ground creep movement
-		allFlyingCreeps.addCreep(6,1,grid,graphics.getCellDimensions(grid));
+		allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
 		
-		allGroundCreeps.addCreep(3,	0, {row: 3, col: 19}, grid,	graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(4,	0, {row: 4, col: 19}, grid,	graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(5,	0, {row: 5, col: 19}, grid,	graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(6,	0, {row: 6, col: 19}, grid,	graphics.getCellDimensions(grid));
+		//creeps ending on right side of the map
+		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(4,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(5,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(6,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
 
 		/*myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
 			allGroundCreeps.creepList[0].moveUp(grid);
@@ -131,8 +136,11 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		showGrid = localStorage["grid-placement"] == "on" ? true : false;
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
-		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder);
+
+		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
+		refreshPaths = false;
+		
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
 	}
