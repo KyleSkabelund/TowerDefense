@@ -30,6 +30,7 @@ MyGame.groundCreeps = (function(graphics) {
             speed: .05,
             stopped: true,
             rotation: 0,
+            rotationSpeed: Math.PI/100,
             pathToEnd: [],
             end: end
         };
@@ -73,10 +74,61 @@ MyGame.groundCreeps = (function(graphics) {
             }
         }
 
+        //if creep is facing the desired direction return true
+        /*
+        if creep is not facing the desired direction increment in the right direction 
+        and return false indicating the creep should not move to adjacent cell
+        */
+        function doRotation(desired) { 
+            if(!(desired - ret.rotationSpeed <= ret.rotation && ret.rotation <= desired + ret.rotationSpeed)) {
+                
+                ret.rotation += rotationDecision(desired);
+
+                if(ret.rotation > 2*Math.PI) {
+                    ret.rotation -= 2*Math.PI;
+                    return false;
+                }
+                if(ret.rotation < 0) {
+                    ret.rotation += 2*Math.PI;
+                    return false;
+                }
+                return false;
+            }
+            ret.rotation = desired;
+            return true;
+        }
+
+        function rotationDecision(desired) {
+            if(desired == 0) {
+                if(0 < ret.rotation && ret.rotation <= Math.PI)
+                    return -ret.rotationSpeed;
+                else
+                    return ret.rotationSpeed;
+            }
+            else if(desired == Math.PI/2) {
+                if(Math.PI/2 < ret.rotation && ret.rotation <= 3*Math.PI/2)
+                    return -ret.rotationSpeed;
+                else
+                    return ret.rotationSpeed;
+            }
+            else if(desired == Math.PI) {
+                if(Math.PI < ret.rotation && ret.rotation <= 2*Math.PI)
+                    return -ret.rotationSpeed;
+                else
+                    return ret.rotationSpeed;
+            }
+            else if(desired == 3*Math.PI/2) {
+                if(Math.PI/2 <= ret.rotation && ret.rotation < 3*Math.PI/2)
+                    return ret.rotationSpeed;
+                else
+                    return -ret.rotationSpeed;
+            }
+        }
+
         ret.moveLeft = function(grid) {
             //if not edge of map
             if(ret.col - 1 >= 0 && ret.stopped == true) {
-                ret.rotation = Math.PI;
+                if(!doRotation(Math.PI)) return;
                 if(grid.grid[ret.row][ret.col - 1].tower.textureTopNumber == -1) { //if no tower continue
                     ret.col -= 1;
                 }
@@ -86,7 +138,7 @@ MyGame.groundCreeps = (function(graphics) {
         ret.moveRight = function(grid) {
             //if not edge of map
             if(ret.col + 1 < grid.cols && ret.stopped == true) {
-                ret.rotation = 0;
+                if(!doRotation(0)) return;
                 if(grid.grid[ret.row][ret.col + 1].tower.textureTopNumber == -1) {
                     ret.col += 1;
                 }
@@ -96,7 +148,7 @@ MyGame.groundCreeps = (function(graphics) {
         ret.moveUp = function(grid) {
             //if not edge of map
             if(ret.row - 1 >= 0 && ret.stopped == true) {
-                ret.rotation = 3*Math.PI/2;
+                if(!doRotation(3*Math.PI/2)) return;
                 if(grid.grid[ret.row - 1][ret.col].tower.textureTopNumber == -1) {
                     ret.row -= 1;
                 }
@@ -106,7 +158,7 @@ MyGame.groundCreeps = (function(graphics) {
         ret.moveDown = function(grid) {
             //if not edge of map
             if(ret.row + 1 < grid.rows && ret.stopped == true) {
-                ret.rotation = Math.PI/2;
+                if(!doRotation(Math.PI/2)) return;
                 if(grid.grid[ret.row + 1][ret.col].tower.textureTopNumber == -1) {
                     ret.row += 1;
                 }
