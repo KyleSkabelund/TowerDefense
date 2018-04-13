@@ -231,6 +231,10 @@ MyGame.graphics = (function() {
 
 				if(creeps.creepList[ii].stopped) {
 					var path = creeps.creepList[ii].pathToEnd;
+					if(path == undefined) {
+						console.log("not able to render undefined creep path");
+						return;
+					}
 					for(var jj = 0; jj < path.length; ++jj) {
 						context.fillStyle = 'black';
 						context.fillRect(path[jj].col*dim.width, path[jj].row*dim.height+topBarHeight, dim.width / 4, dim.height / 4)

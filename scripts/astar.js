@@ -54,9 +54,9 @@ MyGame.aStar = (function(graphics) {
         ret.getNeighbors = function(row, col, grid) {
             var neighbors = [];
 
-            if(row - 1 > 0 && !grid.hasTower(row - 1, col))         neighbors.push(ret.graph[row - 1][col]);
+            if(row - 1 >= 0 && !grid.hasTower(row - 1, col))         neighbors.push(ret.graph[row - 1][col]);
             if(row + 1 < grid.rows && !grid.hasTower(row + 1, col)) neighbors.push(ret.graph[row + 1][col]);
-            if(col - 1 > 0 && !grid.hasTower(row, col - 1))         neighbors.push(ret.graph[row][col - 1]);
+            if(col - 1 >= 0 && !grid.hasTower(row, col - 1))         neighbors.push(ret.graph[row][col - 1]);
             if(col + 1 < grid.cols && !grid.hasTower(row, col + 1)) neighbors.push(ret.graph[row][col + 1]);
 
             return neighbors;
