@@ -6,8 +6,8 @@ MyGame.groundCreeps = (function(graphics) {
             creepList: []
         };
 
-        ret.addCreep = function(startRow, startCol, grid, dim) {
-            ret.creepList.push(GroundCreep(startRow, startCol, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
+        ret.addCreep = function(startRow, startCol, end, grid, dim) {
+            ret.creepList.push(GroundCreep(startRow, startCol, end, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder) {
@@ -20,7 +20,7 @@ MyGame.groundCreeps = (function(graphics) {
         return ret;
     }
 
-    function GroundCreep(startRow, startCol, graphicsStartRow, graphicsStartCol, grid, dim) {
+    function GroundCreep(startRow, startCol, end, graphicsStartRow, graphicsStartCol, grid, dim) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,
@@ -31,7 +31,7 @@ MyGame.groundCreeps = (function(graphics) {
             stopped: true,
             rotation: 0,
             pathToEnd: [],
-            end: {row: 6, col: 19}
+            end: end
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim, pathfinder) {
@@ -48,7 +48,15 @@ MyGame.groundCreeps = (function(graphics) {
 
             if(ret.stopped) {
                 ret.pathToEnd = pathfinder.getPath({row: ret.row, col: ret.col}, ret.end, grid);
-
+                var currSquare = ret.pathToEnd.pop();
+                var nextMove = ret.pathToEnd.pop();
+                
+                if(nextMove != undefined) {
+                    if(nextMove.row > currSquare.row) ret.moveDown(grid);
+                    if(nextMove.row < currSquare.row) ret.moveUp(grid);
+                    if(nextMove.col < currSquare.col) ret.moveLeft(grid);
+                    if(nextMove.col > currSquare.col) ret.moveRight(grid);
+                }
             }
 
             if(ret.graphicsCol < ret.col * dim.width) {
@@ -67,7 +75,7 @@ MyGame.groundCreeps = (function(graphics) {
 
         ret.moveLeft = function(grid) {
             //if not edge of map
-            if(ret.col - 1 > 0 && ret.stopped == true) {
+            if(ret.col - 1 >= 0 && ret.stopped == true) {
                 ret.rotation = Math.PI;
                 if(grid.grid[ret.row][ret.col - 1].tower.textureTopNumber == -1) { //if no tower continue
                     ret.col -= 1;
@@ -87,7 +95,7 @@ MyGame.groundCreeps = (function(graphics) {
 
         ret.moveUp = function(grid) {
             //if not edge of map
-            if(ret.row - 1 > 0 && ret.stopped == true) {
+            if(ret.row - 1 >= 0 && ret.stopped == true) {
                 ret.rotation = 3*Math.PI/2;
                 if(grid.grid[ret.row - 1][ret.col].tower.textureTopNumber == -1) {
                     ret.row -= 1;

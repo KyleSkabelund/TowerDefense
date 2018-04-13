@@ -104,9 +104,13 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		//
 		//ground creep movement
 		allFlyingCreeps.addCreep(6,1,grid,graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(3,0,grid,graphics.getCellDimensions(grid));
+		
+		allGroundCreeps.addCreep(3,	0, {row: 3, col: 19}, grid,	graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(4,	0, {row: 4, col: 19}, grid,	graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(5,	0, {row: 5, col: 19}, grid,	graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(6,	0, {row: 6, col: 19}, grid,	graphics.getCellDimensions(grid));
 
-		myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
+		/*myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
 			allGroundCreeps.creepList[0].moveUp(grid);
 		});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_DOWN, function() {
@@ -117,7 +121,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		});
 		myKeyboard.registerCommand(KeyEvent.DOM_VK_RIGHT, function() {
 			allGroundCreeps.creepList[0].moveRight(grid);
-		});
+		});*/
 
 		//
 		//
