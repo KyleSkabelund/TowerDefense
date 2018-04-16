@@ -32,7 +32,8 @@ MyGame.groundCreeps = (function(graphics) {
             rotation: 0,
             rotationSpeed: Math.PI/100,
             pathToEnd: [],
-            endings: endings
+            endings: endings,
+            hitPointsPercentage: 100
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim, pathfinder, refreshPaths) {

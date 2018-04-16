@@ -207,6 +207,19 @@ MyGame.graphics = (function() {
 				context.drawImage(loadedImages[creeps.creepList[ii].tileNumber], creeps.creepList[ii].graphicsCol, creeps.creepList[ii].graphicsRow+25, dim.width, dim.height);
 				
 				context.restore();
+
+				//draw creep hp unless the creep is at full hp
+				if(creeps.creepList[ii].hitPointsPercentage != 100) {
+					//draw red bar
+					context.fillStyle = "red";
+					var maxHpWidth = dim.width/2;
+					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, maxHpWidth, dim.height/10)
+				
+					//draw green bar over it
+					context.fillStyle = "green";
+					var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
+					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, hpWidth, dim.height/10)
+				}
 			}
 		}
 	}
@@ -229,7 +242,19 @@ MyGame.graphics = (function() {
 				
 				context.restore();
 
-				if(creeps.creepList[ii].stopped) {
+				//draw creep hp unless the creep is at full hp
+				if(creeps.creepList[ii].hitPointsPercentage != 100) {
+					//draw red bar
+					context.fillStyle = "red";
+					var maxHpWidth = dim.width/2;
+					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, maxHpWidth, dim.height/10)
+
+					//draw green bar over it
+					context.fillStyle = "green";
+					var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
+					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, hpWidth, dim.height/10)
+				}
+				/*if(creeps.creepList[ii].stopped) {
 					var path = creeps.creepList[ii].pathToEnd;
 					if(path == undefined) {
 						console.log("not able to render undefined creep path");
@@ -239,7 +264,7 @@ MyGame.graphics = (function() {
 						context.fillStyle = 'black';
 						context.fillRect(path[jj].col*dim.width, path[jj].row*dim.height+topBarHeight, dim.width / 4, dim.height / 4)
 					}
-				}
+				}*/
 			}
 		}
 	}
