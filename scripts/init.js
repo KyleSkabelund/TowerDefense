@@ -49,10 +49,12 @@ MyGame.init = (function(graphics, tower) {
                 //get the array index of where the mouse was clicked
                 let gridY = Math.floor(mouseX / cellDimensions.width);
                 let gridX = Math.floor(mouseY / cellDimensions.height);
-
-                ret.grid[gridX][gridY].tower.addTower(towerNumber);
+                let center = {row:mouseX,col:mouseY +25};
+                ret.grid[gridX][gridY].tower.addTower(
+                    towerNumber,
+                    center
+                );
         }
-
         ret.hasTower = function(row, col) {
             if(ret.grid[row][col].tower.textureTopNumber == -1) return false;
             return true;
@@ -61,12 +63,12 @@ MyGame.init = (function(graphics, tower) {
 		return ret;
     }
 
-    function GridCell(x, y,selected) {
+    function GridCell(row, col) {
         let ret = {
-            x: x,
-            y: y,
+            row: row,
+            col: col,
             tileNumber: -1, //number associated with what tile will be rendered in this cell,
-            tower: tower.Tower(), //will hold tower object  
+            tower: tower.Tower({center:{x:-1,y:-1}, towerRotation:0}), //will hold tower object  
         }
 
         return ret;

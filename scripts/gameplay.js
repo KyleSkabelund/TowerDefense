@@ -11,6 +11,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		selectedSquare = {x: -100, y: -100},
 		towerIsSelected = false,
 		selectedTowerNumber = 0,
+		Tower = tower.Tower({towerRoation:0, center:{x:0,y:0}});
 		allFlyingCreeps = flyingCreeps.FlyingCreeps(),
 		allGroundCreeps = groundCreeps.GroundCreeps(),
 		pathfinder = astar.AStar(grid);
@@ -133,6 +134,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellHeight = graphics.getCellDimensions(grid).height;
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
+		Tower.update(grid);
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
 	}
