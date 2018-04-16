@@ -208,18 +208,14 @@ MyGame.graphics = (function() {
 				
 				context.restore();
 
-				//draw creep hp unless the creep is at full hp
-				if(creeps.creepList[ii].hitPointsPercentage != 100) {
-					//draw red bar
-					context.fillStyle = "red";
-					var maxHpWidth = dim.width/2;
-					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, maxHpWidth, dim.height/10)
-				
-					//draw green bar over it
-					context.fillStyle = "green";
-					var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
-					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, hpWidth, dim.height/10)
-				}
+				//draw red bar
+				context.fillStyle = "red";
+				var maxHpWidth = dim.width/2;
+				context.fillRect(centerX-(dim.width/4), creeps.creepList[ii].graphicsRow+topBarHeight+dim.height/8, maxHpWidth, dim.height/10)
+				//draw green bar over it
+				context.fillStyle = "green";
+				var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
+				context.fillRect(centerX-(dim.width/4), creeps.creepList[ii].graphicsRow+topBarHeight+dim.height/8, hpWidth, dim.height/10)
 			}
 		}
 	}
@@ -242,18 +238,15 @@ MyGame.graphics = (function() {
 				
 				context.restore();
 
-				//draw creep hp unless the creep is at full hp
-				if(creeps.creepList[ii].hitPointsPercentage != 100) {
-					//draw red bar
-					context.fillStyle = "red";
-					var maxHpWidth = dim.width/2;
-					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, maxHpWidth, dim.height/10)
+				//draw red bar
+				context.fillStyle = "red";
+				var maxHpWidth = dim.width/2;
+				context.fillRect(centerX-(dim.width/4), creeps.creepList[ii].graphicsRow+topBarHeight+dim.height/8, maxHpWidth, dim.height/10)
+				//draw green bar over it
+				context.fillStyle = "green";
+				var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
+				context.fillRect(centerX-(dim.width/4), creeps.creepList[ii].graphicsRow+topBarHeight+dim.height/8, hpWidth, dim.height/10)
 
-					//draw green bar over it
-					context.fillStyle = "green";
-					var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
-					context.fillRect(centerX-(dim.width/4), (creeps.creepList[ii].graphicsRow+topBarHeight+dim.height)-dim.height/5, hpWidth, dim.height/10)
-				}
 				/*if(creeps.creepList[ii].stopped) {
 					var path = creeps.creepList[ii].pathToEnd;
 					if(path == undefined) {
