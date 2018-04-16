@@ -17,6 +17,15 @@ MyGame.groundCreeps = (function(graphics) {
             }
         }
 
+        ret.creepInSquare = function(row, col) {
+            for(var ii = 0; ii < ret.creepList.length; ++ii) {
+                if(ret.creepList[ii].row == row && ret.creepList[ii].col == col) {
+                    return true;
+                }
+            }   
+            return false;
+        }
+
         return ret;
     }
 

@@ -101,6 +101,11 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		})
 		myMouse.registerCommand('mousedown', function(e) {
 			if(towerIsSelected){
+				//dont allow tower to be placed on creep moving to square
+				if(allGroundCreeps.creepInSquare(selectedSquare.y, selectedSquare.x)) {
+					return;
+				}
+
 				//place the tower so a* can work its magic
 				grid.placeTower(selectedSquare.y, selectedSquare.x, selectedTowerNumber);
 				

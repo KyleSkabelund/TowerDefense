@@ -40,11 +40,15 @@ MyGame.init = (function(graphics, tower) {
         }
 
         ret.placeTower = function(row, col, towerNumber) {
+            if(row != undefined && col != undefined) {
                 ret.grid[row][col].tower.addTower(towerNumber);
+            }
         }
 
         ret.removeTower = function(row, col) {
+            if(row != undefined && col != undefined) {
                 ret.grid[row][col].tower.removeTower();
+            }
         }
 
         ret.hasTower = function(row, col) {
