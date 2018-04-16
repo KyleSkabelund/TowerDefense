@@ -14,12 +14,23 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		allFlyingCreeps = flyingCreeps.FlyingCreeps(),
 		allGroundCreeps = groundCreeps.GroundCreeps(),
 		pathfinder = astar.AStar(grid),
-		refreshPaths = true;
-		
+		refreshPaths = true,
+		level = 1;
+
+	var level1TileMap =	[ 
+				299, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 02,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
+				46, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 47, 48,
+			];
 	
-	//Data/PNG/Retina/
-	//will draw any tile number from Retina folder
-	var currentTileMap = [ 
+	var level2TileMap = [ 
 				299, 01, 01, 01, 01, 01, 01, 01, 157, 157, 157, 157, 01, 01, 01, 01, 01, 01, 01, 02,
 				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
 				23, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 157, 25,
@@ -32,7 +43,15 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				46, 47, 47, 47, 47, 47, 47, 47, 157, 157, 157, 157, 47, 47, 47, 47, 47, 47, 47, 48,
 			];
 
+	
+	//Data/PNG/Retina/
+	//will draw any tile number from Retina folder
+	var currentTileMap = level1TileMap;
+
+	var leftToRightStarts = [{row: 3, col: 0}, {row: 4, col: 0}, {row: 5, col: 0}, {row: 6, col: 0}];
+	var topToBottomStarts = [{row: 0, col: 8}, {row: 0, col: 19}, {row: 0, col: 19}, {row: 0, col: 11}];
 	var leftToRightEndings = [{row: 3, col: 19}, {row: 4, col: 19}, {row: 5, col: 19}, {row: 6, col: 19}];
+	var topToBottomEndings = [{row: 9, col: 8}, {row: 9, col: 19}, {row: 9, col: 19}, {row: 9, col: 11}];
 			
 	function initialize() {
 		console.log('game initializing...');
@@ -82,7 +101,22 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		})
 		myMouse.registerCommand('mousedown', function(e) {
 			if(towerIsSelected){
-				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), selectedTowerNumber);
+				//place the tower so a* can work its magic
+				grid.placeTower(selectedSquare.y, selectedSquare.x, selectedTowerNumber);
+				
+				//check if creeps starting left ending right have a path if no path remove the initial placement
+				if(!pathfinder.pathToEndExists(selectedSquare.y, selectedSquare.x, leftToRightStarts, leftToRightEndings, grid)) {
+					grid.removeTower(selectedSquare.y, selectedSquare.x);
+					return;
+				}
+				//if we are on level 2 or 3 check for top to bottom
+				if(level > 1) {
+					if(!pathfinder.pathToEndExists(selectedSquare.y, selectedSquare.x, topToBottomStarts, topToBottomEndings, grid)) {
+						grid.removeTower(selectedSquare.y, selectedSquare.x);
+						return;
+					}
+				}
+				
 				selectedSquare.x = -1;
 				selectedSquare.y = -1;
 				towerIsSelected = false;
@@ -105,9 +139,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		, false);
 
 
-		//
-		//ground creep movement
-		allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
+		//allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
 		
 		//creeps ending on right side of the map
 		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));

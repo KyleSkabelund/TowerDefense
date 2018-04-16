@@ -39,18 +39,12 @@ MyGame.init = (function(graphics, tower) {
             }
         }
 
-        ret.placeTower = function(mouseX, mouseY, cellDimensions, towerNumber) {
-            //dont place if top bar is clicked
+        ret.placeTower = function(row, col, towerNumber) {
+                ret.grid[row][col].tower.addTower(towerNumber);
+        }
 
-                if(mouseY <= topBarHeight) return;
-
-                mouseY -= topBarHeight; //compensate for the top bar
-
-                //get the array index of where the mouse was clicked
-                let gridY = Math.floor(mouseX / cellDimensions.width);
-                let gridX = Math.floor(mouseY / cellDimensions.height);
-
-                ret.grid[gridX][gridY].tower.addTower(towerNumber);
+        ret.removeTower = function(row, col) {
+                ret.grid[row][col].tower.removeTower();
         }
 
         ret.hasTower = function(row, col) {

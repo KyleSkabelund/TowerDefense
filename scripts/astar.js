@@ -78,6 +78,30 @@ MyGame.aStar = (function(graphics) {
             return path;
         }
 
+        ret.pathToEndExists = function(newTowerRow, newTowerCol, starts, ends, grid) {
+            var isPath = false;
+
+            for(var i in starts) {
+                //dont let towers be placed in entrances
+                if(newTowerRow == starts[i].row && newTowerCol == starts[i].col) return false;
+            }
+            for(var i in ends) {
+                //dont let towers be placed in exits
+                if(newTowerRow == ends[i].row && newTowerCol == ends[i].col) return false;
+            }
+
+            for(var i in starts) {
+                for(var j in ends) {
+                    var path = ret.getPath(starts[i], ends[j], grid);
+                    if(path != undefined) {
+                        return true;
+                    }
+                }
+            }
+
+            return isPath;
+        }
+
         return ret;
     }
 
