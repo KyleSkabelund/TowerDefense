@@ -59,15 +59,16 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             var target = {x:groundcreeps.creepList[0].graphicsCol,y:groundcreeps.creepList[0].graphicsRow};
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
-                    if(grid.grid[row][col].tower.towerNumber != 0){
+                    if(grid.grid[row][col].tower.textureTopNumber != -1){
+                        console.log("IN UPDATE" + grid.grid[row][col].tower.center);
                         var result = computeAngle((grid.grid[row][col].tower.towerRotation),grid.grid[row][col].tower.center,target);
                             if (testTolerance(result.angle, 0, .01) === false) {
                                 if(result.crossProduct > 0 )
                                 {
-                                    grid.grid[row][col].tower.towerRotation +=  6 * 3.14159 / 1000;
+                                    grid.grid[row][col].tower.towerRotation +=  .01
                                 }
                                 else{
-                                    grid.grid[row][col].tower.towerRotation -=  6 * 3.14159 / 1000;
+                                    grid.grid[row][col].tower.towerRotation -=  .01;
                                 }
                             }
                     }

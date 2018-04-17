@@ -49,7 +49,7 @@ MyGame.init = (function(graphics, tower) {
             //get the array index of where the mouse was clicked
             let gridY = Math.floor(mouseX / cellDimensions.width);
             let gridX = Math.floor(mouseY / cellDimensions.height);
-            let center = {row:mouseX,col:mouseY +25};
+            let center = {row:gridY*cellDimensions.width+cellDimensions.width/2,col:gridX*cellDimensions.height+cellDimensions.height/2};
             ret.grid[gridX][gridY].tower.addTower(
                 towerNumber,
                 center
