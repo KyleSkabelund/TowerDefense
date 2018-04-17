@@ -11,10 +11,27 @@ MyGame.flyingCreeps = (function(graphics) {
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim) {
+            let keepList = [];
+            var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
             {
-                ret.creepList[ii].updateCreep(elapsedTime, grid, dim);
+                let keepCreep = true;
+                //creep has reached the end
+                if(ret.creepList[ii].ending.col*dim.width - tolerance <= ret.creepList[ii].graphicsCol 
+                    && ret.creepList[ii].graphicsCol <= ret.creepList[ii].ending.col * dim.width + tolerance 
+                    && ret.creepList[ii].ending.row * dim.height - tolerance <= ret.creepList[ii].graphicsRow 
+                    && ret.creepList[ii].graphicsRow <= ret.creepList[ii].ending.row * dim.height + tolerance) {
+                        keepCreep = false;
+                    }
+                if(ret.creepList[ii].hitPointsPercentage <= 0) {
+                    keepCreep = false;
+                }
+                if(keepCreep == true) {
+                    ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);
+                    keepList.push(ret.creepList[ii]);
+                }
             }
+            ret.creepList = keepList;
         }
 
         ret.resizeCanvas = function(dim) {
