@@ -30,7 +30,8 @@ MyGame.flyingCreeps = (function(graphics) {
             speed: .05,
             stopped: true,
             rotation: 0, //degrees
-            ending: ending
+            ending: ending,
+            hitPointsPercentage: 100
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim) {

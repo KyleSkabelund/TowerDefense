@@ -41,19 +41,24 @@ MyGame.init = (function(graphics, tower) {
 
         ret.placeTower = function(mouseX, mouseY, cellDimensions, towerNumber) {
             //dont place if top bar is clicked
-
-                if(mouseY <= topBarHeight) return;
-
-                mouseY -= topBarHeight; //compensate for the top bar
-
-                //get the array index of where the mouse was clicked
-                let gridY = Math.floor(mouseX / cellDimensions.width);
-                let gridX = Math.floor(mouseY / cellDimensions.height);
-                let center = {row:mouseX,col:mouseY +25};
-                ret.grid[gridX][gridY].tower.addTower(
-                    towerNumber,
-                    center
-                );
+            
+            if(mouseY <= topBarHeight) return;
+            
+            mouseY -= topBarHeight; //compensate for the top bar
+            
+            //get the array index of where the mouse was clicked
+            let gridY = Math.floor(mouseX / cellDimensions.width);
+            let gridX = Math.floor(mouseY / cellDimensions.height);
+            let center = {row:mouseX,col:mouseY +25};
+            ret.grid[gridX][gridY].tower.addTower(
+                towerNumber,
+                center
+            );
+        }
+        ret.removeTower = function(row, col) {
+            if(row != undefined && col != undefined) {
+                ret.grid[row][col].tower.removeTower();
+            }
         }
         ret.hasTower = function(row, col) {
             if(ret.grid[row][col].tower.textureTopNumber == -1) return false;
