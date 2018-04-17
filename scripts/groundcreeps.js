@@ -26,6 +26,13 @@ MyGame.groundCreeps = (function(graphics) {
             return false;
         }
 
+        ret.resizeCanvas = function(dim) {
+            for(var i in ret.creepList) {
+                ret.creepList[i].graphicsRow = dim.height * ret.creepList[i].row;
+                ret.creepList[i].graphicsCol = dim.width * ret.creepList[i].col;
+            }
+        }
+
         return ret;
     }
 

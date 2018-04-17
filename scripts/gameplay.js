@@ -62,12 +62,20 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		//render init
 		graphics.loadTileImages(currentTileMap);
 
-		window.addEventListener('resize', graphics.resizeCanvas, false);
+		window.addEventListener('resize', function() {
+			graphics.resizeCanvas();
+			allGroundCreeps.resizeCanvas(graphics.getCellDimensions(grid));
+			allFlyingCreeps.resizeCanvas(graphics.getCellDimensions(grid));
+		}, false);
 		window.addEventListener('orientationchange', function() {
 			graphics.resizeCanvas();
+			allGroundCreeps.resizeCanvas(graphics.getCellDimensions(grid));
+			allFlyingCreeps.resizeCanvas(graphics.getCellDimensions(grid));
 		}, false);
 		window.addEventListener('deviceorientation', function() {
 			graphics.resizeCanvas();
+			allGroundCreeps.resizeCanvas(graphics.getCellDimensions(grid));
+			allFlyingCreeps.resizeCanvas(graphics.getCellDimensions(grid));
 		}, false);
 
 		//
@@ -144,7 +152,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		, false);
 
 
-		//allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
+		allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
 		
 		//creeps ending on right side of the map
 		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
