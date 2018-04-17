@@ -137,10 +137,12 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		showGrid = localStorage["grid-placement"] == "on" ? true : false;
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
+
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		Tower.update(grid);
 		refreshPaths = false;
+		
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
 	}

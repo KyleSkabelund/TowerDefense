@@ -6,8 +6,8 @@ MyGame.flyingCreeps = (function(graphics) {
             creepList: [] //kyle on this list
         };
 
-        ret.addCreep = function(startRow, startCol, grid, dim) {
-            ret.creepList.push(FlyingCreep(startRow, startCol, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
+        ret.addCreep = function(startRow, startCol, ending, grid, dim) {
+            ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim) {
@@ -20,7 +20,7 @@ MyGame.flyingCreeps = (function(graphics) {
         return ret;
     }
 
-    function FlyingCreep(startRow, startCol, graphicsStartRow, graphicsStartCol, grid, dim) {
+    function FlyingCreep(startRow, startCol, ending, graphicsStartRow, graphicsStartCol, grid, dim) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,
@@ -29,24 +29,28 @@ MyGame.flyingCreeps = (function(graphics) {
             tileNumber: 271,
             speed: .05,
             stopped: true,
-            rotation: 0 //degrees
+            rotation: 0, //degrees
+            ending: ending
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim) {
 
             //if the creep is close to the middle of a square consider it stopped
             //unsure if this will be useful
-            if(ret.col*dim.width - 1 <= ret.graphicsCol && ret.graphicsCol <= ret.col * dim.width + 1 
-            && ret.row * dim.height - 1 <= ret.graphicsRow && ret.graphicsRow <= ret.row * dim.height + 1){
+            var tolerance = 2;
+            if(ret.col*dim.width - tolerance <= ret.graphicsCol && ret.graphicsCol <= ret.col * dim.width + tolerance 
+            && ret.row * dim.height - tolerance <= ret.graphicsRow && ret.graphicsRow <= ret.row * dim.height + tolerance){
                 ret.stopped = true;
             }
             else {
                 ret.stopped = false;
             }
 
-            //if(ret.stopped) {
-            //    ret.moveRight(grid);
-            //}
+            if(ret.stopped) {
+                if(ret.col < ending.col) {
+                    ret.moveRight(grid);
+                }
+            }
 
             if(ret.graphicsCol < ret.col * dim.width) {
                 ret.graphicsCol += elapsedTime*ret.speed;
