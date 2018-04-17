@@ -55,11 +55,13 @@ MyGame.init = (function(graphics, tower) {
                 center
             );
         }
+
         ret.removeTower = function(row, col) {
             if(row != undefined && col != undefined) {
                 ret.grid[row][col].tower.removeTower();
             }
         }
+        
         ret.hasTower = function(row, col) {
             if(ret.grid[row][col].tower.textureTopNumber == -1) return false;
             return true;

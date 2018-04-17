@@ -116,7 +116,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				}
 
 				//place the tower so a* can work its magic
-				grid.placeTower(selectedSquare.y, selectedSquare.x, selectedTowerNumber);
+				grid.placeTower(e.clientX, e.clientY, graphics.getCellDimensions(grid), selectedTowerNumber);
 				
 				//check if creeps starting left ending right have a path if no path remove the initial placement
 				if(!pathfinder.pathToEndExists(selectedSquare.y, selectedSquare.x, leftToRightStarts, leftToRightEndings, grid)) {

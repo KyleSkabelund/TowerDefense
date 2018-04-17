@@ -33,7 +33,6 @@ MyGame.tower = (function() {
     
             dp = v1.x * v2.x + v1.y * v2.y;
             angle = Math.acos(dp);
-            console.log(angle);
             //
             // Get the cross product of the two vectors so we can know
             // which direction to rotate.
@@ -50,6 +49,10 @@ MyGame.tower = (function() {
         ret.addTower = function(towerNumber,center){
             ret.textureTopNumber = towerNumber;
             ret.center = center;
+        }
+
+        ret.removeTower = function() {
+            ret.textureTopNumber = -1;
         }
 
         ret.update = function(grid){
