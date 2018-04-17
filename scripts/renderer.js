@@ -142,15 +142,18 @@ MyGame.graphics = (function() {
 				if(tilesLoaded) {
 					//draw tile
 					context.drawImage(loadedImages[grid.grid[ii][jj].tileNumber], jj*w, ii*h+topBarHeight, w, h);
-					
 
 					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
 					if(towerTopNum != -1) { //if there is a tower to draw
 						//draw a base graphic
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
-
-						//draw the tower top
+						context.save();
+						context.translate(jj*w + w/2, ii*h + topBarHeight + h/2);
+						context.rotate(grid.grid[ii][jj].tower.towerRotation);				
+						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
+						context.restore();
+						//draw the tower top
 					}	
 				}
 			}
@@ -172,10 +175,13 @@ MyGame.graphics = (function() {
 				else{
 					context.fillStyle ="rgb(255,255,0,.8)";
 				}
+
 				context.beginPath();
 				//the third paramater is the radius of the circle, will be used for each turrets raidus.
 				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),50,0,2*Math.PI);
 				context.fill();
+				
+				
 				context.drawImage(loadedImages[180], 
 					selected.x*w,
 					selected.y*h+topBarHeight,
