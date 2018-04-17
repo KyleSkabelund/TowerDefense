@@ -55,8 +55,8 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             ret.textureTopNumber = -1;
         }
 
-        ret.update = function(grid,flyingcreeps,groundcreeps){
-            var target = {x:groundcreeps.creepList[0].graphicsCol,y:groundcreeps.creepList[0].graphicsRow};
+        ret.update = function(grid,flyingcreeps,groundcreeps, dim){
+            var target = {x:groundcreeps.creepList[0].graphicsCol+(dim.width/2),y:groundcreeps.creepList[0].graphicsRow+topBarHeight};
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
                     if(grid.grid[row][col].tower.textureTopNumber != -1){
@@ -65,10 +65,10 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                             if (testTolerance(result.angle, 0, .01) === false) {
                                 if(result.crossProduct > 0 )
                                 {
-                                    grid.grid[row][col].tower.towerRotation +=  .01
+                                    grid.grid[row][col].tower.towerRotation +=  .02
                                 }
                                 else{
-                                    grid.grid[row][col].tower.towerRotation -=  .01;
+                                    grid.grid[row][col].tower.towerRotation -=  .02;
                                 }
                             }
                     }

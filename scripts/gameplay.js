@@ -184,7 +184,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellHeight = graphics.getCellDimensions(grid).height;
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
-		Tower.update(grid,allFlyingCreeps,allGroundCreeps);
+		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
 		refreshPaths = false;
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
