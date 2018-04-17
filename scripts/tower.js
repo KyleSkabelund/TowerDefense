@@ -1,4 +1,4 @@
-MyGame.tower = (function() {
+MyGame.tower = (function(groundcreeps,flyingcreeps) {
     'use strict';
     function Tower(spec) {
         let ret = {
@@ -9,8 +9,8 @@ MyGame.tower = (function() {
                 col: 0
             },
             target:{
-                row: 100,
-                col: 100
+                row: 0,
+                col: 0
             }
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
@@ -55,19 +55,32 @@ MyGame.tower = (function() {
             ret.textureTopNumber = -1;
         }
 
-        ret.update = function(grid){
+        ret.update = function(grid,flyingcreeps,groundcreeps){
+            var target = {x:groundcreeps.creepList[0].graphicsCol,y:groundcreeps.creepList[0].graphicsRow};
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
-                    if(grid.grid[row][col].tower.towerNumber != 0)
-                    {
-                        var result = computeAngle(90,grid.grid[row][col].tower.center,{x:100,y:100});
-                        grid.grid[row][col].tower.towerRotation = result.angle;
+                    if(grid.grid[row][col].tower.towerNumber != 0){
+                        var result = computeAngle((grid.grid[row][col].tower.towerRotation),grid.grid[row][col].tower.center,target);
+                            if (testTolerance(result.angle, 0, .01) === false) {
+                                if(result.crossProduct > 0 )
+                                {
+                                    grid.grid[row][col].tower.towerRotation +=  6 * 3.14159 / 1000;
+                                }
+                                else{
+                                    grid.grid[row][col].tower.towerRotation -=  6 * 3.14159 / 1000;
+                                }
+                            }
                     }
                 }
             }
-
         }
-    
+        function testTolerance(value, test, tolerance) {
+			if (Math.abs(value - test) < tolerance) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		return ret;
     }
 
