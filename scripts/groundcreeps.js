@@ -11,10 +11,30 @@ MyGame.groundCreeps = (function(graphics) {
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths) {
+            let keepList = [];
+            var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
             {
-                ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);
+                let keepCreep = true;
+                for(var jj = 0; jj < ret.creepList[ii].endings.length; ++jj)
+                {
+                    //creep has reached the end
+                    if(ret.creepList[ii].endings[jj].col*dim.width - tolerance <= ret.creepList[ii].graphicsCol 
+                        && ret.creepList[ii].graphicsCol <= ret.creepList[ii].endings[jj].col * dim.width + tolerance 
+                        && ret.creepList[ii].endings[jj].row * dim.height - tolerance <= ret.creepList[ii].graphicsRow 
+                        && ret.creepList[ii].graphicsRow <= ret.creepList[ii].endings[jj].row * dim.height + tolerance) {
+                            keepCreep = false;
+                        }
+                }
+                if(ret.creepList[ii].hitPointsPercentage <= 0) {
+                    keepCreep = false;
+                }
+                if(keepCreep == true) {
+                    ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);
+                    keepList.push(ret.creepList[ii]);
+                }
             }
+            ret.creepList = keepList;
         }
 
         ret.creepInSquare = function(row, col) {
