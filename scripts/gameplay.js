@@ -95,7 +95,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			//upgrade the tower
 		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
+			let soldTowerRow = 9;
+			let soldTowerCol = 0;
 			//sell the tower
+			particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			//start the level
@@ -158,8 +161,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		
 		//creeps ending on right side of the map
 		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		
-		particleSystems.AddSoldTowerSystem(5, 10, graphics, graphics.getCellDimensions(grid));
+
+		particleSystems.AddBombExplosionSystem(5, 4, graphics, graphics.getCellDimensions(grid));
 	}
 	
 	function update(elapsedTime) {

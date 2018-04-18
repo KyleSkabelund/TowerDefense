@@ -36,15 +36,41 @@ MyGame.particleSystem = (function(graphics, random) {
         ret.AddBombMovementSystem = function(spec, graphics) {
             //fire/smoke in a direction
         }
-        ret.AddBombExplosionSystem = function(spec, graphics) {
-            //fire/smoke 360 degrees
+        ret.AddBombExplosionSystem = function(row, col, graphics, dim) {
+            let spec = {
+                count: 1000,
+                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
+                speed: { mean: 0.05, stdev: 0.02},
+                lifetime: { mean: 750, stdev: 500 },
+                size: { mean: 10, stdev: 5 },
+                image: '/Data/smokeparticleassets/PNG/Black smoke/blackSmoke00.png'
+            };
+
+            let newSystem = System(spec, graphics);
+
+            newSystem.fillSystem(spec);
+            ret.systems.push(newSystem);
+
+            let spec2 = {
+                count: 100,
+                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
+                speed: { mean: 0.05, stdev: 0.02},
+                lifetime: { mean: 750, stdev: 500 },
+                size: { mean: 10, stdev: 5 },
+                image: '/Data/smokeparticleassets/PNG/Explosion/explosion00.png'
+            };
+
+            let newSystem2 = System(spec2, graphics);
+
+            newSystem2.fillSystem(spec2);
+            ret.systems.push(newSystem2);
         }
 
         //air defense projectile?
         ret.AddGuidedMissileSystem = function(spec, graphics) {
             //fire/smoke in a direction
         }
-        ret.AddGuidedMissileSystem = function(spec, graphics) {
+        ret.AddGuidedMissileExplosionSystem = function(spec, graphics) {
             //fire/smoke 360 degrees
         }
 
@@ -52,7 +78,7 @@ MyGame.particleSystem = (function(graphics, random) {
         ret.AddSoldTowerSystem = function(row, col, graphics, dim) {
             let spec = {
                 count: 1,
-                position: { x: col*dim.width+dim.width, y: row*dim.height+topBarHeight },
+                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
                 speed: { mean: 0.01, stdev: 0},
                 lifetime: { mean: 3000, stdev: 0 },
                 size: { mean: 96, stdev: 1 },
@@ -71,7 +97,7 @@ MyGame.particleSystem = (function(graphics, random) {
 	    	    alive: 0,
                 size: Random.nextGaussian(spec.size.mean, spec.size.stdev),
                 alpha: 1,
-                alphaReductionRate: 0.005
+                alphaReductionRate: 0.0025
             };
             newSystem.particles.push(p);
             ret.systems.push(newSystem);
@@ -98,7 +124,6 @@ MyGame.particleSystem = (function(graphics, random) {
             totalParticleCount: spec.count,
             position: spec.position, //x and y
 		    speed: spec.speed,
-		    lifetime: spec.lifetime,
 		    size: spec.size,
 		    image: spec.image,
             particles: []
@@ -151,7 +176,7 @@ MyGame.particleSystem = (function(graphics, random) {
 	    	    	alive: 0,
                     size: Random.nextGaussian(spec.size.mean, spec.size.stdev),
                     alpha: 1,
-                    alphaReductionRate: 0.1
+                    alphaReductionRate: 0
 	    	    };
 	    	    ret.particles.push(p)
             }
