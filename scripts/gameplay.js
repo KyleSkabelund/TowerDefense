@@ -1,4 +1,4 @@
-MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar,particleSystem) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -183,9 +183,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			allGroundCreeps.creepList[0].moveRight(grid);
 		});*/
 
-		//particleSystems.AddBombExplosionSystem(5, 4, graphics, graphics.getCellDimensions(grid));
-		//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
-		//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
+		particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
+		particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
+		particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 	}
 	
 	function update(elapsedTime) {
