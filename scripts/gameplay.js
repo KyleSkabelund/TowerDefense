@@ -162,7 +162,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		//creeps ending on right side of the map
 		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
 
-		particleSystems.AddBombExplosionSystem(5, 4, graphics, graphics.getCellDimensions(grid));
+		//particleSystems.AddBombExplosionSystem(5, 4, graphics, graphics.getCellDimensions(grid));
+		//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
+		//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 	}
 	
 	function update(elapsedTime) {
