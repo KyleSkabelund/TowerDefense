@@ -268,6 +268,20 @@ MyGame.graphics = (function() {
 		}
 	}
 
+	function drawParticle(position, size, rotation, image, alpha) {
+		context.save();
+		context.globalAlpha = alpha;
+		let centerX = position.x+size/2;
+		let centerY = position.y+size/2;
+
+		context.translate(centerX, centerY);
+		context.rotate(rotation);
+		context.translate(-centerX, -centerY);
+		context.drawImage(image, position.x, position.y, size, size);
+
+		context.restore();
+	}
+
 	function getCellDimensions(grid) {
 		let w = canvas.width / grid.cols;
         let h = (canvas.height - topBarHeight) / grid.rows;
@@ -286,6 +300,7 @@ MyGame.graphics = (function() {
 		drawSelected : drawSelected,
 		getCellDimensions : getCellDimensions,
 		drawFlyingCreeps : drawFlyingCreeps,
-		drawGroundCreeps : drawGroundCreeps
+		drawGroundCreeps : drawGroundCreeps,
+		drawParticle : drawParticle
 	};
 }());
