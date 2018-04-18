@@ -93,8 +93,8 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
                 groundTarget.x= groundcreeps.creepList[i].graphicsCol+(dim.width/2);
                 groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
-                console.log(groundTarget);
-                console.log(currentTurret.center)
+                //console.log(groundTarget);
+                //console.log(currentTurret.center)
             }
             return groundTarget
         }
