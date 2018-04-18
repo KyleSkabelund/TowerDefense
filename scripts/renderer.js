@@ -9,7 +9,7 @@ MyGame.graphics = (function() {
 	
 	var loadedImages = [];
 	var tilesLoaded = false;
-
+	var showCreepPath = localStorage["show-creep-path"] == "on" ? true : false;
 	var canvas = document.getElementById('canvas-main'),
 		context = canvas.getContext('2d'),
         startTime = new Date()
@@ -178,7 +178,7 @@ MyGame.graphics = (function() {
 
 				context.beginPath();
 				//the third paramater is the radius of the circle, will be used for each turrets raidus.
-				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),50,0,2*Math.PI);
+				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),selected.radius,0,2*Math.PI);
 				context.fill();
 				
 				
@@ -253,17 +253,19 @@ MyGame.graphics = (function() {
 				var hpWidth = (creeps.creepList[ii].hitPointsPercentage/100) * maxHpWidth;
 				context.fillRect(centerX-(dim.width/4), creeps.creepList[ii].graphicsRow+topBarHeight+dim.height/8, hpWidth, dim.height/10)
 
-				/*if(creeps.creepList[ii].stopped) {
-					var path = creeps.creepList[ii].pathToEnd;
+				var path = creeps.creepList[ii].pathToEnd;
+				if(showCreepPath){
 					if(path == undefined) {
 						console.log("not able to render undefined creep path");
 						return;
 					}
-					for(var jj = 0; jj < path.length; ++jj) {
-						context.fillStyle = 'black';
-						context.fillRect(path[jj].col*dim.width, path[jj].row*dim.height+topBarHeight, dim.width / 4, dim.height / 4)
+					else{
+						for(var jj = 0; jj < path.length; ++jj) {
+							context.fillStyle = 'rgb(0,0,0,.01)';
+							context.fillRect(path[jj].col*dim.width, path[jj].row*dim.height+topBarHeight, dim.width , dim.height )
+						}
 					}
-				}*/
+				}
 			}
 		}
 	}

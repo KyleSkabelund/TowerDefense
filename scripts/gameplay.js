@@ -1,4 +1,3 @@
-var showGrid = false;
 MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar) {
 	
 	var mouseCapture = false,
@@ -8,7 +7,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cancelNextRequest = false,
 		lastTimeStamp,
 		grid = init.Grid(),
-		selectedSquare = {x: -100, y: -100},
+		selectedSquare = {x: -100, y: -100, radius:0},
 		towerIsSelected = false,
 		selectedTowerNumber = 0,
 		Tower = tower.Tower({towerRoation:0, center:{x:0,y:0}});
@@ -16,7 +15,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		allGroundCreeps = groundCreeps.GroundCreeps(),
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
-		level = 1;
+		level = 1,
+		showGrid = false;
+		
 
 	var level1TileMap =	[ 
 				299, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 02,
@@ -57,6 +58,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	function initialize() {
 		console.log('game initializing...');
 		//grid init
+		showGrid = localStorage["grid-placement"] == "on" ? true : false;
+		
 		grid.fillGrid();
 		grid.allocateMapNumbers(currentTileMap);
 
@@ -103,10 +106,12 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		document.getElementById('new-Tower').addEventListener('click',function(e){
 			towerIsSelected = true;
 			selectedTowerNumber = 291;
+			selectedSquare.radius = 300;
 		})
 		document.getElementById('new-Tower-2').addEventListener('click',function(e){
 			towerIsSelected = true;
 			selectedTowerNumber = 292;
+			selectedSquare.radius = 500;
 		})
 		myMouse.registerCommand('mousedown', function(e) {
 			if(towerIsSelected){
@@ -157,9 +162,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		
 		//creeps ending on right side of the map
 		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		//allGroundCreeps.addCreep(4,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		//allGroundCreeps.addCreep(5,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		//allGroundCreeps.addCreep(6,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(4,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(5,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.addCreep(6,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
 //
 		/*myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
 			allGroundCreeps.creepList[0].moveUp(grid);
@@ -179,7 +184,6 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	}
 	
 	function update(elapsedTime) {
-		showGrid = localStorage["grid-placement"] == "on" ? true : false;
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
