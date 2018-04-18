@@ -18,6 +18,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		level = 1,
 		showGrid = false;
 		
+		particleSystems = particleSystem.ParticleSystems();
 
 	var level1TileMap =	[ 
 				299, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 02,
@@ -97,7 +98,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			//upgrade the tower
 		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
+			let soldTowerRow = 9;
+			let soldTowerCol = 0;
 			//sell the tower
+			particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			//start the level
@@ -179,8 +183,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			allGroundCreeps.creepList[0].moveRight(grid);
 		});*/
 
-		//
-		//
+		//particleSystems.AddBombExplosionSystem(5, 4, graphics, graphics.getCellDimensions(grid));
+		//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
+		//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 	}
 	
 	function update(elapsedTime) {
@@ -189,6 +194,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
+		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
@@ -208,6 +214,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		graphics.drawGroundCreeps(allGroundCreeps, grid);
 		graphics.drawFlyingCreeps(allFlyingCreeps, grid);
+
+		particleSystems.renderSystems(graphics);
 	}
 	
 	//------------------------------------------------------------------
@@ -239,4 +247,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar, MyGame.particleSystem));
