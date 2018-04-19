@@ -108,6 +108,8 @@ MyGame.graphics = (function() {
 //                              /    \
 		//load bullet
 		ret.push(275);
+		//load animated ground creep
+		ret.push(300);
 
 		return ret;
 	}
@@ -262,7 +264,12 @@ MyGame.graphics = (function() {
 				context.rotate(creeps.creepList[ii].rotation);
 				context.translate(-centerX, -centerY);
 
-				context.drawImage(loadedImages[creeps.creepList[ii].tileNumber], creeps.creepList[ii].graphicsCol, creeps.creepList[ii].graphicsRow+topBarHeight, dim.width, dim.height);
+				context.drawImage(loadedImages[creeps.creepList[ii].tileNumber], //image to draw
+					creeps.creepList[ii].currentSprite * 128, 0, //x and y of where to start clipping
+					128, 128, //width and height of clipped image
+					creeps.creepList[ii].graphicsCol, //x coordinate where to place
+					creeps.creepList[ii].graphicsRow+topBarHeight, //y coordinate where to place
+					dim.width, dim.height); //width and height of image to use
 				
 				context.restore();
 

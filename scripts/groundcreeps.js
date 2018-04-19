@@ -62,14 +62,18 @@ MyGame.groundCreeps = (function(graphics) {
             col: startCol,
             graphicsRow: graphicsStartRow, //center position of creep related to rendering coordinates
             graphicsCol: graphicsStartCol,
-            tileNumber: 245,
+            tileNumber: 300,
             speed: .05,
             stopped: true,
             rotation: 0,
             rotationSpeed: Math.PI/100,
             pathToEnd: [],
             endings: endings,
-            hitPointsPercentage: 100
+            hitPointsPercentage: 100,
+            spriteCount: 8, //frames
+            currentSprite: 0, //current frame
+            animationTime: 200, //milliseconds per frame
+            currentAnimationTime: 200
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim, pathfinder, refreshPaths) {
@@ -100,6 +104,18 @@ MyGame.groundCreeps = (function(graphics) {
                     if(nextMove.row < ret.row) ret.moveUp(grid);
                     if(nextMove.col < ret.col) ret.moveLeft(grid);
                     if(nextMove.col > ret.col) ret.moveRight(grid);
+                }
+            }
+
+            if(!ret.stopped) {
+                if(ret.currentAnimationTime <= 0) {
+                    ++ret.currentSprite;
+                    if(ret.currentSprite == ret.spriteCount) {
+                        ret.currentSprite = 0;
+                    }
+                    ret.currentAnimationTime = ret.animationTime;
+                } else {
+                    ret.currentAnimationTime -= elapsedTime;
                 }
             }
 
