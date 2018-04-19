@@ -16,7 +16,8 @@ MyGame.creepSpawner = (function(graphics, random) {
             level3Random: {mean: 3000, stddev: 2000}
         };
 
-        ret.update = function(elapsedTime, groundCreeps, flyingCreeps, grid, dim, level, LRends, TBends) {
+        ret.update = function(elapsedTime, groundCreeps, flyingCreeps, grid, dim, level, LRends, TBends, spawnCreeps) {
+            if(spawnCreeps == false) return;
             if(ret.nextCreepTimeLeft <= 0) {
                 if(level == 1) {
                     if(groundCreeps.creepList.length < ret.maxCreepsLevel0) {

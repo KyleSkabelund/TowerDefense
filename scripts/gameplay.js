@@ -18,6 +18,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		level = 1,
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner();
+		spawnCreeps = false;
 		
 		particleSystems = particleSystem.ParticleSystems();
 
@@ -106,7 +107,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			refreshPaths = true;
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
-			//start the level
+			spawnCreeps = true;
+			console.log("now spawning creeps");
 		});
 
 		document.getElementById('new-Tower').addEventListener('click',function(e){
@@ -184,7 +186,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	function update(elapsedTime) {
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
-		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings);
+		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
