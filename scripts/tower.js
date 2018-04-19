@@ -12,6 +12,11 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             target:{
                 row: 0,
                 col: 0
+            },
+            ammo:{
+                type:275, // number for the ammo that the turret will use.
+                center:{row:0,
+                col:0}
             }
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
@@ -50,6 +55,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
         ret.addTower = function(towerNumber,center){
             ret.textureTopNumber = towerNumber;
             ret.center = center;
+            ret.ammo.center = center;
             ret.radius = 500;
         }
 
@@ -57,7 +63,6 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             ret.textureTopNumber = -1;
         }
 
-        
 
         ret.update = function(grid,flyingcreeps,groundcreeps, dim){
             
@@ -72,7 +77,6 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                         else{
                             target = getAirTarget()
                         }
-                        
                         var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
                             if (testTolerance(result.angle, 0, .01) === false) {
                                 if(result.crossProduct > 0 )
@@ -93,10 +97,9 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
                 groundTarget.x= groundcreeps.creepList[i].graphicsCol+(dim.width/2);
                 groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
-                console.log(groundTarget);
-                console.log(currentTurret.center)
             }
-            return groundTarget
+
+            return groundTarget;
         }
         function getAirTarget(){
 

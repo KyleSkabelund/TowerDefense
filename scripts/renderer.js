@@ -101,6 +101,13 @@ MyGame.graphics = (function() {
 
 		//load ground creep
 		ret.push(245);
+		
+		
+//                          	 .  . 
+//                               ____
+//                              /    \
+		//load bullet
+		ret.push(275);
 
 		return ret;
 	}
@@ -142,17 +149,32 @@ MyGame.graphics = (function() {
 				if(tilesLoaded) {
 					//draw tile
 					context.drawImage(loadedImages[grid.grid[ii][jj].tileNumber], jj*w, ii*h+topBarHeight, w, h);
+				}
+			}
+		}
+	}
+	function drawTowers(grid) {
+		var dim = getCellDimensions(grid);
+		let w = dim.width;
+		let h = dim.height;
 
+		for(var ii = 0; ii < grid.rows; ++ii) {
+			for(var jj = 0; jj < grid.cols; ++jj) {
+				if(tilesLoaded) {
 					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
+					var ammoType =  grid.grid[ii][jj].tower.ammo.type;
+					var ammorow =  grid.grid[ii][jj].tower.ammo.center.row;
+					var ammocol =  grid.grid[ii][jj].tower.ammo.center.col;
 					if(towerTopNum != -1) { //if there is a tower to draw
 						//draw a base graphic
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
 						context.save();
 						context.translate(jj*w + w/2, ii*h + topBarHeight + h/2);
-						context.rotate(grid.grid[ii][jj].tower.towerRotation);				
+						context.rotate(grid.grid[ii][jj].tower.towerRotation);		
 						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
 						context.restore();
+						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
 						//draw the tower top
 					}	
 				}
@@ -303,6 +325,7 @@ MyGame.graphics = (function() {
 		getCellDimensions : getCellDimensions,
 		drawFlyingCreeps : drawFlyingCreeps,
 		drawGroundCreeps : drawGroundCreeps,
-		drawParticle : drawParticle
+		drawParticle : drawParticle,
+		drawTowers : drawTowers
 	};
 }());

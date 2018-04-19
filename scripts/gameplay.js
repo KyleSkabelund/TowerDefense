@@ -139,12 +139,14 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 						return;
 					}
 				}
-				
 				selectedSquare.x = -1;
 				selectedSquare.y = -1;
 				towerIsSelected = false;
 				refreshPaths = true; //tower has been placed so do pathfinding in next creep update
 			}
+			particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
+			particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
+			particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 		});
 		document.addEventListener('mousemove', function(e){
 			if(towerIsSelected){
@@ -183,9 +185,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			allGroundCreeps.creepList[0].moveRight(grid);
 		});*/
 
-		particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
-		particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
-		particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
+		
 	}
 	
 	function update(elapsedTime) {
@@ -204,6 +204,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		graphics.clear();
 		graphics.drawTopBar();
 		graphics.drawTiles(grid,selectedSquare,towerIsSelected);
+		graphics.drawTowers(grid);
 		if(towerIsSelected == true){
 			graphics.drawSelected(grid,selectedSquare,selectedTowerNumber);
 		}
