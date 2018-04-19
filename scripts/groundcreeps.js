@@ -6,9 +6,15 @@ MyGame.groundCreeps = (function(graphics) {
             creepList: []
         };
 
-        ret.addCreep = function(startRow, startCol, endings, grid, dim) {
-            if(startCol == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, 0));
-            else if(startRow == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2));
+        ret.addCreep = function(startRow, startCol, endings, grid, dim, isBoss) {
+            if(!isBoss) {
+                if(startCol == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, .05, 0, 300, 8));
+                else if(startRow == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, .05, Math.PI/2, 300, 8));
+            }
+            else {
+                if(startCol == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, .075, 0, 302, 5));
+                else if(startRow == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, .075, Math.PI/2, 302, 5));
+            }
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, level) {
@@ -57,21 +63,21 @@ MyGame.groundCreeps = (function(graphics) {
         return ret;
     }
 
-    function GroundCreep(startRow, startCol, endings, graphicsStartRow, graphicsStartCol, grid, dim, rotation) {
+    function GroundCreep(startRow, startCol, endings, graphicsStartRow, graphicsStartCol, grid, dim, speed, rotation, tileNumber, spriteCount) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,
             graphicsRow: graphicsStartRow, //center position of creep related to rendering coordinates
             graphicsCol: graphicsStartCol,
-            tileNumber: 300,
-            speed: .05,
+            tileNumber: tileNumber,
+            speed: speed,
             stopped: true,
             rotation: rotation,
             rotationSpeed: Math.PI/100,
             pathToEnd: [],
             endings: endings,
             hitPointsPercentage: 100,
-            spriteCount: 8, //frames
+            spriteCount: spriteCount, //frames
             currentSprite: 0, //current frame
             animationTime: 200, //milliseconds per frame
             currentAnimationTime: 200

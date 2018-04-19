@@ -22,7 +22,7 @@ MyGame.creepSpawner = (function(graphics, random) {
                 if(level == 1) {
                     if(groundCreeps.creepList.length < ret.maxCreepsLevel0) {
                         var nextRow = Random.nextRange(3, 6);
-                        allGroundCreeps.addCreep(nextRow, -1, LRends, grid, dim);
+                        allGroundCreeps.addCreep(nextRow, -1, LRends, grid, dim, false);
                         ret.nextCreepTimeLeft = Random.nextGaussian(ret.level1Random.mean, ret.level1Random.stddev);
                     }
                 }
@@ -30,7 +30,7 @@ MyGame.creepSpawner = (function(graphics, random) {
                 if(level >= 2) {
                     if(groundCreeps.creepList.length < ret.maxCreepsLevel1) {
                         var nextRow = Random.nextRange(3, 6);
-                        allGroundCreeps.addCreep(nextRow, -1, LRends, grid, dim);
+                        allGroundCreeps.addCreep(nextRow, -1, LRends, grid, dim, isBoss());
                         ret.nextCreepTimeLeft = Random.nextGaussian(ret.level2Random.mean, ret.level2Random.stddev);
                     }
                 }
@@ -40,7 +40,7 @@ MyGame.creepSpawner = (function(graphics, random) {
                 if(level >= 2) {
                     if(groundCreeps.creepList.length < ret.maxCreepsLevel1) {
                         var nextCol = Random.nextRange(8, 11);
-                        allGroundCreeps.addCreep(-1, nextCol, TBends, grid, dim);
+                        allGroundCreeps.addCreep(-1, nextCol, TBends, grid, dim, isBoss());
                         ret.nextCreepTimeTop = Random.nextGaussian(ret.level2Random.mean, ret.level2Random.stddev);
                     }
                 }
@@ -68,6 +68,13 @@ MyGame.creepSpawner = (function(graphics, random) {
             ret.nextCreepTimeTop -= elapsedTime;
             ret.nextFlyingCreepTimeLeft -= elapsedTime;
             ret.nextFlyingCreepTimeTop -= elapsedTime;
+        }
+
+        function isBoss() {
+            if(Random.nextRange(0,10) > 1) {
+                return true;
+            }
+            return false;
         }
 
         return ret;

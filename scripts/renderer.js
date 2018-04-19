@@ -110,6 +110,7 @@ MyGame.graphics = (function() {
 		ret.push(275);
 		//load animated ground creep
 		ret.push(300);
+		ret.push(302);
 		//load animated flying creep 
 		ret.push(301);
 
