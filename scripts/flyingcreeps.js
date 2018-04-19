@@ -51,12 +51,16 @@ MyGame.flyingCreeps = (function(graphics) {
             col: startCol,
             graphicsRow: graphicsStartRow, //center position of creep related to rendering coordinates
             graphicsCol: graphicsStartCol,
-            tileNumber: 271,
+            tileNumber: 301,
             speed: .05,
             stopped: true,
             rotation: rotation, //degrees
             ending: ending,
-            hitPointsPercentage: 100
+            hitPointsPercentage: 100,
+            spriteCount: 6, //frames
+            currentSprite: 0, //current frame
+            animationTime: 200, //milliseconds per frame
+            currentAnimationTime: 200
         };
 
         ret.updateCreep = function(elapsedTime, grid, dim) {
@@ -78,6 +82,18 @@ MyGame.flyingCreeps = (function(graphics) {
                 }
                 if(ret.row < ending.row) {
                     ret.moveDown(grid);
+                }
+            }
+
+            if(!ret.stopped) {
+                if(ret.currentAnimationTime <= 0) {
+                    ++ret.currentSprite;
+                    if(ret.currentSprite == ret.spriteCount) {
+                        ret.currentSprite = 0;
+                    }
+                    ret.currentAnimationTime = ret.animationTime;
+                } else {
+                    ret.currentAnimationTime -= elapsedTime;
                 }
             }
 

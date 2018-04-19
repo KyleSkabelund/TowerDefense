@@ -15,7 +15,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		allGroundCreeps = groundCreeps.GroundCreeps(),
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
-		level = 1,
+		level = 3,
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner();
 		spawnCreeps = false;
@@ -198,7 +198,6 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	
 	function render() {
 		graphics.clear();
-		graphics.drawTopBar();
 		graphics.drawTiles(grid,selectedSquare,towerIsSelected);
 		graphics.drawTowers(grid);
 		if(towerIsSelected == true){
@@ -213,6 +212,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		graphics.drawFlyingCreeps(allFlyingCreeps, grid);
 
 		particleSystems.renderSystems(graphics);
+		
+		graphics.drawTopBar();
 	}
 	
 	//------------------------------------------------------------------
