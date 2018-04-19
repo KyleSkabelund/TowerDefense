@@ -7,10 +7,11 @@ MyGame.groundCreeps = (function(graphics) {
         };
 
         ret.addCreep = function(startRow, startCol, endings, grid, dim) {
-            ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
+            if(startCol == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, 0));
+            else if(startRow == -1) ret.creepList.push(GroundCreep(startRow, startCol, endings, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2));
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, level) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -56,7 +57,7 @@ MyGame.groundCreeps = (function(graphics) {
         return ret;
     }
 
-    function GroundCreep(startRow, startCol, endings, graphicsStartRow, graphicsStartCol, grid, dim) {
+    function GroundCreep(startRow, startCol, endings, graphicsStartRow, graphicsStartCol, grid, dim, rotation) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,
@@ -65,7 +66,7 @@ MyGame.groundCreeps = (function(graphics) {
             tileNumber: 300,
             speed: .05,
             stopped: true,
-            rotation: 0,
+            rotation: rotation,
             rotationSpeed: Math.PI/100,
             pathToEnd: [],
             endings: endings,
@@ -80,6 +81,10 @@ MyGame.groundCreeps = (function(graphics) {
             //subject to change allows creeps to spawn off the grid
             if(ret.col == -1) {
                 ret.col = 0;
+            }
+
+            if(ret.row == -1) {
+                ret.row = 0;
             }
 
             if(refreshPaths == true || ret.pathToEnd.length == 0) {

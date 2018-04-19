@@ -1,4 +1,4 @@
-MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar,particleSystem) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar, particleSystem, creepSpawner) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -16,7 +16,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
 		level = 1,
-		showGrid = false;
+		showGrid = false,
+		spawner = creepSpawner.CreepSpawner();
 		
 		particleSystems = particleSystem.ParticleSystems();
 
@@ -52,9 +53,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	var currentTileMap = level1TileMap;
 
 	var leftToRightStarts = [{row: 3, col: 0}, {row: 4, col: 0}, {row: 5, col: 0}, {row: 6, col: 0}];
-	var topToBottomStarts = [{row: 0, col: 8}, {row: 0, col: 19}, {row: 0, col: 19}, {row: 0, col: 11}];
 	var leftToRightEndings = [{row: 3, col: 19}, {row: 4, col: 19}, {row: 5, col: 19}, {row: 6, col: 19}];
-	var topToBottomEndings = [{row: 9, col: 8}, {row: 9, col: 19}, {row: 9, col: 19}, {row: 9, col: 11}];
+	var topToBottomStarts = [{row: 0, col: 8}, {row: 0, col: 9}, {row: 0, col: 10}, {row: 0, col: 11}];
+	var topToBottomEndings = [{row: 9, col: 8}, {row: 9, col: 9}, {row: 9, col: 10}, {row: 9, col: 11}];
 			
 	function initialize() {
 		console.log('game initializing...');
@@ -102,6 +103,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			let soldTowerCol = 0;
 			//sell the tower
 			particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
+			refreshPaths = true;
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			//start the level
@@ -144,9 +146,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				towerIsSelected = false;
 				refreshPaths = true; //tower has been placed so do pathfinding in next creep update
 			}
-			particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
-			particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
-			particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
+			//particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
+			//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
+			//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 		});
 		document.addEventListener('mousemove', function(e){
 			if(towerIsSelected){
@@ -162,15 +164,6 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		}
 		, false);
-
-
-		allFlyingCreeps.addCreep(6, -1, {row: 6, col: 19}, grid, graphics.getCellDimensions(grid));
-		
-		//creeps ending on right side of the map
-		allGroundCreeps.addCreep(3,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(4,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(5,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
-		allGroundCreeps.addCreep(6,	-1, leftToRightEndings, grid, graphics.getCellDimensions(grid));
 //
 		/*myKeyboard.registerCommand(KeyEvent.DOM_VK_UP, function() {
 			allGroundCreeps.creepList[0].moveUp(grid);
@@ -191,6 +184,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	function update(elapsedTime) {
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
+		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings);
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
@@ -248,4 +242,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar, MyGame.particleSystem));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar, MyGame.particleSystem, MyGame.creepSpawner));

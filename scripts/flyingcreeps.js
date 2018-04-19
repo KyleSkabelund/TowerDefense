@@ -7,7 +7,8 @@ MyGame.flyingCreeps = (function(graphics) {
         };
 
         ret.addCreep = function(startRow, startCol, ending, grid, dim) {
-            ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim))
+            if(startCol == -1) ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, 0))
+            if(startRow == -1) ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2))
         }
 
         ret.updateCreeps = function(elapsedTime, grid, dim) {
@@ -44,7 +45,7 @@ MyGame.flyingCreeps = (function(graphics) {
         return ret;
     }
 
-    function FlyingCreep(startRow, startCol, ending, graphicsStartRow, graphicsStartCol, grid, dim) {
+    function FlyingCreep(startRow, startCol, ending, graphicsStartRow, graphicsStartCol, grid, dim, rotation) {
         var ret = {
             row: startRow,    //position related to the grid
             col: startCol,
@@ -53,7 +54,7 @@ MyGame.flyingCreeps = (function(graphics) {
             tileNumber: 271,
             speed: .05,
             stopped: true,
-            rotation: 0, //degrees
+            rotation: rotation, //degrees
             ending: ending,
             hitPointsPercentage: 100
         };
@@ -74,6 +75,9 @@ MyGame.flyingCreeps = (function(graphics) {
             if(ret.stopped) {
                 if(ret.col < ending.col) {
                     ret.moveRight(grid);
+                }
+                if(ret.row < ending.row) {
+                    ret.moveDown(grid);
                 }
             }
 
