@@ -321,6 +321,84 @@ MyGame.graphics = (function() {
 		context.restore();
 	}
 
+	function startLevelMessage(spawnCreeps, fadeDuration, level) {
+		if(fadeDuration > 0) { //only runs after key has been pressed to fade the text
+			let startKey = String.fromCharCode(localStorage[startButton.id]).toLocaleLowerCase();
+			context.fillStyle = 'white';
+			context.strokeStyle= 'black'; 
+  			context.lineWidth = 3;
+			context.font = '64px Arial';
+			context.textAlign = 'center';
+			context.globalAlpha = getAlpha(fadeDuration, '1.0');
+			if(fadeDuration <= 0) context.globalAlpha = '1.0';
+			context.fillText('Press ' + startKey + ' to start level ' + level, canvas.width/2, canvas.height+topBarHeight-64);
+			context.strokeText('Press ' + startKey + ' to start level ' + level, canvas.width/2, canvas.height+topBarHeight-64);
+			context.globalAlpha = '1.0';
+		}
+		else if(spawnCreeps == false) { //mainly running to show static text
+			let startKey = String.fromCharCode(localStorage[startButton.id]).toLocaleLowerCase();
+			context.fillStyle = 'white';
+			context.strokeStyle= 'black'; 
+  			context.lineWidth = 3;
+			context.font = '64px Arial';
+			context.textAlign = 'center';
+			context.fillText('Press ' + startKey + ' to start level ' + level, canvas.width/2, canvas.height+topBarHeight-64);
+			context.strokeText('Press ' + startKey + ' to start level ' + level, canvas.width/2, canvas.height+topBarHeight-64);
+		}
+	}
+
+	function towerCannotBePlaced(messageDuration, row, col, grid) {
+		if(messageDuration > 0) {
+			context.fillStyle = 'white';
+			context.strokeStyle= 'black'; 
+  			context.lineWidth = 3;
+			context.font = '64px Arial';
+			context.textAlign = 'center';
+			context.globalAlpha = getAlpha(messageDuration, '1.0');
+			context.fillText('Placing a tower here blocks the exit', canvas.width/2, (canvas.height+topBarHeight)/2);
+			context.strokeText('Placing a tower here blocks the exit', canvas.width/2, (canvas.height+topBarHeight)/2);
+			context.globalAlpha = '1.0';
+		
+			let dim = getCellDimensions(grid);
+			context.fillStyle = "rgb(255, 255, 0, 0.8)";
+			context.globalAlpha = getAlpha(messageDuration, '0.6');
+			context.fillRect(col*dim.width+1, row*dim.height+topBarHeight+1, dim.width-1, dim.height-1);
+			context.globalAlpha = '1.0';
+		}
+	}
+
+	function getAlpha(timeLeft, standardAlpha) {
+		let a = standardAlpha;
+		if(standardAlpha > 0.9 && timeLeft < 900) {
+			a = '0.9';
+		}
+		if(standardAlpha > 0.8 && timeLeft < 800) {
+			a = '0.8';
+		}
+		if(standardAlpha > 0.7 && timeLeft < 700) {
+			a = '0.7';
+		}
+		if(standardAlpha > 0.6 && timeLeft < 600) {
+			a = '0.6';
+		}
+		if(standardAlpha > 0.5 && timeLeft < 500) {
+			a = '0.5';
+		}
+		if(standardAlpha > 0.4 && timeLeft < 400) {
+			a = '0.4';
+		}
+		if(standardAlpha > 0.3 && timeLeft < 300) {
+			a = '0.3';
+		}
+		if(standardAlpha > 0.2 && timeLeft < 200) {
+			a = '0.2';
+		}
+		if(standardAlpha > 0.1 && timeLeft < 100) {
+			a = '0.1';
+		}
+		return a;
+	}
+
 	function getCellDimensions(grid) {
 		let w = canvas.width / grid.cols;
         let h = (canvas.height - topBarHeight) / grid.rows;
@@ -341,6 +419,8 @@ MyGame.graphics = (function() {
 		drawFlyingCreeps : drawFlyingCreeps,
 		drawGroundCreeps : drawGroundCreeps,
 		drawParticle : drawParticle,
-		drawTowers : drawTowers
+		drawTowers : drawTowers,
+		startLevelMessage : startLevelMessage,
+		towerCannotBePlaced : towerCannotBePlaced
 	};
 }());

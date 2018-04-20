@@ -1,4 +1,4 @@
-MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar, particleSystem, creepSpawner) {
+MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyingCreeps, groundCreeps, astar, particleSystem, creepSpawner, sound) {
 	
 	var mouseCapture = false,
 		myMouse = input.Mouse(),
@@ -15,10 +15,13 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		allGroundCreeps = groundCreeps.GroundCreeps(),
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
-		level = 3,
+		level = 1,
 		showGrid = false,
-		spawner = creepSpawner.CreepSpawner();
-		spawnCreeps = false;
+		spawner = creepSpawner.CreepSpawner(),
+		spawnCreeps = false,
+		sounds = sound.Sounds(),
+		towerNotPlacedMessage = {duration: 0, row: -1, col: -1};
+		startLevelMessage = {fadeDuration: 0}
 		
 		particleSystems = particleSystem.ParticleSystems();
 
@@ -108,6 +111,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			spawnCreeps = true;
+			startLevelMessage.fadeDuration = 1000;
 			console.log("now spawning creeps");
 		});
 
@@ -134,12 +138,24 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				//check if creeps starting left ending right have a path if no path remove the initial placement
 				if(!pathfinder.pathToEndExists(selectedSquare.y, selectedSquare.x, leftToRightStarts, leftToRightEndings, grid)) {
 					grid.removeTower(selectedSquare.y, selectedSquare.x);
+					towerNotPlacedMessage.duration = 5000;
+					towerNotPlacedMessage.row = selectedSquare.y;
+					towerNotPlacedMessage.col = selectedSquare.x;
+					selectedSquare.y = -100;
+					selectedSquare.x = -100;
+					towerIsSelected = false;
 					return;
 				}
 				//if we are on level 2 or 3 check for top to bottom
 				if(level > 1) {
 					if(!pathfinder.pathToEndExists(selectedSquare.y, selectedSquare.x, topToBottomStarts, topToBottomEndings, grid)) {
 						grid.removeTower(selectedSquare.y, selectedSquare.x);
+						towerNotPlacedMessage.duration = 5000;
+						towerNotPlacedMessage.row = selectedSquare.y;
+						towerNotPlacedMessage.col = selectedSquare.x;
+						selectedSquare.y = -100;
+						selectedSquare.x = -100;
+						towerIsSelected = false;
 						return;
 					}
 				}
@@ -147,6 +163,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				selectedSquare.y = -1;
 				towerIsSelected = false;
 				refreshPaths = true; //tower has been placed so do pathfinding in next creep update
+				sounds.playClick();
 			}
 			//particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
 			//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
@@ -194,6 +211,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		refreshPaths = false;
 		myKeyboard.update();
 		myMouse.update(elapsedTime);
+
+		if(towerNotPlacedMessage.duration > 0) towerNotPlacedMessage.duration -= elapsedTime;
+		if(startLevelMessage.fadeDuration > 0) startLevelMessage.fadeDuration -= elapsedTime;
 	}
 	
 	function render() {
@@ -214,6 +234,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		particleSystems.renderSystems(graphics);
 		
 		graphics.drawTopBar();
+		graphics.startLevelMessage(spawnCreeps, startLevelMessage.fadeDuration, level);
+		graphics.towerCannotBePlaced(towerNotPlacedMessage.duration, towerNotPlacedMessage.row, towerNotPlacedMessage.col, grid);
 	}
 	
 	//------------------------------------------------------------------
@@ -245,4 +267,4 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		initialize : initialize,
 		run : run
 	};
-}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar, MyGame.particleSystem, MyGame.creepSpawner));
+}(MyGame.game, MyGame.graphics, MyGame.input, MyGame.init, MyGame.tower, MyGame.flyingCreeps, MyGame.groundCreeps, MyGame.aStar, MyGame.particleSystem, MyGame.creepSpawner, MyGame.sound));
