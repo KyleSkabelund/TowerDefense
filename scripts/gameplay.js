@@ -27,7 +27,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		//will trigger when a creep reaches the end
 		creepReachedEndMessage.setDuration = function() { 
-			creepReachedEndMessage.duration = 1000;
+			creepReachedEndMessage.duration = 300; //0-1000
 			--lifesLeft;
 		}
 		
