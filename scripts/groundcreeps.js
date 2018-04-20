@@ -17,7 +17,7 @@ MyGame.groundCreeps = (function(graphics) {
             }
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, level) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, reachedEnd) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -31,6 +31,7 @@ MyGame.groundCreeps = (function(graphics) {
                         && ret.creepList[ii].endings[jj].row * dim.height - tolerance <= ret.creepList[ii].graphicsRow 
                         && ret.creepList[ii].graphicsRow <= ret.creepList[ii].endings[jj].row * dim.height + tolerance) {
                             keepCreep = false;
+                            reachedEnd.setDuration();
                         }
                 }
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {

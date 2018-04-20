@@ -16,12 +16,20 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
 		level = 1,
+		lifesLeft = 3,
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner(),
 		spawnCreeps = false,
 		sounds = sound.Sounds(),
-		towerNotPlacedMessage = {duration: 0, row: -1, col: -1};
-		startLevelMessage = {fadeDuration: 0}
+		towerNotPlacedMessage = {duration: 0, row: -1, col: -1},
+		startLevelMessage = {fadeDuration: 0},
+		creepReachedEndMessage = {duration: 0};
+
+		//will trigger when a creep reaches the end
+		creepReachedEndMessage.setDuration = function() { 
+			creepReachedEndMessage.duration = 1000;
+			--lifesLeft;
+		}
 		
 		particleSystems = particleSystem.ParticleSystems();
 
@@ -204,8 +212,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
-		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths);
-		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid));
+		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage);
+		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage);
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
 		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;
@@ -214,6 +222,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		if(towerNotPlacedMessage.duration > 0) towerNotPlacedMessage.duration -= elapsedTime;
 		if(startLevelMessage.fadeDuration > 0) startLevelMessage.fadeDuration -= elapsedTime;
+		if(creepReachedEndMessage.duration > 0) creepReachedEndMessage.duration -= elapsedTime;
 	}
 	
 	function render() {
@@ -236,6 +245,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		graphics.drawTopBar();
 		graphics.startLevelMessage(spawnCreeps, startLevelMessage.fadeDuration, level);
 		graphics.towerCannotBePlaced(towerNotPlacedMessage.duration, towerNotPlacedMessage.row, towerNotPlacedMessage.col, grid);
+
+		graphics.creepReachedEndMessage(creepReachedEndMessage.duration);
 	}
 	
 	//------------------------------------------------------------------

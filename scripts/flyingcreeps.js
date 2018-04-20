@@ -11,7 +11,7 @@ MyGame.flyingCreeps = (function(graphics) {
             if(startRow == -1) ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2))
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, reachedEnd) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -23,6 +23,7 @@ MyGame.flyingCreeps = (function(graphics) {
                     && ret.creepList[ii].ending.row * dim.height - tolerance <= ret.creepList[ii].graphicsRow 
                     && ret.creepList[ii].graphicsRow <= ret.creepList[ii].ending.row * dim.height + tolerance) {
                         keepCreep = false;
+                        reachedEnd.setDuration();
                     }
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
                     keepCreep = false;

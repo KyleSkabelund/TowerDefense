@@ -367,6 +367,15 @@ MyGame.graphics = (function() {
 		}
 	}
 
+	function creepReachedEndMessage(messageDuration) {
+		if(messageDuration > 0) {
+			context.globalAlpha = getAlpha(messageDuration, '1.0');
+			context.fillStyle = 'red';
+			context.fillRect(0,topBarHeight,canvas.width, canvas.height-topBarHeight);
+			context.globalAlpha = '1.0';
+		}
+	}
+
 	function getAlpha(timeLeft, standardAlpha) {
 		let a = standardAlpha;
 		if(standardAlpha > 0.9 && timeLeft < 900) {
@@ -421,6 +430,7 @@ MyGame.graphics = (function() {
 		drawParticle : drawParticle,
 		drawTowers : drawTowers,
 		startLevelMessage : startLevelMessage,
-		towerCannotBePlaced : towerCannotBePlaced
+		towerCannotBePlaced : towerCannotBePlaced,
+		creepReachedEndMessage : creepReachedEndMessage
 	};
 }());
