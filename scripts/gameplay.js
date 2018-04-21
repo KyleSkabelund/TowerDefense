@@ -17,6 +17,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		refreshPaths = true,
 		level = 1,
 		lifesLeft = 3,
+		cash = 1000,
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner(),
 		spawnCreeps = false,
@@ -113,12 +114,16 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			sounds.playTowerUpgrade();
 		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
-			let soldTowerRow = 9;
-			let soldTowerCol = 0;
-			//sell the tower
-			particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
-			sounds.playTowerSell();
-			refreshPaths = true;
+			var soldTowerCol = selectedSquare.x;
+			var soldTowerRow = selectedSquare.y;
+			
+			if(grid.grid[soldTowerRow][soldTowerCol].tower.textureTopNumber != -1) {
+				grid.removeTower(soldTowerRow, soldTowerCol);
+				cash += 500; //tower value
+				particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
+				sounds.playTowerSell();
+				refreshPaths = true;
+			}
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			spawnCreeps = true;
@@ -181,7 +186,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
 		});
 		document.addEventListener('mousemove', function(e){
-			if(towerIsSelected){
+			//if(towerIsSelected){
 				var dimensions = graphics.getCellDimensions(grid)
 				var X,Y;
 				X = Math.floor(e.clientX / dimensions.width);
@@ -190,7 +195,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				selectedSquare.x = X;
 				selectedSquare.y = Y;
 
-			}
+			//}
 
 		}
 		, false);
