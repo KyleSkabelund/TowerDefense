@@ -29,6 +29,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		creepReachedEndMessage.setDuration = function() { 
 			creepReachedEndMessage.duration = 300; //0-1000
 			--lifesLeft;
+			sounds.playCreepEnd();
 		}
 		
 		particleSystems = particleSystem.ParticleSystems();
@@ -109,12 +110,14 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		});
 		myKeyboard.registerCommand(localStorage['upgrade-tower-config'],function(){
 			//upgrade the tower
+			sounds.playTowerUpgrade();
 		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
 			let soldTowerRow = 9;
 			let soldTowerCol = 0;
 			//sell the tower
 			particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
+			sounds.playTowerSell();
 			refreshPaths = true;
 		});
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
@@ -212,8 +215,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
-		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage);
-		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage);
+		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage, sounds);
+		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds);
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
 		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;

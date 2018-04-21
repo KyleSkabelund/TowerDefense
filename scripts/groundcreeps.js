@@ -17,7 +17,7 @@ MyGame.groundCreeps = (function(graphics) {
             }
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, reachedEnd) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, reachedEnd, sound) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -35,6 +35,7 @@ MyGame.groundCreeps = (function(graphics) {
                         }
                 }
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
+                    sounds.playCreepDeath();
                     keepCreep = false;
                 }
                 if(keepCreep == true) {

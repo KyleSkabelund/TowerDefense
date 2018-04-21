@@ -26,6 +26,7 @@ MyGame.flyingCreeps = (function(graphics) {
                         reachedEnd.setDuration();
                     }
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
+                    sounds.playFlyingCreepDeath();
                     keepCreep = false;
                 }
                 if(keepCreep == true) {
