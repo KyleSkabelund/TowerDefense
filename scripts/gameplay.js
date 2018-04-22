@@ -325,7 +325,26 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	}
 
 	function endGame() {
-		socket.emit('new high score', { name: 'gud player', score: 300 });
+		//change game loop to end state
+		update = function(elapsedTime) {
+			cellWidth = graphics.getCellDimensions(grid).width;
+			cellHeight = graphics.getCellDimensions(grid).height;
+			myKeyboard.update();
+			myMouse.update(elapsedTime);
+		};
+		render = function() {
+			graphics.clear();
+			graphics.drawEndGame(score.currentScore);
+		};
+		update();
+		render();
+
+		//hide html buttons
+		document.getElementById('topBar').style.display = 'none';
+
+
+		var name = prompt("Name: ", "");
+		socket.emit('new high score', { name: name, score: score.currentScore });
 	}
 
 	function advanceLevel(newLevel) {

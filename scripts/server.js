@@ -40,16 +40,17 @@ function handleRequest(request, response) {
 let server = http.createServer(handleRequest);
 let io = require('socket.io')(server);
 let client = null;
-let highScores = null;
+let serverHighScores = [];
 
 io.on('connection', function(socket) {
 	console.log('Connection established');
 
 	socket.on('new high score', function (data) {
-		highScores.push(data);
+		serverHighScores.push(data);
+		console.log("recorded new high score");
 
 		io.sockets.emit('refresh high scores', {
-			message: highScores
+			serverScores: serverHighScores
 		});
 	});
 });

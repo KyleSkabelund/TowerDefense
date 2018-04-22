@@ -504,6 +504,22 @@ MyGame.graphics = (function() {
 		return a;
 	}
 
+	function drawEndGame(score) {
+		context.fillStyle = 'black';
+		context.fillRect(0, 0, canvas.width, canvas.height);
+
+		let xPos = canvas.width/2;
+		let yPos = canvas.height/2;
+		
+		context.fillStyle = 'black';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 3;
+		context.font = '64px Arial';
+		context.textAlign = 'center';
+		context.fillText('Game Over. Score: ' + score, xPos, yPos);
+		context.strokeText('Game Over. Score: ' + score, xPos, yPos);
+	}
+
 	function getCellDimensions(grid) {
 		let w = canvas.width / grid.cols;
         let h = (canvas.height - topBarHeight) / grid.rows;
@@ -527,6 +543,7 @@ MyGame.graphics = (function() {
 		drawTowers : drawTowers,
 		startLevelMessage : startLevelMessage,
 		towerCannotBePlaced : towerCannotBePlaced,
-		creepReachedEndMessage : creepReachedEndMessage
+		creepReachedEndMessage : creepReachedEndMessage,
+		drawEndGame : drawEndGame
 	};
 }());
