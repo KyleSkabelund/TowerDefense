@@ -15,6 +15,7 @@
       "integrity": "sha512-uPIxXNis1CRbv1DwqAxkgBk5NFV3s7cMN/Gf556jSw6jBvV7ca4F9lRL/8cALcZecRibeqU+5dFYqFFmzv5a0Q==",
       "resolved": "https://registry.npmjs.org/node-bin-setup/-/node-bin-setup-1.0.6.tgz",
       "version": "1.0.6"
-    }
+    },
+    "socket.io": "^2.1.0"
   }
 }

@@ -7,10 +7,10 @@ MyGame.sound = (function() {
             creepReachedEnd: new Audio("sounds/lowDown.ogg"),
             towerUpgrade: new Audio("sounds/phaserUp4.ogg"),
             towerShoot: new Audio("sounds/laser1.ogg"),
-            creepDeath: new Audio("sounds/"),
-            towerSell: new Audio("sounds/"),
-            explosion: new Audio("sounds/"),
-            flyingCreepDeath: new Audio("sounds/"),
+            //creepDeath: new Audio("sounds/"),
+            //towerSell: new Audio("sounds/"),
+            //explosion: new Audio("sounds/"),
+            //flyingCreepDeath: new Audio("sounds/"),
             gameOver: new Audio("sounds/jingles_SAX07.ogg")
         };
 

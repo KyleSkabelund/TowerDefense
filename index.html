@@ -5,6 +5,7 @@
 	<title>Turret Defense</title>
 	
 	<link rel = "stylesheet" type = "text/css" href = "styles/game.css">
+	<script src = "/node_modules/socket.io-client/dist/socket.io.slim.js"></script>
 </head>
 <body onload = "MyGame.game.initialize();">
 	<div id = "game">
@@ -29,10 +30,13 @@
 			<div id ="countdown" style = position:abosolute></div>
 			<canvas id = "canvas-main" width = "1000px" height = "1000px"></canvas>
 		</div>
-		<div id = "high-score" class= "screen">
+		<div id = "high-scores" class= "screen">
 			<div id="high-score-content">
 
 			</div>
+			<ul class = "menu">
+				<li><button id = "id-high-scores-back" class = "main-menu-button">Back</button></li>
+			</ul>
 		</div>
 		<div id = "about" class = "screen">
 			<div id = "about-content">
@@ -94,6 +98,7 @@
 	<script src = "scripts/mainmenu.js"></script>
 	<script src = "scripts/about.js"></script>
 	<script src = "scripts/settings.js"></script>
+	<script src = "scripts/highscores.js"></script>
 	
 </body>
 </html>

@@ -5,6 +5,8 @@
 //
 // ------------------------------------------------------------------
 
+const socket = io();
+
 MyGame.game = (function(screens) {
 	'use strict';
 	

@@ -15,10 +15,10 @@ function handleRequest(request, response) {
 	var lookup = (request.url === '/') ? '/index.html' : decodeURI(request.url),
 		file = lookup.substring(1, lookup.length);
 
-	console.log('request: ' + request.url);
+	//console.log('request: ' + request.url);
 	fs.exists(file, function(exists) {
 		if (exists) {
-			console.log('Trying to send: ' + lookup);
+			//console.log('Trying to send: ' + lookup);
 			fs.readFile(file, function(err, data) {
 
 				if (err) {
@@ -28,7 +28,7 @@ function handleRequest(request, response) {
 					response.end(data);
 				}
 			});
-			console.log("sent.");
+			//console.log("sent.");
 		} else {
 			console.log('Failed to find/send: ' + lookup);
 			response.writeHead(404);
@@ -37,6 +37,24 @@ function handleRequest(request, response) {
 	});
 }
 
-http.createServer(handleRequest).listen(3000, function() {
-	console.log('Server is listening on port 3000');
+let server = http.createServer(handleRequest);
+let io = require('socket.io')(server);
+let client = null;
+let highScores = null;
+
+io.on('connection', function(socket) {
+	console.log('Connection established');
+
+	socket.on('new high score', function (data) {
+		highScores.push(data);
+
+		io.sockets.emit('refresh high scores', {
+			message: highScores
+		});
+	});
+});
+
+
+server.listen(3000, function() {
+	console.log('Server is listening');
 });

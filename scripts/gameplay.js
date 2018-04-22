@@ -325,7 +325,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	}
 
 	function endGame() {
-
+		socket.emit('new high score', { name: 'gud player', score: 300 });
 	}
 
 	function advanceLevel(newLevel) {
