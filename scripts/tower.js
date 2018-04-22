@@ -77,7 +77,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                         else{
                             target = getAirTarget()
                         }
-                        var result = {crossProduct : 1, angle: 0};//computeAngle((currentTower.towerRotation),currentTower.center,target);
+                        var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
 
                             if (testTolerance(result.angle, 0, .01) === false) {
                                 
@@ -88,6 +88,10 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                                 else{
                                     currentTower.towerRotation -=  .02;
                                 }
+                                if(Math.abs(result.crossProduct) < .02){
+                                    shoot(currentTower,target)
+                                }
+                                
                             }
                     }
                 }
@@ -103,7 +107,6 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                     groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
                 }
             }
-            shoot(currentTurret,groundTarget)
             return groundTarget;
         }
         function getAirTarget(){
@@ -119,11 +122,19 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             }
         }
         function shoot(currentTurret,currentTarget){
-
-            currentTurret.ammo.ammoCenter.row++;
-            currentTurret.ammo.ammoCenter.col--;
-            console.log("In get ground target ")
-            console.log(currentTurret.center)
+            //compute line, draw bullet
+            if(currentTarget.x != 0 || currentTarget.y != 0){
+                var dx,dy;
+                dx = currentTarget.x - currentTurret.ammo.ammoCenter.col;  
+                dy = currentTarget.y - currentTurret.ammo.ammoCenter.row;
+                currentTurret.ammo.ammoCenter.row += dy/4;
+                currentTurret.ammo.ammoCenter.col += dx/4;
+                if(currentTurret.ammo.ammoCenter.row == dy && currentTurret.ammo.ammoCenter.col == dx){
+                    currentTurret.ammo.ammoCenter  = ret.center;
+                }
+            }
+            
+            
         }
         function testTolerance(value, test, tolerance) {
 			if (Math.abs(value - test) < tolerance) {
