@@ -15,12 +15,12 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             },
             ammo:{
                 type:275, // number for the ammo that the turret will use.
-                center:{row:0,
+                ammoCenter:{row:0,
                 col:0}
             }
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
-            var v1 = {
+            let v1 = {
                     x : Math.cos(rotation),
                     y : Math.sin(rotation)
                 },
@@ -55,7 +55,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
         ret.addTower = function(towerNumber,center){
             ret.textureTopNumber = towerNumber;
             ret.center = center;
-            ret.ammo.center = center;
+            ret.ammo.ammoCenter = center;
             ret.radius = 100;
         }
 
@@ -77,7 +77,8 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                         else{
                             target = getAirTarget()
                         }
-                        var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
+                        var result = {crossProduct : 1, angle: 0};//computeAngle((currentTower.towerRotation),currentTower.center,target);
+
                             if (testTolerance(result.angle, 0, .01) === false) {
                                 
                                 if(result.crossProduct > 0 )
@@ -102,7 +103,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                     groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
                 }
             }
-
+            shoot(currentTurret,groundTarget)
             return groundTarget;
         }
         function getAirTarget(){
@@ -116,6 +117,13 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             else{
                 return "ground";
             }
+        }
+        function shoot(currentTurret,currentTarget){
+
+            currentTurret.ammo.ammoCenter.row++;
+            currentTurret.ammo.ammoCenter.col--;
+            console.log("In get ground target ")
+            console.log(currentTurret.center)
         }
         function testTolerance(value, test, tolerance) {
 			if (Math.abs(value - test) < tolerance) {
