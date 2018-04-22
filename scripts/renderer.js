@@ -32,21 +32,112 @@ MyGame.graphics = (function() {
 
     
 
-    function drawTopBar() {
+    function drawTopBar(cash, score, lifes, mouseX, mouseY) {
 		context.fillStyle = 'black';
-        let standardFont = '16px';
-        let fontFill = 'rgba(0, 0, 0, 0.7)';
-
 		context.fillRect(0, 0, canvas.width, topBarHeight);
         
-        //drawText(standardFont, 10, 16, 'Canvas Width: ' + canvas.width + ' Canvas Height: ' + canvas.height, fontFill);
-    }
+		drawCash(cash);
+		drawScore(score);
+		drawLifesLeft(lifes);
+		drawTowerInfo(mouseX, mouseY);
+		drawLevel(level);
+	}
+	
+	function drawCash(cash) {
+		let xPos = 111+topBarHeight;
+		let yPos = (topBarHeight/2)+6;
+		
+		context.drawImage(loadedImages[287], 116.3, 0, topBarHeight, topBarHeight);
+
+		context.fillStyle = 'gray';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 1;
+		context.font = '16px Arial';
+		context.textAlign = 'left';
+		if(cash > 99999) {
+			cash = '99999+';
+		}
+		context.fillText(cash, xPos, yPos);
+		context.strokeText(cash, xPos, yPos);
+	}
+
+	function drawScore(score) {
+		let xPos = canvas.width-125;
+		let yPos = (topBarHeight/2)+6;
+		
+		context.fillStyle = 'gray';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 1;
+		context.font = '16px Arial';
+		context.textAlign = 'Right';
+		if(score > 9999999) {
+			score = '9999999+';
+		}
+		context.fillText('Score: ' + score, xPos, yPos);
+		context.strokeText('Score: ' + score, xPos, yPos);
+	}
+
+	function drawLifesLeft(lifes) {
+		let xPos = canvas.width-300;
+		let yPos = (topBarHeight/2)+6;
+		
+		context.fillStyle = 'gray';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 1;
+		context.font = '16px Arial';
+		context.textAlign = 'Right';
+		context.fillText('Enemies Allowed: ' + lifes.creepsAllowed + '/' + lifes.max, xPos, yPos);
+		context.strokeText('Enemies Allowed: ' + lifes.creepsAllowed + '/' + lifes.max, xPos, yPos);
+	}
+
+	function drawLevel(level) {
+		let xPos = canvas.width-375;
+		let yPos = (topBarHeight/2)+6;
+		
+		context.fillStyle = 'gray';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 1;
+		context.font = '16px Arial';
+		context.textAlign = 'Right';
+		context.fillText('Level: ' + level, xPos, yPos);
+		context.strokeText('Level: ' + level, xPos, yPos);
+	}
 
     //drawText('16px', 10, 10, 'message', 'black')
     function drawText(fontSize, x, y, message, fill) {
         context.fillStyle = fill;
 		context.font = fontSize + ' Arial';
         context.fillText(message, x, y);
+	}
+
+	function drawTowerInfo(mouseX, mouseY) {
+		if(mouseY > topBarHeight) return;
+
+		let message = '';
+
+		if(0 <= mouseX && mouseX <= 25) {
+			message = "Turret type 1 description";
+		}
+		else if(30.34 <= mouseX && mouseX <= 55.34) {
+			message = "Turret type 2 description";
+		}
+		else if(60.68 <= mouseX && mouseX <= 84) {
+			message = "Turret type 3 description";
+		}
+		else if(91.03 <= mouseX && mouseX <= 116.03) {
+			message = "Turret type 4 description";
+		}
+
+		let xPos = 200;
+		let yPos = (topBarHeight/2)+6;
+		
+		context.fillStyle = 'gray';
+		context.strokeStyle= 'white'; 
+  		context.lineWidth = 1;
+		context.font = '16px Arial';
+		context.textAlign = 'Left';
+		context.fillText(message, xPos, yPos);
+		context.strokeText(message, xPos, yPos);
 	}
 
 	function drawGrid(grid) {
@@ -113,6 +204,9 @@ MyGame.graphics = (function() {
 		ret.push(302);
 		//load animated flying creep 
 		ret.push(301);
+
+		//load money >-__->
+		ret.push(287);
 
 		return ret;
 	}
