@@ -172,6 +172,8 @@ MyGame.graphics = (function() {
 					var ammocol =  grid.grid[ii][jj].tower.ammo.center.col;
 					if(towerTopNum != -1) { //if there is a tower to draw
 						//draw a base graphic
+						//the third paramater is the radius of the circle, will be used for each turrets raidus.
+						
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
 						context.save();
 						context.translate(jj*w + w/2, ii*h + topBarHeight + h/2);
@@ -205,7 +207,7 @@ MyGame.graphics = (function() {
 
 				context.beginPath();
 				//the third paramater is the radius of the circle, will be used for each turrets raidus.
-				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),selected.radius,0,2*Math.PI);
+				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),100,0,2*Math.PI);
 				context.fill();
 				
 				

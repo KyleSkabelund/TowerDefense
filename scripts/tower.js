@@ -56,7 +56,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             ret.textureTopNumber = towerNumber;
             ret.center = center;
             ret.ammo.center = center;
-            ret.radius = 500;
+            ret.radius = 100;
         }
 
         ret.removeTower = function() {
@@ -79,6 +79,7 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
                         }
                         var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
                             if (testTolerance(result.angle, 0, .01) === false) {
+                                
                                 if(result.crossProduct > 0 )
                                 {
                                     currentTower.towerRotation +=  .02
@@ -95,8 +96,11 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
             var groundTarget = {x:0, y:0}
             
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
-                groundTarget.x= groundcreeps.creepList[i].graphicsCol+(dim.width/2);
-                groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
+                if(currentTurret.center.row + currentTurret.radius   >  groundcreeps.creepList[i].graphicsRow && currentTurret.center.col - currentTurret.radius  < groundcreeps.creepList[i].graphicsCol )
+                {
+                    groundTarget.x= groundcreeps.creepList[i].graphicsCol+(dim.width/2);
+                    groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
+                }
             }
 
             return groundTarget;
