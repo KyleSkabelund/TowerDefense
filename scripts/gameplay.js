@@ -8,6 +8,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		lastTimeStamp,
 		grid = init.Grid(),
 		selectedSquare = {x: -100, y: -100, radius:0},
+		mousePosition = {x: -1, y:-1}, //uhh
 		towerIsSelected = false,
 		selectedTowerNumber = 0,
 		Tower = tower.Tower({towerRoation:0, center:{x:0,y:0}});
@@ -16,8 +17,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		pathfinder = astar.AStar(grid),
 		refreshPaths = true,
 		level = 1,
-		lifesLeft = 3,
-		cash = 1000,
+		lifes = {creepsAllowed: 0, max: 3}, 
+		cash = 100000,
+		score = 10000000,
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner(),
 		spawnCreeps = false,
@@ -195,6 +197,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				selectedSquare.x = X;
 				selectedSquare.y = Y;
 
+				mousePosition.x = e.clientX;
+				mousePosition.y = e.clientY;
+
 			//}
 
 		}
@@ -250,7 +255,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 
 		particleSystems.renderSystems(graphics);
 		
-		graphics.drawTopBar();
+		graphics.drawTopBar(cash, score, lifes, mousePosition.x, mousePosition.y, level);
 		graphics.startLevelMessage(spawnCreeps, startLevelMessage.fadeDuration, level);
 		graphics.towerCannotBePlaced(towerNotPlacedMessage.duration, towerNotPlacedMessage.row, towerNotPlacedMessage.col, grid);
 
