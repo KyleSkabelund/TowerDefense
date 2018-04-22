@@ -52,10 +52,10 @@ MyGame.tower = (function(groundcreeps,flyingcreeps) {
         function crossProduct2d(v1, v2) {
             return (v1.x * v2.y) - (v1.y * v2.x);
         }
-        ret.addTower = function(towerNumber,center){
+        ret.addTower = function(towerNumber,center,center2){
             ret.textureTopNumber = towerNumber;
             ret.center = center;
-            ret.ammo.ammoCenter = center;
+            ret.ammo.ammoCenter = center2;
             ret.radius = 100;
         }
 

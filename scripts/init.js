@@ -54,9 +54,15 @@ MyGame.init = (function(graphics, tower) {
                 col:(gridCol*cellDimensions.width) + cellDimensions.width/4
             }
 
+            let center2 = {
+                row:(gridRow*cellDimensions.height) + cellDimensions.height/2 +12.5,
+                col:(gridCol*cellDimensions.width) + cellDimensions.width/4
+            }
+
             ret.grid[gridRow][gridCol].tower.addTower(
                 towerNumber,
-                center
+                center,
+                center2
             );
         }
 
