@@ -6,11 +6,11 @@ MyGame.sound = (function() {
             click: new Audio("sounds/switch10.ogg"),
             creepReachedEnd: new Audio("sounds/lowDown.ogg"),
             towerUpgrade: new Audio("sounds/phaserUp4.ogg"),
-            towerShoot: new Audio("sounds/laser1.ogg"),
-            //creepDeath: new Audio("sounds/"),
-            //towerSell: new Audio("sounds/"),
-            //explosion: new Audio("sounds/"),
-            //flyingCreepDeath: new Audio("sounds/"),
+            towerShoot: new Audio("sounds/explosion_very_small_pop.mp3"),
+            creepDeath: new Audio("sounds//zapsplat_foley_money_coin_single_drop_on_concrete_001_18960.mp3"),
+            towerSell: new Audio("sounds/zapsplat_foley_money_coin_single_drop_on_concrete_001_18960.mp3"),
+            explosion: new Audio("sounds/explosion_small.mp3"),
+            flyingCreepDeath: new Audio("sounds/explosion_small.mp3"),
             gameOver: new Audio("sounds/jingles_SAX07.ogg")
         };
 
