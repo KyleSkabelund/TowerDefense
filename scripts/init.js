@@ -6,7 +6,8 @@ MyGame.init = (function(graphics, tower) {
 			rows: 10,
             cols: 20,
             fillstyle: 'red',
-            grid: null
+            grid: null,
+            totalTowers: 0
         }
         
         var oldx = 0,
@@ -64,12 +65,14 @@ MyGame.init = (function(graphics, tower) {
                 center,
                 center2
             );
+            ++ret.totalTowers;
         }
 
         ret.removeTower = function(row, col) {
             if(row != undefined && col != undefined) {
                 ret.grid[row][col].tower.removeTower();
             }
+            --ret.totalTowers;
         }
         
         ret.hasTower = function(row, col) {

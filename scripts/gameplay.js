@@ -19,7 +19,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		level = 1,
 		lifes = {creepsAllowed: 0, max: 3}, 
 		cash = 100000,
-		score = {currentScore: 0, forLevel2: 5000, forLevel3: 10000},
+		score = {currentScore: 0, forLevel2: 2000, forLevel3: 3000},
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner(),
 		spawnCreeps = false,
@@ -251,6 +251,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	}
 	
 	function update(elapsedTime) {
+		updateScore();
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
@@ -360,6 +361,15 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			graphics.loadTileImages(currentTileMap);
 			level = newLevel;
 		}
+	}
+
+	function updateScore() {
+		let groundCreepsScore = allGroundCreeps.creepsKilled * 10;
+		let flyingCreepsScore = allFlyingCreeps.creepsKilled * 20;
+		let towersScore = grid.totalTowers * 10;
+		let levelScore = (level - 1) * 100;  
+
+		score.currentScore = groundCreepsScore + flyingCreepsScore + towersScore + levelScore;
 	}
 	
 	return {

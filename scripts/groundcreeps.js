@@ -3,7 +3,8 @@ MyGame.groundCreeps = (function(graphics) {
 	
     function GroundCreeps() {
         var ret = {
-            creepList: []
+            creepList: [],
+            creepsKilled: 0
         };
 
         ret.addCreep = function(startRow, startCol, endings, grid, dim, isBoss) {
@@ -37,6 +38,7 @@ MyGame.groundCreeps = (function(graphics) {
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
                     sounds.playCreepDeath();
                     keepCreep = false;
+                    ++ret.creepsKilled;
                 }
                 if(keepCreep == true) {
                     ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);

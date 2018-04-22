@@ -3,7 +3,8 @@ MyGame.flyingCreeps = (function(graphics) {
 	
     function FlyingCreeps() {
         var ret = {
-            creepList: [] //kyle on this list
+            creepList: [],
+            creepsKilled: 0
         };
 
         ret.addCreep = function(startRow, startCol, ending, grid, dim) {
@@ -28,6 +29,7 @@ MyGame.flyingCreeps = (function(graphics) {
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
                     sounds.playFlyingCreepDeath();
                     keepCreep = false;
+                    --ret.creepsKilled;
                 }
                 if(keepCreep == true) {
                     ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);
