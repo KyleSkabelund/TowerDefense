@@ -262,8 +262,8 @@ MyGame.graphics = (function() {
 				if(tilesLoaded) {
 					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
 					var ammoType =  grid.grid[ii][jj].tower.ammo.type;
-					var ammorow =  grid.grid[ii][jj].tower.ammo.center.row;
-					var ammocol =  grid.grid[ii][jj].tower.ammo.center.col;
+					var ammorow =  grid.grid[ii][jj].tower.ammo.ammoCenter.row;
+					var ammocol =  grid.grid[ii][jj].tower.ammo.ammoCenter.col;
 					if(towerTopNum != -1) { //if there is a tower to draw
 						//draw a base graphic
 						//the third paramater is the radius of the circle, will be used for each turrets raidus.
