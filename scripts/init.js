@@ -69,12 +69,13 @@ MyGame.init = (function(graphics, tower) {
             ++ret.totalTowers;
         }
 
-        ret.removeTower = function(row, col) {
+        //in tower.js
+        /*ret.removeTower = function(row, col) {
             if(row != undefined && col != undefined) {
                 ret.grid[row][col].tower.removeTower();
             }
             --ret.totalTowers;
-        }
+        }*/
         
         ret.hasTower = function(row, col) {
             if(ret.grid[row][col].tower.textureTopNumber == -1) return false;

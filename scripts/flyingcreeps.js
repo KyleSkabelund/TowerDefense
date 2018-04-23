@@ -12,7 +12,7 @@ MyGame.flyingCreeps = (function(graphics) {
             if(startRow == -1) ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2))
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, reachedEnd) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, reachedEnd, graphics, particleSystem) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -29,6 +29,7 @@ MyGame.flyingCreeps = (function(graphics) {
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
                     sounds.playFlyingCreepDeath();
                     keepCreep = false;
+                    particleSystem.AddCreepDeathSystem(ret.creepList[ii].graphicsRow, ret.creepList[ii].graphicsCol, graphics, dim, 100);
                     --ret.creepsKilled;
                 }
                 if(keepCreep == true) {

@@ -28,12 +28,14 @@ MyGame.particleSystem = (function(graphics, random) {
         ret.AddCreepDeathSystem = function(row, col, graphics, dim, score) {
             let spec = {
                 count: 1,
-                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
+                position: { x: col, y: row },
                 speed: { mean: 0.01, stdev: 0},
                 lifetime: { mean: 1000, stdev: 0 }, //last one second
                 size: { mean: 96, stdev: 1 },
-                image: 'Data/PNG/Retina/towerDefense_tile277.png'
+                image: 'Data/PNG/Retina/towerDefense_tile308.png'
             };
+
+            if(score == 100) spec.image = 'Data/PNG/Retina/towerDefense_tile309.png';
 
             let newSystem = System(spec, graphics);
 

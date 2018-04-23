@@ -1,4 +1,4 @@
-MyGame.groundCreeps = (function(graphics) {
+MyGame.groundCreeps = (function() {
 	'use strict';
 	
     function GroundCreeps() {
@@ -18,7 +18,7 @@ MyGame.groundCreeps = (function(graphics) {
             }
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, reachedEnd, sound) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, pathfinder, refreshPaths, reachedEnd, sound, particleSystem, graphics) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
@@ -38,6 +38,7 @@ MyGame.groundCreeps = (function(graphics) {
                 if(ret.creepList[ii].hitPointsPercentage <= 0) {
                     sounds.playCreepDeath();
                     keepCreep = false;
+                    particleSystem.AddCreepDeathSystem(ret.creepList[ii].graphicsRow, ret.creepList[ii].graphicsCol, graphics, dim, 50);
                     ++ret.creepsKilled;
                 }
                 if(keepCreep == true) {
@@ -267,4 +268,4 @@ MyGame.groundCreeps = (function(graphics) {
 	return {
         GroundCreeps : GroundCreeps
 	};
-}(MyGame.graphics));
+}());

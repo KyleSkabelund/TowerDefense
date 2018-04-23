@@ -153,7 +153,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			var soldTowerRow = selectedSquare.y;
 			
 			if(grid.grid[soldTowerRow][soldTowerCol].tower.textureTopNumber != -1) {
-				grid.removeTower(soldTowerRow, soldTowerCol);
+				Tower.removeTower(grid,soldTowerRow,soldTowerCol);
+				grid.totalTowers--;
 				cash += 500; //tower value
 				particleSystems.AddSoldTowerSystem(soldTowerRow, soldTowerCol, graphics, graphics.getCellDimensions(grid));
 				sounds.playTowerSell();
@@ -174,8 +175,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		})
 		document.getElementById('btnSell').addEventListener('click',function(e){
 			Tower.removeTower(grid,modifiedTower.row,modifiedTower.col);
+			--grid.totalTowers;
 			document.getElementById('upgrade').style.display = "none";
 			sounds.playTowerSell();
+			particleSystems.AddSoldTowerSystem(modifiedTower.row,modifiedTower.col,graphics, graphics.getCellDimensions(grid))
 		})
 		document.getElementById('new-Tower').addEventListener('click',function(e){
 			towerIsSelected = true;
@@ -295,8 +298,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
-		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage, sounds);
-		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds);
+		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage, sounds, particleSystems, graphics);
+		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds, graphics, particleSystems);
 		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid), sounds, elapsedTime);
 		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;
