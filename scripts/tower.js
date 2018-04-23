@@ -111,8 +111,8 @@ MyGame.tower = (function(graphics) {
                             target = getAirTarget()
                         }
                         var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
-
-                            if (testTolerance(result.angle, 0, .01) === false) {
+                            console.log(result.angle)
+                            if (testTolerance(result.angle, 0, .003) === false) {
                                 
                                 if(result.crossProduct > 0 )
                                 {
@@ -136,8 +136,8 @@ MyGame.tower = (function(graphics) {
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
                 if(currentTurret.center.row + currentTurret.radius   >  groundcreeps.creepList[i].graphicsRow && currentTurret.center.col - currentTurret.radius  < groundcreeps.creepList[i].graphicsCol )
                 {
-                    groundTarget.x= groundcreeps.creepList[i].graphicsCol+(dim.width/2);
-                    groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight;
+                    groundTarget.x = groundcreeps.creepList[i].graphicsCol;
+                    groundTarget.y = groundcreeps.creepList[i].graphicsRow;
                     groundTarget.hitPointsPercentage = groundcreeps.creepList[i].hitPointsPercentage;
                 }
             }
@@ -163,8 +163,8 @@ MyGame.tower = (function(graphics) {
                 dx = currentTarget.x - currentTurret.center.col;  
                 dy = currentTarget.y - currentTurret.center.row;
 
-                currentTurret.ammo.ammoCenter.col += Math.sign(dx)*20;
-                currentTurret.ammo.ammoCenter.row += Math.sign(dy)*20;
+                currentTurret.ammo.ammoCenter.col += Math.cos(dx)+dx/10;
+                currentTurret.ammo.ammoCenter.row += Math.sin(dy)+dy/10;
                 if(dy < 0 && dx < 0){
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;

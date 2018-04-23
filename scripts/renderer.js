@@ -279,8 +279,8 @@ MyGame.graphics = (function() {
 						context.rotate(grid.grid[ii][jj].tower.towerRotation);		
 						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
-						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
 						context.restore();
+						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
 						//draw the tower top
 					}	
 				}

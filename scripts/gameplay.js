@@ -189,7 +189,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		})
 		document.getElementById('new-Tower-4').addEventListener('click',function(e){
 			towerIsSelected = true;
-			selectedTowerNumber = 250;
+			selectedTowerNumber = 307;
 			selectedSquare.radius = 500;
 		})
 		myMouse.registerCommand('mousedown', function(e) {
