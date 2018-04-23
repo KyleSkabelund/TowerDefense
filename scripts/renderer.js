@@ -201,6 +201,7 @@ MyGame.graphics = (function() {
 //                              /    \
 		//load bullet
 		ret.push(275);
+		ret.push(251);
 		//load animated ground creep
 		ret.push(300);
 		ret.push(302);
@@ -276,8 +277,8 @@ MyGame.graphics = (function() {
 						context.rotate(grid.grid[ii][jj].tower.towerRotation);		
 						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
-						context.restore();
 						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
+						context.restore();
 						//draw the tower top
 					}	
 				}

@@ -17,7 +17,7 @@ MyGame.tower = (function(graphics) {
                 col: 0
             },
             ammo:{
-                type:275, // number for the ammo that the turret will use.
+                type:0, // number for the ammo that the turret will use.
                 ammoCenter:{row:0,
                 col:0}
             }
@@ -59,6 +59,12 @@ MyGame.tower = (function(graphics) {
             ret.textureTopNumber = towerNumber;
             ret.center = center;
             ret.ammo.ammoCenter = center2;
+            if(towerNumber == 249 || towerNumber == 250 ){
+                ret.ammo.type = 251;
+            }
+            else{
+                ret.ammo.type = 275;
+            }
             ret.radius = 100;
         }
         ret.upgradeTower = function(grid,row,col){
