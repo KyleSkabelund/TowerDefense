@@ -139,11 +139,16 @@ MyGame.tower = (function(graphics) {
             
             var groundTarget = {x:0, y:0,hitPointsPercentage:0}
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
-                if(currentTurret.center.row + currentTurret.radius   >  groundcreeps.creepList[i].graphicsRow && currentTurret.center.col - currentTurret.radius  < groundcreeps.creepList[i].graphicsCol )
-                {
-                    groundTarget.x = groundcreeps.creepList[i].graphicsCol;
-                    groundTarget.y = groundcreeps.creepList[i].graphicsRow;
-                    groundTarget.hitPointsPercentage = groundcreeps.creepList[i].hitPointsPercentage;
+                if(currentTurret.target.row == 0 && currentTurret.target.row == 0){
+                    if( groundcreeps.creepList[i].graphicsCol < currentTurret.center.col + currentTurret.radius &&
+                        groundcreeps.creepList[i].graphicsCol > currentTurret.center.col - currentTurret.radius &&
+                        groundcreeps.creepList[i].graphicsRow > currentTurret.center.row - currentTurret.radius &&
+                        groundcreeps.creepList[i].graphicsRow < currentTurret.center.row + currentTurret.radius
+                        ){
+                            groundTarget.x = groundcreeps.creepList[i].graphicsCol;
+                            groundTarget.y = groundcreeps.creepList[i].graphicsRow;
+                            groundTarget.hitPointsPercentage = groundcreeps.creepList[i].hitPointsPercentage;
+                        }
                 }
             }
             return groundTarget;
