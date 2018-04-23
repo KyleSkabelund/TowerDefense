@@ -65,7 +65,7 @@ MyGame.tower = (function(graphics) {
             else{
                 ret.ammo.type = 275;
             }
-            ret.radius = 100;
+            ret.radius = 350;
         }
         ret.upgradeTower = function(grid,row,col){
             if(grid.grid[row][col].tower.textureTopNumber != -1){
@@ -140,9 +140,11 @@ MyGame.tower = (function(graphics) {
             var groundTarget = {x:0, y:0,hitPointsPercentage:0}
             for(var i = 0; i < groundcreeps.creepList.length; ++i){
                 if(currentTurret.target.row == 0 && currentTurret.target.col == 0){ //dont change targets unless necessary
-
-                    var distance = Math.sqrt(Math.pow(currentTurret.center.row - (groundcreeps.creepList[i].graphicsRow+topBarHeight),2),Math.pow(currentTurret.center.col - groundcreeps.creepList[i].graphicsCol,2));
-                    if(distance < currentTurret.radius) {
+                    if(groundcreeps.creepList[i].graphicsRow+topBarHeight < 0 || groundcreeps.creepList[i].graphicsCol < 0) { //ignore creeps off the grid
+                        continue;
+                    }
+                    var distance = Math.sqrt(Math.pow(currentTurret.center.row - (groundcreeps.creepList[i].graphicsRow+topBarHeight),2)+Math.pow(currentTurret.center.col - groundcreeps.creepList[i].graphicsCol,2));
+                    if(distance <= currentTurret.radius) {
                         groundTarget.x = groundcreeps.creepList[i].graphicsCol + (dim.height/2);
                         groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight + (dim.width/2);
                         groundTarget.hitPointsPercentage = groundcreeps.creepList[i].hitPointsPercentage;
