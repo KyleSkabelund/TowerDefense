@@ -26,7 +26,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		sounds = sound.Sounds(),
 		towerNotPlacedMessage = {duration: 0, row: -1, col: -1},
 		startLevelMessage = {fadeDuration: 0},
-		creepReachedEndMessage = {duration: 0};
+		creepReachedEndMessage = {duration: 0},
+		modifiedTower = {row:-1,col:-2}
 
 		//will trigger when a creep reaches the end
 		creepReachedEndMessage.setDuration = function() { 
@@ -161,7 +162,16 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			startLevelMessage.fadeDuration = 1000;
 			console.log("now spawning creeps");
 		});
-
+		document.getElementById('btnUpgrade').addEventListener('click',function(e){
+			Tower.upgradeTower(grid,modifiedTower.row,modifiedTower.col);
+			document.getElementById('upgrade').style.display = "none";
+			sounds.playTowerUpgrade();
+		})
+		document.getElementById('btnSell').addEventListener('click',function(e){
+			Tower.removeTower(grid,modifiedTower.row,modifiedTower.col);
+			document.getElementById('upgrade').style.display = "none";
+			sounds.playTowerSell();
+		})
 		document.getElementById('new-Tower').addEventListener('click',function(e){
 			towerIsSelected = true;
 			selectedTowerNumber = 291;
@@ -172,7 +182,20 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			selectedTowerNumber = 292;
 			selectedSquare.radius = 500;
 		})
+		document.getElementById('new-Tower-3').addEventListener('click',function(e){
+			towerIsSelected = true;
+			selectedTowerNumber = 249;
+			selectedSquare.radius = 500;
+		})
+		document.getElementById('new-Tower-4').addEventListener('click',function(e){
+			towerIsSelected = true;
+			selectedTowerNumber = 250;
+			selectedSquare.radius = 500;
+		})
 		myMouse.registerCommand('mousedown', function(e) {
+			let cellDimensions = graphics.getCellDimensions(grid);
+			let gridRow = Math.floor(e.clientY / cellDimensions.height);
+            let gridCol = Math.floor(e.clientX / cellDimensions.width);
 			if(towerIsSelected){
 				//dont allow tower to be placed on creep moving to square
 				if(allGroundCreeps.creepInSquare(selectedSquare.y, selectedSquare.x)) {
@@ -212,6 +235,17 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				refreshPaths = true; //tower has been placed so do pathfinding in next creep update
 				sounds.playClick();
 			}
+			else{
+				if(grid.grid[gridRow][gridCol].tower.textureTopNumber != -1){
+					var x = document.getElementById('upgrade');
+					x.style.display = "block";
+					x.style.left = e.clientX  + 'px';
+					x.style.top = e.clientY +'px';
+					modifiedTower.row = gridRow;
+					modifiedTower.col = gridCol;
+				}
+			}
+
 			//particleSystems.AddBombExplosionSystem(3,14 , graphics, graphics.getCellDimensions(grid));
 			//particleSystems.AddBombMovementSystem(5, 14, graphics, graphics.getCellDimensions(grid), Math.PI/2);
 			//particleSystems.AddCreepDeathSystem(7, 9, graphics, graphics.getCellDimensions(grid), 1);
