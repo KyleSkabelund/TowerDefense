@@ -51,13 +51,13 @@ MyGame.init = (function(graphics, tower) {
             let gridRow = Math.floor(mouseY / cellDimensions.height);
             let gridCol = Math.floor(mouseX / cellDimensions.width);
             let center = {
-                row:(gridRow*cellDimensions.height) + cellDimensions.height/2 +12.5,
-                col:(gridCol*cellDimensions.width) + cellDimensions.width/4
+                row:(gridRow*cellDimensions.height) + cellDimensions.height/2 +25,
+                col:(gridCol*cellDimensions.width) + cellDimensions.width/2
             }
 
             let center2 = {
-                row:(gridRow*cellDimensions.height) + cellDimensions.height/2 + 12.5,
-                col:(gridCol*cellDimensions.width) + cellDimensions.width/4
+                row:(gridRow*cellDimensions.height) + cellDimensions.height/2 + 25,
+                col:(gridCol*cellDimensions.width) + cellDimensions.width/2
             }
 
             ret.grid[gridRow][gridCol].tower.addTower(

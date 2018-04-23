@@ -28,6 +28,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		startLevelMessage = {fadeDuration: 0},
 		creepReachedEndMessage = {duration: 0},
 		modifiedTower = {row:-1,col:-2}
+		showRadii = null;
 
 		//will trigger when a creep reaches the end
 		creepReachedEndMessage.setDuration = function() { 
@@ -107,6 +108,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		console.log('game initializing...');
 		//grid init
 		showGrid = localStorage["grid-placement"] == "on" ? true : false;
+		showRadii = localStorage['show-tower-coverage'] == "on" ? true : false;
 		
 		grid.fillGrid();
 		grid.allocateMapNumbers(currentTileMap);
@@ -157,6 +159,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 				refreshPaths = true;
 			}
 		});
+	
 		myKeyboard.registerCommand(localStorage['start-level-config'],function(){
 			spawnCreeps = true;
 			startLevelMessage.fadeDuration = 1000;
@@ -313,7 +316,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	function render() {
 		graphics.clear();
 		graphics.drawTiles(grid,selectedSquare,towerIsSelected);
-		graphics.drawTowers(grid);
+		graphics.drawTowers(grid,showRadii);
 		if(towerIsSelected == true){
 			graphics.drawSelected(grid,selectedSquare,selectedTowerNumber);
 		}

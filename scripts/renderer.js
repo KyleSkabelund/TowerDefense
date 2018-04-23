@@ -257,7 +257,7 @@ MyGame.graphics = (function() {
 			}
 		}
 	}
-	function drawTowers(grid) {
+	function drawTowers(grid,showRadii) {
 		var dim = getCellDimensions(grid);
 		let w = dim.width;
 		let h = dim.height;
@@ -265,6 +265,7 @@ MyGame.graphics = (function() {
 		for(var ii = 0; ii < grid.rows; ++ii) {
 			for(var jj = 0; jj < grid.cols; ++jj) {
 				if(tilesLoaded) {
+					var tower = grid.grid[ii][jj].tower;
 					var towerTopNum = grid.grid[ii][jj].tower.textureTopNumber;
 					var ammoType =  grid.grid[ii][jj].tower.ammo.type;
 					var ammorow =  grid.grid[ii][jj].tower.ammo.ammoCenter.row;
@@ -272,7 +273,13 @@ MyGame.graphics = (function() {
 					if(towerTopNum != -1) { //if there is a tower to draw
 						//draw a base graphic
 						//the third paramater is the radius of the circle, will be used for each turrets raidus.
-						
+						if(showRadii){	
+							context.fillStyle ="rgb(255,255,0,.8)";
+							context.beginPath();
+							context.arc(tower.center.col,tower.center.row,tower.radius,0,2*Math.PI);
+							context.fill();
+							context.closePath();
+						}
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
 						context.save();
 						context.translate(jj*w + w/2, ii*h + topBarHeight + h/2);
@@ -282,6 +289,7 @@ MyGame.graphics = (function() {
 						context.restore();
 						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
 						//draw the tower top
+							
 					}	
 				}
 			}
