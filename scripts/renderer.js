@@ -186,6 +186,8 @@ MyGame.graphics = (function() {
 		ret.push(203);
 		ret.push(303);
 		ret.push(304);
+		ret.push(305)
+		ret.push(307)
 
 		// 						 * *
 		//load flying creep 	_____

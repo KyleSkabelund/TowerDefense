@@ -68,21 +68,28 @@ MyGame.tower = (function(graphics) {
             ret.radius = 100;
         }
         ret.upgradeTower = function(grid,row,col){
-            console.log(grid.grid[row][col].tower);
             if(grid.grid[row][col].tower.textureTopNumber != -1){
                 var newTowerNumber = grid.grid[row][col].tower.textureTopNumber;
-                if(grid.grid[row][col].tower.textureTopNumber == 291){
+                switch(grid.grid[row][col].tower.textureTopNumber){
+                case 291:
                     newTowerNumber = 303;
-                }
-                if(grid.grid[row][col].tower.textureTopNumber == 303){
+                    break;
+                case 303:
                     newTowerNumber = 304;
+                    break;
+                case 292:
+                    newTowerNumber = 250;
+                    break;
+                case 249:
+                    newTowerNumber = 305;
+                    break;
+                case 307:
+                    newTowerNumber = 250;
+                    break;
                 }
-                if(grid.grid[row][col].tower.textureTopNumber == 292){
-                     newTowerNumber = 250;
-                }
+                
                 grid.grid[row][col].tower.textureTopNumber = newTowerNumber;
             }
-            console.log(grid.grid[row][col].tower);
         }
 
         ret.removeTower = function(grid,row,col) {
