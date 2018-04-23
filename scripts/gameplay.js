@@ -145,8 +145,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			game.showScreen('main-menu');
 		});
 		myKeyboard.registerCommand(localStorage['upgrade-tower-config'],function(){
-			//upgrade the tower
-			sounds.playTowerUpgrade();
+			if(Tower.upgradeTower(grid,selectedSquare.y,selectedSquare.x)){
+				sounds.playTowerUpgrade();
+			}
 		});
 		myKeyboard.registerCommand(localStorage['sell-tower-config'],function(){
 			var soldTowerCol = selectedSquare.x;
