@@ -18,8 +18,9 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		refreshPaths = true,
 		level = 1,
 		lifes = {creepsAllowed: 0, max: 3}, 
-		cash = 100000,
-		score = {currentScore: 0, forLevel2: 2000, forLevel3: 3000},
+		startingCash = 30,
+		cash = 0,
+		score = {currentScore: 0, forLevel2: 1000, forLevel3: 2000},
 		showGrid = false,
 		spawner = creepSpawner.CreepSpawner(),
 		spawnCreeps = false,
@@ -200,7 +201,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			let cellDimensions = graphics.getCellDimensions(grid);
 			let gridRow = Math.floor(e.clientY / cellDimensions.height);
             let gridCol = Math.floor(e.clientX / cellDimensions.width);
-			if(towerIsSelected){
+			if(towerIsSelected && cash > 0){
 				//dont allow tower to be placed on creep moving to square
 				if(allGroundCreeps.creepInSquare(selectedSquare.y, selectedSquare.x)) {
 					return;
@@ -290,12 +291,13 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	
 	function update(elapsedTime) {
 		updateScore();
+		updateCash();
 		cellWidth = graphics.getCellDimensions(grid).width;
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage, sounds);
 		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds);
-		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid));
+		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid), sounds, elapsedTime);
 		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;
 		myKeyboard.update();
@@ -402,12 +404,18 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	}
 
 	function updateScore() {
-		let groundCreepsScore = allGroundCreeps.creepsKilled * 10;
-		let flyingCreepsScore = allFlyingCreeps.creepsKilled * 20;
+		let groundCreepsScore = allGroundCreeps.creepsKilled * 50;
+		let flyingCreepsScore = allFlyingCreeps.creepsKilled * 100;
 		let towersScore = grid.totalTowers * 10;
 		let levelScore = (level - 1) * 100;  
 
 		score.currentScore = groundCreepsScore + flyingCreepsScore + towersScore + levelScore;
+	}
+
+	function updateCash() {
+		let groundCreepsCash = allGroundCreeps.creepsKilled * 10;
+		let flyingCreepsCash = allFlyingCreeps.creepsKilled * 20;
+		cash = startingCash + groundCreepsCash + flyingCreepsCash - grid.totalTowers * 10;
 	}
 	
 	return {

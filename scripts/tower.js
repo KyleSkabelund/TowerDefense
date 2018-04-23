@@ -20,7 +20,8 @@ MyGame.tower = (function(graphics) {
                 type:0, // number for the ammo that the turret will use.
                 ammoCenter:{row:0,
                 col:0}
-            }
+            },
+            creepListTarget: null
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
             let v1 = {
@@ -102,7 +103,7 @@ MyGame.tower = (function(graphics) {
         }
 
 
-        ret.update = function(grid,flyingcreeps,groundcreeps, dim){
+        ret.update = function(grid,flyingcreeps,groundcreeps, dim, sounds){
             
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
@@ -148,6 +149,9 @@ MyGame.tower = (function(graphics) {
                         groundTarget.x = groundcreeps.creepList[i].graphicsCol + (dim.height/2);
                         groundTarget.y = groundcreeps.creepList[i].graphicsRow+topBarHeight + (dim.width/2);
                         groundTarget.hitPointsPercentage = groundcreeps.creepList[i].hitPointsPercentage;
+                        
+                        //get for hp reduction
+                        ret.creepListTarget = groundcreeps.creepList[i];
                     }
                 }
             }
@@ -175,32 +179,33 @@ MyGame.tower = (function(graphics) {
 
                 currentTurret.ammo.ammoCenter.col += Math.cos(dx)+dx/10;
                 currentTurret.ammo.ammoCenter.row += Math.sin(dy)+dy/10;
+                var hpreduction = 5;
                 if(dy < 0 && dx < 0){
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        currentTarget.hitPointsPercentage--;
+                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
                     }
                 }
                 if(dy < 0 && dx > 0){
                     if(currentTurret.ammo.ammoCenter.col > currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        currentTarget.hitPointsPercentage--;
+                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
                     }
                 }
                 if(dy > 0 && dx > 0){
                     if(currentTurret.ammo.ammoCenter.col > currentTarget.x && currentTurret.ammo.ammoCenter.row > currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        currentTarget.hitPointsPercentage--;
+                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
                     }
                 }
                 if(dy > 0 && dx < 0){
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row > currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        currentTarget.hitPointsPercentage--;
+                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
                     }
                 }
             }
