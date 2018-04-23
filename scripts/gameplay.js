@@ -166,9 +166,10 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			console.log("now spawning creeps");
 		});
 		document.getElementById('btnUpgrade').addEventListener('click',function(e){
-			Tower.upgradeTower(grid,modifiedTower.row,modifiedTower.col);
+			if(Tower.upgradeTower(grid,modifiedTower.row,modifiedTower.col)){
+				sounds.playTowerUpgrade();
+			}
 			document.getElementById('upgrade').style.display = "none";
-			sounds.playTowerUpgrade();
 		})
 		document.getElementById('btnSell').addEventListener('click',function(e){
 			Tower.removeTower(grid,modifiedTower.row,modifiedTower.col);

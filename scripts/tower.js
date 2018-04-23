@@ -87,8 +87,13 @@ MyGame.tower = (function(graphics) {
                     newTowerNumber = 250;
                     break;
                 }
-                
-                grid.grid[row][col].tower.textureTopNumber = newTowerNumber;
+                if(grid.grid[row][col].tower.textureTopNumber = newTowerNumber){
+                    return false;
+                }
+                else{
+                    grid.grid[row][col].tower.textureTopNumber = newTowerNumber
+                    return true;
+                }
             }
         }
 
