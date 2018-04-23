@@ -55,7 +55,7 @@ MyGame.tower = (function(graphics) {
         function crossProduct2d(v1, v2) {
             return (v1.x * v2.y) - (v1.y * v2.x);
         }
-        ret.addTower = function(towerNumber,center,center2){
+        ret.addTower = function(towerNumber,center,center2,dim){
             ret.textureTopNumber = towerNumber;
             ret.center = center;
             ret.ammo.ammoCenter = center2;
@@ -111,7 +111,7 @@ MyGame.tower = (function(graphics) {
                             target = getAirTarget()
                         }
                         var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
-                            console.log(result.angle)
+                            //console.log(result.angle)
                             if (testTolerance(result.angle, 0, .003) === false) {
                                 
                                 if(result.crossProduct > 0 )

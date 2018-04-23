@@ -280,16 +280,17 @@ MyGame.graphics = (function() {
 							context.fill();
 							context.closePath();
 						}
+						//base
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
+						//top
 						context.save();
 						context.translate(jj*w + w/2, ii*h + topBarHeight + h/2);
 						context.rotate(grid.grid[ii][jj].tower.towerRotation);		
 						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
 						context.restore();
-						context.drawImage(loadedImages[ammoType], ammocol, ammorow, w/2, h/2);
-						//draw the tower top
-							
+						//ammo
+						context.drawImage(loadedImages[ammoType], ammocol - (w/2), ammorow - (h/2), w, h);
 					}	
 				}
 			}
