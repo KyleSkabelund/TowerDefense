@@ -63,7 +63,8 @@ MyGame.init = (function(graphics, tower) {
             ret.grid[gridRow][gridCol].tower.addTower(
                 towerNumber,
                 center,
-                center2
+                center2,
+                cellDimensions
             );
             ++ret.totalTowers;
         }
