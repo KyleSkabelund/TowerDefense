@@ -300,8 +300,8 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		cellHeight = graphics.getCellDimensions(grid).height;
 		spawner.update(elapsedTime, allGroundCreeps, allFlyingCreeps, grid, graphics.getCellDimensions(grid), level, leftToRightEndings, topToBottomEndings, spawnCreeps);
 		allGroundCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), pathfinder, refreshPaths, creepReachedEndMessage, sounds, particleSystems, graphics);
-		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds, graphics, particleSystems);
-		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid), sounds, elapsedTime);
+		allFlyingCreeps.updateCreeps(elapsedTime, grid, graphics.getCellDimensions(grid), creepReachedEndMessage, sounds, particleSystems, graphics);
+		Tower.update(grid,allFlyingCreeps,allGroundCreeps,graphics.getCellDimensions(grid), sounds, elapsedTime, particleSystems,graphics);
 		particleSystems.updateSystems(elapsedTime);
 		refreshPaths = false;
 		myKeyboard.update();

@@ -116,10 +116,10 @@ MyGame.graphics = (function() {
 		let message = '';
 
 		if(0 <= mouseX && mouseX <= 25) {
-			message = "Turret type 1 description";
+			message = "Will fire projectile at ground unit";
 		}
 		else if(30.34 <= mouseX && mouseX <= 55.34) {
-			message = "Turret type 2 description";
+			message = "Will fire projectile at air unit";
 		}
 		else if(60.68 <= mouseX && mouseX <= 84) {
 			message = "Turret type 3 description";
@@ -280,6 +280,9 @@ MyGame.graphics = (function() {
 							context.fill();
 							context.closePath();
 						}
+						
+						//ammo
+						context.drawImage(loadedImages[ammoType], ammocol - (w/2), ammorow - (h/2), w, h);
 						//base
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
 						//top
@@ -289,8 +292,6 @@ MyGame.graphics = (function() {
 						context.translate(-(jj*w + w/2),-( ii*h + topBarHeight + h/2));
 						context.drawImage(loadedImages[towerTopNum], jj*w, ii*h+topBarHeight, w, h);
 						context.restore();
-						//ammo
-						context.drawImage(loadedImages[ammoType], ammocol - (w/2), ammorow - (h/2), w, h);
 					}	
 				}
 			}

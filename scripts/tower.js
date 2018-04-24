@@ -21,7 +21,8 @@ MyGame.tower = (function(graphics) {
                 ammoCenter:{row:0,
                 col:0}
             },
-            creepListTarget: null
+            creepListTarget: null,
+            drawAmmo: false
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
             let v1 = {
@@ -103,7 +104,7 @@ MyGame.tower = (function(graphics) {
         }
 
 
-        ret.update = function(grid,flyingcreeps,groundcreeps, dim, sounds){
+        ret.update = function(grid,flyingcreeps,groundcreeps, dim, sounds,elapsedTime, particleSystem,graphics){
             
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
@@ -114,24 +115,23 @@ MyGame.tower = (function(graphics) {
                             target = getGroundTarget(currentTower, groundcreeps, dim);
                         }
                         else{
-                            target = getAirTarget()
+                            target = getAirTarget(currentTower, flyingcreeps, dim);
                         }
                         var result = computeAngle((currentTower.towerRotation),currentTower.center,target);
                             //console.log(result.angle)
-                            if (testTolerance(result.angle, 0, .003) === false) {
-                                
-                                if(result.crossProduct > 0 )
-                                {
-                                    currentTower.towerRotation +=  .02
-                                }
-                                else{
-                                    currentTower.towerRotation -=  .02;
-                                }
-                                if(Math.abs(result.crossProduct) < .04){
-                                    shoot(currentTower,target,result.angle)
-                                }
-                                
+                        if (testTolerance(result.angle, 0, .003) === false) {
+                            
+                            if(result.crossProduct > 0 )
+                            {
+                                currentTower.towerRotation +=  .02;
                             }
+                            else{
+                                currentTower.towerRotation -=  .02;
+                            }
+                            if(Math.abs(result.crossProduct) < .04){
+                                shoot(currentTower,target,result.angle,elapsedTime, particleSystem,graphics, dim);
+                            }
+                        }
                     }
                 }
             }
@@ -157,11 +157,28 @@ MyGame.tower = (function(graphics) {
             }
             return groundTarget;
         }
-        function getAirTarget(){
-
+        function getAirTarget(currentTurret, airCreeps, dim){
+            var airTarget = {x:0, y:0,hitPointsPercentage:0}
+            for(var i = 0; i < airCreeps.creepList.length; ++i){
+                if(currentTurret.target.row == 0 && currentTurret.target.col == 0){ //dont change targets unless necessary
+                    if(airCreeps.creepList[i].graphicsRow+topBarHeight < 0 || airCreeps.creepList[i].graphicsCol < 0) { //ignore creeps off the grid
+                        continue;
+                    }
+                    var distance = Math.sqrt(Math.pow(currentTurret.center.row - (airCreeps.creepList[i].graphicsRow+topBarHeight),2)+Math.pow(currentTurret.center.col - airCreeps.creepList[i].graphicsCol,2));
+                    if(distance <= currentTurret.radius) {
+                        airTarget.x = airCreeps.creepList[i].graphicsCol + (dim.height/2);
+                        airTarget.y = airCreeps.creepList[i].graphicsRow+topBarHeight + (dim.width/2);
+                        airTarget.hitPointsPercentage = airCreeps.creepList[i].hitPointsPercentage;
+                        
+                        //get for hp reduction
+                        ret.creepListTarget = airCreeps.creepList[i];
+                    }
+                }
+            }
+            return airTarget;
         }
         function getTurretType(turretNumber){
-            if(turretNumber == 271 || turretNumber == 270)
+            if(turretNumber == 292 || turretNumber == 307)
             {
                 return "air";
             }
@@ -169,16 +186,28 @@ MyGame.tower = (function(graphics) {
                 return "ground";
             }
         }
-        function shoot(currentTurret,currentTarget,angle){
+        function shoot(currentTurret,currentTarget,angle,elapsedTime, particleSystem, graphics, dim){
             //compute line, draw bullet
             
             if(currentTarget.x != 0 || currentTarget.y != 0){
                 var dx,dy;
                 dx = currentTarget.x - currentTurret.center.col;  
                 dy = currentTarget.y - currentTurret.center.row;
+                if(dx && dy == 0) {
+                    ret.drawAmmo = false;
+                }
+                else {
+                    ret.drawAmmo = true;
+                }
 
                 currentTurret.ammo.ammoCenter.col += Math.cos(dx)+dx/10;
                 currentTurret.ammo.ammoCenter.row += Math.sin(dy)+dy/10;
+
+                var distance = Math.sqrt(Math.pow(currentTurret.center.row - currentTurret.ammo.ammoCenter.row,2)+Math.pow(currentTurret.center.col - currentTurret.ammo.ammoCenter.col,2));
+
+                if(distance >= 128/2) {
+                    particleSystem.AddBombMovementSystem(currentTurret.ammo.ammoCenter.row, currentTurret.ammo.ammoCenter.col, graphics, dim, angle);
+                }
                 var hpreduction = 5;
                 if(dy < 0 && dx < 0){
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){

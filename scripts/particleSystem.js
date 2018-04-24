@@ -1,4 +1,4 @@
-MyGame.particleSystem = (function(graphics, random) {
+MyGame.particleSystem = (function(random) {
     'use strict';
 
     function ParticleSystems() {
@@ -58,36 +58,18 @@ MyGame.particleSystem = (function(graphics, random) {
         //ground towers projectile?
         ret.AddBombMovementSystem = function(row, col, graphics, dim, thrustAngle) {
             let spec = {
-                count: 50,
-                direction: { x: Math.cos(-thrustAngle), y: Math.sin(-thrustAngle) },
-                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
+                count: 2,
+                direction: { x: Math.cos(thrustAngle), y: Math.sin(thrustAngle) },
+                position: { x: col, y: row },
                 speed: { mean: 0.05, stdev: 0.02},
-                lifetime: { mean: 700, stdev: 50 },
-                size: { mean: 5, stdev: 2 },
+                lifetime: { mean: 300, stdev: 200 },
+                size: { mean: 6, stdev: 4 },
                 image: '/Data/smokeparticleassets/PNG/Black smoke/blackSmoke00.png'
             };
 
             let newSystem = System(spec, graphics);
-            //end smoke
-
-            //start fire
             newSystem.fillDirectionalSystem(spec);
             ret.systems.push(newSystem);
-
-            let spec2 = {
-                count: 20,
-                direction: { x: Math.cos(-thrustAngle), y: Math.sin(-thrustAngle) },
-                position: { x: col*dim.width, y: row*dim.height+topBarHeight },
-                speed: { mean: 0.03, stdev: 0.01},
-                lifetime: { mean: 500, stdev: 50 },
-                size: { mean: 3, stdev: 2 },
-                image: '/Data/smokeparticleassets/PNG/Explosion/explosion00.png'
-            };
-
-            let newSystem2 = System(spec2, graphics);
-
-            newSystem2.fillDirectionalSystem(spec);
-            ret.systems.push(newSystem2);
         }
         ret.AddBombExplosionSystem = function(row, col, graphics, dim) {
             let spec = {
@@ -320,4 +302,4 @@ MyGame.particleSystem = (function(graphics, random) {
     return {
         ParticleSystems : ParticleSystems
 	};
-}(MyGame.graphics, MyGame.random));
+}(MyGame.random));

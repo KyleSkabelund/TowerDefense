@@ -12,7 +12,7 @@ MyGame.flyingCreeps = (function(graphics) {
             if(startRow == -1) ret.creepList.push(FlyingCreep(startRow, startCol, ending, startRow*dim.height-topBarHeight, startCol*dim.width, grid, dim, Math.PI/2))
         }
 
-        ret.updateCreeps = function(elapsedTime, grid, dim, reachedEnd, graphics, particleSystem) {
+        ret.updateCreeps = function(elapsedTime, grid, dim, reachedEnd, sounds, particleSystem, graphics) {
             let keepList = [];
             var tolerance = 2;
             for(var ii = 0; ii < ret.creepList.length; ++ii)
