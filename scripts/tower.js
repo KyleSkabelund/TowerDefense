@@ -22,7 +22,8 @@ MyGame.tower = (function(graphics) {
                 col:0}
             },
             creepListTarget: null,
-            drawAmmo: false
+            drawAmmo: false,
+            damage: 5,
         };
         function computeAngle(rotation, ptCenter, ptTarget) {
             let v1 = {
@@ -72,6 +73,7 @@ MyGame.tower = (function(graphics) {
         ret.upgradeTower = function(grid,row,col){
             if(grid.grid[row][col].tower.textureTopNumber != -1){
                 var newTowerNumber = grid.grid[row][col].tower.textureTopNumber;
+                grid.grid[row][col].tower.damage += 3;
                 switch(grid.grid[row][col].tower.textureTopNumber){
                 case 291:
                     newTowerNumber = 303;
@@ -213,28 +215,28 @@ MyGame.tower = (function(graphics) {
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
+                        ret.creepListTarget.hitPointsPercentage-=currentTurret.damage;
                     }
                 }
                 if(dy < 0 && dx > 0){
                     if(currentTurret.ammo.ammoCenter.col > currentTarget.x && currentTurret.ammo.ammoCenter.row < currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
+                        ret.creepListTarget.hitPointsPercentage-=currentTurret.damage;
                     }
                 }
                 if(dy > 0 && dx > 0){
                     if(currentTurret.ammo.ammoCenter.col > currentTarget.x && currentTurret.ammo.ammoCenter.row > currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
+                        ret.creepListTarget.hitPointsPercentage-=currentTurret.damage;
                     }
                 }
                 if(dy > 0 && dx < 0){
                     if(currentTurret.ammo.ammoCenter.col < currentTarget.x && currentTurret.ammo.ammoCenter.row > currentTarget.y){
                         currentTurret.ammo.ammoCenter.col = currentTurret.center.col;
                         currentTurret.ammo.ammoCenter.row = currentTurret.center.row;
-                        ret.creepListTarget.hitPointsPercentage-=hpreduction;
+                        ret.creepListTarget.hitPointsPercentage-=currentTurret.damage;
                     }
                 }
             }
