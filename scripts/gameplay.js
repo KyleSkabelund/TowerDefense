@@ -147,6 +147,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		});
 		myKeyboard.registerCommand(localStorage['upgrade-tower-config'],function(){
 			if(Tower.upgradeTower(grid,selectedSquare.y,selectedSquare.x)){
+
 				sounds.playTowerUpgrade();
 			}
 		});
@@ -170,7 +171,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 			console.log("now spawning creeps");
 		});
 		document.getElementById('btnUpgrade').addEventListener('click',function(e){
-			if (cash - totalUpgradesCash < 0){
+			if (cash - totalUpgradesCash > 0){
 				if(Tower.upgradeTower(grid,modifiedTower.row,modifiedTower.col)){
 					totalUpgradesCash += 5;
 					sounds.playTowerUpgrade();
@@ -312,10 +313,12 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		myMouse.update(elapsedTime);
 
 		if(level === 1 && score.forLevel2 <= score.currentScore) {
+			spawnCreeps = false;
 			advanceLevel(2);
 		}
 
 		if(level === 2 && score.forLevel3 <= score.currentScore) {
+			spawnCreeps = false;
 			advanceLevel(3);
 		}
 
@@ -423,6 +426,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 	function updateCash() {
 		let groundCreepsCash = allGroundCreeps.creepsKilled * 10;
 		let flyingCreepsCash = allFlyingCreeps.creepsKilled * 20;
+
 		cash =  startingCash + groundCreepsCash + flyingCreepsCash - totalUpgradesCash - grid.totalTowers * 10;
 	}
 	
