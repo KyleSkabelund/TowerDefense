@@ -237,6 +237,9 @@ MyGame.tower = (function(graphics) {
                     }
                 }
             }
+            else {
+                currentTurret.drawAmmo = false;
+            }
             
             
         }
