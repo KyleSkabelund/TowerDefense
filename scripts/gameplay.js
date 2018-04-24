@@ -332,7 +332,7 @@ MyGame.screens['game-play'] = (function(game, graphics, input, init, tower, flyi
 		graphics.drawTiles(grid,selectedSquare,towerIsSelected);
 		graphics.drawTowers(grid,showRadii);
 		if(towerIsSelected == true){
-			graphics.drawSelected(grid,selectedSquare,selectedTowerNumber);
+			graphics.drawSelected(grid,selectedSquare,selectedTowerNumber, selectedSquare.radius);
 		}
 		if(showGrid == true)
 		{

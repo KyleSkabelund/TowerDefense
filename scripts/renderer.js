@@ -282,8 +282,9 @@ MyGame.graphics = (function() {
 						}
 						
 						//ammo
-						context.drawImage(loadedImages[ammoType], ammocol - (w/2), ammorow - (h/2), w, h);
-						//base
+						if(grid.grid[ii][jj].tower.drawAmmo == true) {
+							context.drawImage(loadedImages[ammoType], ammocol - (w/2), ammorow - (h/2), w, h);
+						}//base
 						context.drawImage(loadedImages[180], jj*w, ii*h+topBarHeight, w, h);
 						//top
 						context.save();
@@ -298,7 +299,7 @@ MyGame.graphics = (function() {
 		}
 	}
 
-	function drawSelected(grid,selected,towerNumber)
+	function drawSelected(grid,selected,towerNumber,radius)
 	{
 		var dime  = getCellDimensions(grid)
 		var w = dime.width;
@@ -316,7 +317,7 @@ MyGame.graphics = (function() {
 
 				context.beginPath();
 				//the third paramater is the radius of the circle, will be used for each turrets raidus.
-				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),100,0,2*Math.PI);
+				context.arc(selected.x*w+(w/2),selected.y*h+topBarHeight+(h/2),radius,0,2*Math.PI);
 				context.fill();
 				
 				

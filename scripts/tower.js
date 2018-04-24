@@ -110,6 +110,8 @@ MyGame.tower = (function(graphics) {
             
             for(var row = 0; row < grid.rows; ++row){
                 for(var col = 0; col < grid.cols; ++col){
+                    
+                    grid.grid[row][col].tower.drawAmmo = false;
                     if(grid.grid[row][col].tower.textureTopNumber != -1){
                         var currentTower = grid.grid[row][col].tower;
                         var target;
@@ -131,6 +133,7 @@ MyGame.tower = (function(graphics) {
                                 currentTower.towerRotation -=  .02;
                             }
                             if(Math.abs(result.crossProduct) < .04){
+                                currentTower.drawAmmo = true;
                                 shoot(currentTower,target,result.angle,elapsedTime, particleSystem,graphics, dim);
                             }
                         }
@@ -195,12 +198,6 @@ MyGame.tower = (function(graphics) {
                 var dx,dy;
                 dx = currentTarget.x - currentTurret.center.col;  
                 dy = currentTarget.y - currentTurret.center.row;
-                if(dx && dy == 0) {
-                    ret.drawAmmo = false;
-                }
-                else {
-                    ret.drawAmmo = true;
-                }
 
                 currentTurret.ammo.ammoCenter.col += Math.cos(dx)+dx/10;
                 currentTurret.ammo.ammoCenter.row += Math.sin(dy)+dy/10;
