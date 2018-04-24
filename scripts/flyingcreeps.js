@@ -30,7 +30,7 @@ MyGame.flyingCreeps = (function(graphics) {
                     sounds.playFlyingCreepDeath();
                     keepCreep = false;
                     particleSystem.AddCreepDeathSystem(ret.creepList[ii].graphicsRow, ret.creepList[ii].graphicsCol, graphics, dim, 100);
-                    --ret.creepsKilled;
+                    ++ret.creepsKilled;
                 }
                 if(keepCreep == true) {
                     ret.creepList[ii].updateCreep(elapsedTime, grid, dim, pathfinder, refreshPaths);
